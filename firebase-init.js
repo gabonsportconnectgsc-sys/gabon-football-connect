@@ -40,7 +40,7 @@
           var h = location.hostname, dbg = false;
           try { dbg = localStorage.getItem('gsc_appcheck_debug') === '1'; } catch (_) {}
           if (dbg || h === 'localhost' || h === '127.0.0.1') self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
-          firebase.appCheck().activate(new firebase.appCheck.ReCaptchaEnterpriseProvider('6Le-IO8tAAAAAM1cFa1-bveDlz9B-mI4WnuGm6jm'), true);
+          void 0; /* GFC : App Check désactivé */
         }
       } catch (e) { console.warn('[AppCheck] non initialise', e); }
     }

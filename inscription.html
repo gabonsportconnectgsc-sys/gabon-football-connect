@@ -749,7 +749,7 @@
         const ac = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app-check.js");
         let dbg = false; try { dbg = localStorage.getItem('gsc_appcheck_debug') === '1'; } catch (_) {}
         if (dbg || location.hostname === 'localhost') self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
-        window._appCheck = ac.initializeAppCheck(app, { provider: new ac.ReCaptchaEnterpriseProvider('6Le-IO8tAAAAAM1cFa1-bveDlz9B-mI4WnuGm6jm'), isTokenAutoRefreshEnabled: true });
+        window._appCheck = null; /* GFC : App Check désactivé */
       } catch (e) { console.warn('[AppCheck] non initialise', e); }
       _fbApp = app;
       db = getFirestore(app);
