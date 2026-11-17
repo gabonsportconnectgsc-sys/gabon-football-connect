@@ -1,4 +1,4 @@
-/* GSC — inscription.html : rôles Gabonais à l'étranger / Sportif étranger */
+/* GSC — inscription.html : rôles Gabonais à l'étranger / Footballeur étranger */
 (function () {
   'use strict';
   var WORLD = [
