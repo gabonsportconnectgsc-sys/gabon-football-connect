@@ -1558,7 +1558,7 @@
         <div class="form-group"><label>Téléphone</label><input type="tel" id="auth-register-tel" placeholder="+241 XX XX XX XX"></div>
 
         <!-- Rôle sportif -->
-        <div class="form-group"><label>Rôle / Poste *</label>
+        <div class="form-group"><label>Votre rôle dans le football *</label>
           <select id="auth-register-role" onchange="toggleSupporterOptIn()">
             <option value="joueur">⚽ Joueur</option>
             <option value="entraineur">📋 Entraîneur / Coach</option>
@@ -1567,11 +1567,11 @@
             <option value="association">🤝 Association de football</option>
             <option value="federation">🏛️ Fédération</option>
             <option value="organisateur">🎯 Organisateur</option>
-            <option value="independant">🏃 Joueur indépendant</option>
-            <option value="eleve_etudiant">🎓 Élève / Étudiant</option>
-            <option value="gabonais_diaspora">🇬🇦 Gabonais de l’étranger</option>
-<option value="sportif_etranger">🌍 Joueur étranger</option>
-            <option value="ancien_sportif">🎖️ Ancien joueur</option>
+            <option value="independant">🏃 Footballeur indépendant</option>
+            <option value="eleve_etudiant">🎓 Jeune footballeur / Étudiant</option>
+            <option value="gabonais_diaspora">🇬🇦 Footballeur gabonais de l’étranger</option>
+<option value="sportif_etranger">🌍 Footballeur étranger</option>
+            <option value="ancien_sportif">🎖️ Ancien footballeur</option>
                         <option value="formateur">🧑‍🏫 Formateur</option>
           </select>
         </div>
@@ -1580,7 +1580,6 @@
           <select id="auth-register-sport">
             <option value="">-- Selectionner --</option>
             <option selected>⚽ Football</option>
-                                                <option>🏃 Athletisme</option>
                                                                                               </select>
         </div>
         <div class="form-group" id="auth-register-supporter-wrap" style="display:none;">
@@ -1598,18 +1597,22 @@
             <option value="professionnel">⭐ Professionnel</option>
           </select>
         </div>
-        <div class="form-group"><label>Employeur / Club actuel</label>
+        <div id="auth-register-player-wrap" style="display:none">
+          <div class="form-group"><label>Poste</label>
+            <select id="auth-register-poste"><option value="">-- Choisir --</option></select>
+          </div>
+          <div class="form-group"><label>Pied fort</label>
+            <select id="auth-register-pied"><option value="">-- Choisir --</option><option>Droit</option><option>Gauche</option><option>Les deux</option></select>
+          </div>
+          <div class="form-group"><label>Catégorie</label>
+            <select id="auth-register-categorie"><option value="">-- Choisir --</option><option>U13</option><option>U15</option><option>U17</option><option>U20</option><option>Seniors</option></select>
+          </div>
+        </div>
+        <div class="form-group"><label>Club actuel</label>
           <select id="auth-register-employeur">
             <option value="">-- Sélectionner ou saisir --</option>
             <optgroup label="🏛️ Fédérations">
               <option value="FEGAFOOT">FEGAFOOT – Fédération Gabonaise de Football</option>
-              <option value="FEGABASKET">FEGABASKET – Basketball</option>
-              <option value="FEGAHAND">Fédération de Handball</option>
-              <option value="FEGAVOLLEY">Fédération de Volleyball</option>
-              <option value="FEGAATHL">Fédération d'Athlétisme</option>
-              <option value="FEGABOXE">Fédération de Boxe</option>
-              <option value="FEGANAT">Fédération de Natation</option>
-              <option value="FEGAJUDO">Fédération de Judo</option>
             </optgroup>
             <optgroup label="⚽ Clubs Football">
               <option value="FC 105 Libreville">FC 105 Libreville</option>
@@ -1622,11 +1625,6 @@
               <option value="Bouenguidi Sports">Bouenguidi Sports</option>
               <option value="Téléstar FC">Téléstar FC</option>
               <option value="Akanda FC">Akanda FC</option>
-            </optgroup>
-            <optgroup label="🏟️ Associations / Clubs autres sports">
-              <option value="BC Libreville">BC Libreville (Basketball)</option>
-              <option value="Patronage Sainte-Marie">Patronage Sainte-Marie</option>
-              <option value="ASPTT Libreville">ASPTT Libreville</option>
             </optgroup>
             <optgroup label="🎓 Écoles / Universités">
               <option value="Université Omar Bongo">Université Omar Bongo</option>
@@ -1676,8 +1674,8 @@
   <!-- ══ MODAL: COMPLÉTER LE PROFIL (forcé à la première connexion si nom/prénom manquants) ══ -->
   <!-- modal-complete-profile : volontairement fermable par clic sur l'overlay pour ne pas bloquer l'utilisateur en cas d'erreur.
        Si ce modal doit redevenir obligatoire (non annulable), supprimer l'attribut onclick ci-dessous. -->
-  <div class="modal" id="modal-complete-profile" onclick="if(event.target===this)closeModal('modal-complete-profile')">`
-    <div class="modal-card" style="max-width:400px;">
+  <div class="modal" id="modal-complete-profile" onclick="if(event.target===this)closeModal('modal-complete-profile')">
+    <div class="modal-card" style="max-width:400px;max-height:90vh;overflow-y:auto;">
       <div class="modal-title" style="margin-bottom:6px;">👋 Bienvenue !</div>
       <p style="font-size:12.5px;color:var(--gray-txt);margin-bottom:16px;">Quelques infos avant de continuer — vos nom et prénom apparaîtront sur votre fiche et votre QR code d'identification.</p>
       <div class="form-group"><label>Prénom *</label><input type="text" id="complete-profile-prenom" placeholder="Prénom"></div>
@@ -1688,6 +1686,9 @@
           <option>⚽ Football</option>
                                                                                                                       </select>
       </div>
+      <div class="form-group" id="complete-profile-poste-wrap" style="display:none;"><label>Poste / Spécialité *</label><input type="text" id="complete-profile-poste" placeholder="ex: Attaquant, 100m…"></div>
+      <div class="form-group" id="complete-profile-pied-wrap" style="display:none;"><label>Pied fort</label><select id="complete-profile-pied"><option value="">—</option><option>Droit</option><option>Gauche</option><option>Les deux</option></select></div>
+      <div class="form-group" id="complete-profile-cat-wrap" style="display:none;"><label>Catégorie</label><select id="complete-profile-cat"><option value="">—</option><option>U13</option><option>U15</option><option>U17</option><option>U20</option><option>Seniors</option></select></div>
       <button class="btn-sm" id="complete-profile-submit" onclick="handleCompleteProfile()" style="width:100%;padding:12px;background:var(--green);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;margin-top:6px;">Continuer</button>
       <div id="complete-profile-error" style="color:var(--danger);font-size:12.5px;margin-top:10px;text-align:center;display:none;"></div>
     </div>
@@ -1829,7 +1830,7 @@
           <img class="stat-wm" data-wm-role="independant" alt="" onload="this.classList.add('is-loaded')" onerror="this.classList.remove('is-loaded');this.removeAttribute('src')">
           <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=80&h=80&fit=crop&auto=format" class="stat-real-icon" alt="" onerror="this.outerHTML='<span style=font-size:46px;margin-bottom:14px;display:inline-block;align-self:flex-end;>🏃</span>'">
           <div class="stat-val" id="stat-total-independants">—</div>
-          <div class="stat-lbl" style="color:#bae6fd;">Joueurs indépendants</div>
+          <div class="stat-lbl" style="color:#bae6fd;">Footballeurs indépendants</div>
         </button>
 
         <!-- Élèves / Étudiants -->
@@ -1841,13 +1842,13 @@
           <div class="stat-lbl" style="color:#e0e7ff;">Élèves / Étudiants</div>
         </button>
 
-        <!-- Joueurs étrangers -->
+        <!-- Footballeurs étrangers -->
         <button class="stat-card" onclick="showView('annuaire');filterActors('sportif_etranger')"
           style="background:linear-gradient(135deg,#ca8a04,#92660a);padding:16px 12px;">
           <img class="stat-wm" data-wm-role="sportif_etranger" alt="" onload="this.classList.add('is-loaded')" onerror="this.classList.remove('is-loaded');this.removeAttribute('src')">
           <span style="font-size:46px;margin-bottom:14px;display:inline-block;align-self:flex-end;position:relative;z-index:2;">🌍</span>
           <div class="stat-val" id="stat-total-etrangers">—</div>
-          <div class="stat-lbl" style="color:#1a2d4a;text-shadow:none;">Joueurs étrangers</div>
+          <div class="stat-lbl" style="color:#1a2d4a;text-shadow:none;">Footballeurs étrangers</div>
         </button>
 
         <!-- Sportifs handisport -->
@@ -1859,13 +1860,13 @@
           <div class="stat-lbl" style="color:#ede9fe;">Sportifs handisport</div>
         </button>
 
-        <!-- Anciens joueurs -->
+        <!-- Anciens footballeurs -->
         <button class="stat-card" onclick="showView('annuaire');filterActors('ancien_sportif')"
           style="background:linear-gradient(135deg,#9f1239,#4c0519);padding:16px 12px;">
           <img class="stat-wm" data-wm-role="ancien_sportif" alt="" onload="this.classList.add('is-loaded')" onerror="this.classList.remove('is-loaded');this.removeAttribute('src')">
           <span style="font-size:46px;margin-bottom:14px;display:inline-block;align-self:flex-end;position:relative;z-index:2;">🎖️</span>
           <div class="stat-val" id="stat-total-anciens">—</div>
-          <div class="stat-lbl" style="color:#ffe4e6;">Anciens joueurs</div>
+          <div class="stat-lbl" style="color:#ffe4e6;">Anciens footballeurs</div>
         </button>
 
         <!-- Formateurs -->
@@ -1883,7 +1884,7 @@
           <img class="stat-wm" data-wm-role="gabonais_diaspora" alt="" onload="this.classList.add('is-loaded')" onerror="this.classList.remove('is-loaded');this.removeAttribute('src')">
           <span style="font-size:46px;margin-bottom:14px;display:inline-block;align-self:flex-end;position:relative;z-index:2;">🇬🇦</span>
           <div class="stat-val" id="stat-total-diaspora">—</div>
-          <div class="stat-lbl">Gabonais de l’étranger</div>
+          <div class="stat-lbl">Footballeurs gabonais de l’étranger</div>
         </button>
 
       </div>
@@ -2208,10 +2209,10 @@
               <span style="font-size:18px;line-height:1;">🚴</span>Indépendants
             </button>
             <button class="actor-filter-btn" data-type="eleve_etudiant" onclick="filterActors('eleve_etudiant')" style="--abtn-color:#6366f1;">
-              <span style="font-size:18px;line-height:1;">🎓</span>Élèves/Étudiants
+              <span style="font-size:18px;line-height:1;">🎓</span>Jeunes footballeurs étudiants
             </button>
             <button class="actor-filter-btn" data-type="sportif_etranger" onclick="filterActors('sportif_etranger')" style="--abtn-color:#ca8a04;">
-              <span style="font-size:18px;line-height:1;">🌍</span>Joueurs étrangers
+              <span style="font-size:18px;line-height:1;">🌍</span>Footballeurs étrangers
             </button>
             <button class="actor-filter-btn" data-type="gabonais_diaspora" onclick="filterActors('gabonais_diaspora')" style="--abtn-color:#0891b2;">
               <span style="font-size:18px;line-height:1;">🇬🇦</span>Gabonais de l’étranger
@@ -2220,7 +2221,7 @@
               <span style="font-size:18px;line-height:1;">🦾</span>Sportifs handisport
             </button>
             <button class="actor-filter-btn" data-type="ancien_sportif" onclick="filterActors('ancien_sportif')" style="--abtn-color:#9f1239;">
-              <span style="font-size:18px;line-height:1;">🎖️</span>Anciens joueurs
+              <span style="font-size:18px;line-height:1;">🎖️</span>Anciens footballeurs
             </button>
             <button class="actor-filter-btn" data-type="formateur" onclick="filterActors('formateur')" style="--abtn-color:#a21caf;">
               <span style="font-size:18px;line-height:1;">🧑‍🏫</span>Formateurs
@@ -2488,8 +2489,6 @@
           <div id="news-cat-filters">
             <button class="news-filter-btn active" onclick="filterNews('all',this)">🌍 Tout</button>
             <button class="news-filter-btn" onclick="filterNews('Football',this)" style="border-color:#009E60;color:#007a47;background:rgba(0,158,96,.07);">⚽ Football</button>
-            <button class="news-filter-btn" onclick="filterNews('Basketball',this)" style="border-color:#f97316;color:#c2410c;background:rgba(249,115,22,.07);">🏀 Basketball</button>
-            <button class="news-filter-btn" onclick="filterNews('Athlétisme',this)" style="border-color:#f59e0b;color:#b45309;background:rgba(245,158,11,.07);">🏃 Athlétisme</button>
             <button class="news-filter-btn" onclick="filterNews('Gabon',this)" style="border-color:#009E60;color:#007a47;background:rgba(0,158,96,.05);">🇬🇦 Gabon</button>
           </div>
           <div id="online-news-status" style="font-size:12px;color:var(--gray-txt);margin-bottom:8px;display:none;"></div>
@@ -2546,11 +2545,11 @@
               <option value="association">Association</option>
               <option value="federation">Fédération</option>
               <option value="organisateur">Organisateur</option>
-              <option value="independant">Joueur indépendant</option>
+              <option value="independant">Footballeur indépendant</option>
               <option value="eleve_etudiant">Élève / Étudiant</option>
-              <option value="gabonais_diaspora">Gabonais de l’étranger</option>
-<option value="sportif_etranger">Joueur étranger</option>
-              <option value="ancien_sportif">Ancien joueur</option>
+              <option value="gabonais_diaspora">Footballeurs gabonais de l’étranger</option>
+<option value="sportif_etranger">Footballeur étranger</option>
+              <option value="ancien_sportif">Ancien footballeur</option>
                             <option value="formateur">Formateur</option>
               <option value="admin">Admin</option>
               <option value="supporter">💗 Supporters</option>
@@ -2660,17 +2659,17 @@
               <button class="stat-card" onclick="adminFilterActorsTile('sportif_etranger')" style="background:linear-gradient(135deg,#ca8a04,#92660a);padding:14px 10px;">
                 <span style="font-size:34px;margin-bottom:8px;display:inline-block;align-self:flex-end;">🌍</span>
                 <div class="stat-val" id="admin-acr-sportif_etranger" style="font-size:22px;">—</div>
-                <div class="stat-lbl" style="color:#1a2d4a;text-shadow:none;">Joueurs étrangers</div>
+                <div class="stat-lbl" style="color:#1a2d4a;text-shadow:none;">Footballeurs étrangers</div>
               </button>
             <button class="stat-card" onclick="adminFilterActorsTile('gabonais_diaspora')" style="background:linear-gradient(135deg,#0891b2,#155e75);padding:14px 10px;">
                 <span style="font-size:34px;margin-bottom:8px;display:inline-block;align-self:flex-end;">🇬🇦</span>
                 <div class="stat-val" id="admin-acr-gabonais_diaspora" style="font-size:22px;">—</div>
-                <div class="stat-lbl">Gabonais de l’étranger</div>
+                <div class="stat-lbl">Footballeurs gabonais de l’étranger</div>
               </button>
               <button class="stat-card" onclick="adminFilterActorsTile('ancien_sportif')" style="background:linear-gradient(135deg,#9f1239,#4c0519);padding:14px 10px;">
                 <span style="font-size:34px;margin-bottom:8px;display:inline-block;align-self:flex-end;">🎖️</span>
                 <div class="stat-val" id="admin-acr-ancien_sportif" style="font-size:22px;">—</div>
-                <div class="stat-lbl" style="color:#ffe4e6;">Anciens joueurs</div>
+                <div class="stat-lbl" style="color:#ffe4e6;">Anciens footballeurs</div>
               </button>
               <button class="stat-card" onclick="adminFilterActorsTile('formateur')" style="background:linear-gradient(135deg,#a21caf,#701a75);padding:14px 10px;">
                 <span style="font-size:34px;margin-bottom:8px;display:inline-block;align-self:flex-end;">🧑‍🏫</span>
@@ -2982,7 +2981,7 @@
             <p>Un compte simple (prénom, nom, ville, club favori) pour suivre l'actualité, publier et commenter dans le Forum, sans fiche détaillée. Peut à tout moment s'auto-déclarer <strong>💗 Supporter</strong> depuis son profil.</p>
 
             <h3>⚽ Acteurs individuels (9 rôles)</h3>
-            <p><strong>Joueur, Entraîneur, Arbitre, Joueur indépendant, Élève/Étudiant, Joueur étranger, Ancien joueur, Formateur, Supporter.</strong> Chacun a sa propre fiche détaillée (photo, historique, palmarès…) et gère lui-même son profil et ses publications — <u>sauf exception ci-dessous</u>.</p>
+            <p><strong>Joueur, Entraîneur, Arbitre, Footballeur indépendant, Élève/Étudiant, Footballeur étranger, Ancien footballeur, Formateur, Supporter.</strong> Chacun a sa propre fiche détaillée (photo, historique, palmarès…) et gère lui-même son profil et ses publications — <u>sauf exception ci-dessous</u>.</p>
 
             <h3>🔒 Fiche « gérée par un tiers »</h3>
             <p>Un joueur peut ne <strong>plus</strong> pouvoir éditer sa propre fiche dans deux cas précis : s'il a été <strong>réclamé et accepté</strong> par un club (le club envoie une offre de rattachement, le joueur l'accepte lui-même), ou si son niveau (National/International) le place automatiquement sous la responsabilité de sa <strong>fédération</strong>. Dans ce cas, une bannière l'indique clairement sur sa fiche, avec le nom de la structure à contacter pour toute modification.</p>
@@ -3144,14 +3143,14 @@
         <option value="entraineur">📋 Entraîneur</option>
         <option value="club">🏟️ Club de football</option>
         <option value="association">🤝 Association de football</option>
-        <option value="independant">🧍 Joueur indépendant</option>
+        <option value="independant">🧍 Footballeur indépendant</option>
         <option value="federation">🏛️ Fédération</option>
         <option value="organisateur">🎯 Organisateur</option>
         <option value="supporter">💗 Supporter</option>
-        <option value="eleve_etudiant">🎓 Élève / Étudiant</option>
-        <option value="gabonais_diaspora">🇬🇦 Gabonais de l’étranger</option>
-<option value="sportif_etranger">🌍 Joueur étranger</option>
-                <option value="ancien_sportif">🎖️ Ancien joueur</option>
+        <option value="eleve_etudiant">🎓 Jeune footballeur / Étudiant</option>
+        <option value="gabonais_diaspora">🇬🇦 Footballeur gabonais de l’étranger</option>
+<option value="sportif_etranger">🌍 Footballeur étranger</option>
+                <option value="ancien_sportif">🎖️ Ancien footballeur</option>
         <option value="formateur">🧑‍🏫 Formateur</option>
         <option value="ecole_universite">🏫 École / Université</option>
         <option value="admin">⚙️ Admin</option>
@@ -3233,10 +3232,10 @@ let currentDetailActorUid = null;
 const ROLE_LABELS = {
   admin:'⚙️ Administrateur', federation:'🏛️ Fédération', club:'🏟️ Club',
   association:'🤝 Association', joueur:'⚽ Joueur', athlete:'🏃 Athlète', arbitre:'🟨 Arbitre',
-  entraineur:'📋 Entraîneur', visiteur:'👁️ Visiteur', independant:'🧍 Joueur indépendant',
+  entraineur:'📋 Entraîneur', visiteur:'👁️ Visiteur', independant:'🧍 Footballeur indépendant',
   organisateur:'🎪 Organisateur', supporter:'💗 Supporter',
-  eleve_etudiant:'🎓 Élève / Étudiant', gabonais_diaspora:'🇬🇦 Gabonais de l’étranger', sportif_etranger:'🌍 Joueur étranger',
-  handisport:'🦾 Sportif handisport', ancien_sportif:'🎖️ Ancien joueur',
+  eleve_etudiant:'🎓 Jeune footballeur / Étudiant', gabonais_diaspora:'🇬🇦 Footballeur gabonais de l’étranger', sportif_etranger:'🌍 Footballeur étranger',
+  handisport:'🦾 Sportif handisport', ancien_sportif:'🎖️ Ancien footballeur',
   formateur:'🧑‍🏫 Formateur', ecole_universite:'🏫 École / Université'
 };
 const ROLE_ICONS = {
@@ -3685,6 +3684,17 @@ window.handleResendConfirmation=handleResendConfirmation;
 
 // Affiche l'option "Je suis aussi supporter d'un club" uniquement pour les rôles individuels
 // (n'a pas de sens pour un club/association/fédération/organisateur qui s'inscrit lui-même)
+function updateRegisterPlayerFields(){
+  const role=document.getElementById('auth-register-role')?.value||'joueur';
+  const wrap=document.getElementById('auth-register-player-wrap');
+  if(!wrap) return;
+  wrap.style.display=['joueur','eleve_etudiant','gabonais_diaspora','sportif_etranger'].includes(role)?'':'none';
+  const sel=document.getElementById('auth-register-poste');
+  if(sel && sel.options.length<=1 && typeof POSTES!=='undefined' && POSTES.Football){
+    POSTES.Football.forEach(p=>{const o=document.createElement('option');o.value=p;o.textContent=p;sel.appendChild(o);});
+  }
+}
+window.updateRegisterPlayerFields=updateRegisterPlayerFields;
 function toggleSupporterOptIn(){
   const role=document.getElementById('auth-register-role')?.value;
   const wrap=document.getElementById('auth-register-supporter-wrap');
@@ -3697,8 +3707,10 @@ function toggleSupporterOptIn(){
     document.getElementById('auth-register-club-supporte').style.display='none';
   }
   if(sportWrap) sportWrap.style.display=ORG_ROLES.includes(role)?'none':'';
+  updateRegisterPlayerFields();
 }
 window.toggleSupporterOptIn=toggleSupporterOptIn;
+window.addEventListener('load',function(){try{updateRegisterPlayerFields();}catch(e){}});
 
 async function handleSupabaseRegister(){
   const errEl=document.getElementById('auth-register-error');
@@ -3715,6 +3727,10 @@ async function handleSupabaseRegister(){
   const sport=(document.getElementById('auth-register-sport')?.value||'').replace(/^[^\w]+/,'').trim();
   const statut=document.getElementById('auth-register-statut')?.value||'libre';
   const employeur=document.getElementById('auth-register-employeur')?.value.trim()||'';
+  const _pw=document.getElementById('auth-register-player-wrap'); const _isPl=!!_pw&&_pw.style.display!=='none';
+  const poste=_isPl?(document.getElementById('auth-register-poste')?.value||''):'';
+  const pied=_isPl?(document.getElementById('auth-register-pied')?.value||''):'';
+  const categorie=_isPl?(document.getElementById('auth-register-categorie')?.value||''):'';
   const ORG_ROLES_REG=['club','association','federation','organisateur','ecole_universite'];
   const isSupporterOptIn=!ORG_ROLES_REG.includes(role)&&!!document.getElementById('auth-register-supporter')?.checked;
   const clubSupporteOptIn=isSupporterOptIn?(document.getElementById('auth-register-club-supporte')?.value.trim()||''):'';
@@ -3727,7 +3743,7 @@ async function handleSupabaseRegister(){
   const btn=document.getElementById('auth-register-submit');
   btn.disabled=true; btn.textContent='Création…';
   try{
-    const extraMeta={prenom,nom,tel,sexe,ddn,nationalite,role,sport,statut,employeur,isSupporter:isSupporterOptIn,clubSupporte:clubSupporteOptIn};
+    const extraMeta={prenom,nom,tel,sexe,ddn,nationalite,role,sport,statut,employeur,poste,pied,categorie,isSupporter:isSupporterOptIn,clubSupporte:clubSupporteOptIn};
     const {data,error}=await window._sb.auth.signUp({
       email,password,
       options:{
@@ -4100,6 +4116,9 @@ async function onSupabaseSignedIn(user, extra){
       nationalite: extra?.nationalite || user.user_metadata?.nationalite || 'Gabonaise',
       statut:     extra?.statut     || user.user_metadata?.statut     || 'libre',
       employeur:  extra?.employeur  || user.user_metadata?.employeur  || '',
+      poste:      extra?.poste      || user.user_metadata?.poste      || '',
+      pied:       extra?.pied       || user.user_metadata?.pied       || '',
+      categorie:  extra?.categorie  || user.user_metadata?.categorie  || '',
       sport:      extra?.sport      || user.user_metadata?.sport      || '',
       isSupporter: extra?.isSupporter ?? user.user_metadata?.isSupporter ?? false,
       clubSupporte: extra?.clubSupporte || user.user_metadata?.clubSupporte || '',
@@ -4156,13 +4175,18 @@ function checkProfileCompletion(){
   // Le sport n'est pertinent que pour les rôles individuels (pas club/association/fédération/organisateur)
   const ORG_ROLES_CPC=['club','association','federation','organisateur','ecole_universite'];
   const needsSport = !ORG_ROLES_CPC.includes(userProfile.role) && !userProfile.sport?.trim();
+  const isJoueurCPC = ['joueur','athlete','independant','eleve_etudiant','gabonais_diaspora','sportif_etranger'].includes(userProfile.role);
+  const needsPoste = !ORG_ROLES_CPC.includes(userProfile.role) && !userProfile.poste?.trim();
+  const needsPied = isJoueurCPC && !userProfile.piedFort;
+  const needsCat = isJoueurCPC && !userProfile.categorie;
   // N'afficher le modal que si le prénom/nom ou le sport sont vraiment manquants
-  if(!userProfile.prenom?.trim() || !userProfile.nom?.trim() || needsSport){
+  if(!userProfile.prenom?.trim() || !userProfile.nom?.trim() || needsSport || needsPoste){
     document.getElementById('complete-profile-prenom').value = userProfile.prenom || '';
     document.getElementById('complete-profile-nom').value = userProfile.nom || '';
     const sportWrap = document.getElementById('complete-profile-sport-wrap');
     if(sportWrap) sportWrap.style.display = needsSport ? '' : 'none';
     document.getElementById('complete-profile-sport').value = userProfile.sport || '';
+    [['poste',needsPoste,userProfile.poste],['pied',needsPied,userProfile.piedFort],['cat',needsCat,userProfile.categorie]].forEach(([k,show,v])=>{const w=document.getElementById('complete-profile-'+k+'-wrap'),i=document.getElementById('complete-profile-'+k);if(w)w.style.display=show?'':'none';if(i)i.value=v||'';});
     document.getElementById('complete-profile-error').style.display='none';
     document.getElementById('modal-complete-profile').classList.add('open');
   }
@@ -4178,12 +4202,18 @@ async function handleCompleteProfile(){
   const sportVisible = sportWrap && sportWrap.style.display!=='none';
   const sport=(document.getElementById('complete-profile-sport')?.value||'').replace(/^[^\\w]+/,'').trim();
   if(sportVisible && !sport){ errEl.textContent='Veuillez sélectionner votre sport / discipline.'; errEl.style.display='block'; return; }
+  const gv=id=>{const w=document.getElementById('complete-profile-'+id+'-wrap');return w&&w.style.display!=='none'?(document.getElementById('complete-profile-'+id)?.value||'').trim():null;};
+  const poste=gv('poste'), pied=gv('pied'), cat=gv('cat');
+  if(poste!==null && !poste){ errEl.textContent='Veuillez indiquer votre poste / spécialité.'; errEl.style.display='block'; return; }
   const btn=document.getElementById('complete-profile-submit');
   btn.disabled=true; btn.textContent='Enregistrement…';
 
   // Sauvegarde locale immédiate — le modal se ferme toujours, Firestore est best-effort
   userProfile.prenom=prenom; userProfile.nom=nom;
   if(sportVisible) userProfile.sport=sport;
+  if(poste!==null) userProfile.poste=poste;
+  if(pied) userProfile.piedFort=pied;
+  if(cat) userProfile.categorie=cat;
 
   // Persistance localStorage pour survivre aux rechargements si Firestore échoue
   try{
@@ -4201,6 +4231,9 @@ async function handleCompleteProfile(){
       await ensureFirebaseAuthViaSupabase();
       const updateData={prenom,nom};
       if(sportVisible) updateData.sport=sport;
+      if(poste!==null) updateData.poste=poste;
+      if(pied) updateData.piedFort=pied;
+      if(cat) updateData.categorie=cat;
       await setDoc(doc(db,'users',userProfile.uid),updateData,{merge:true});
     }
   }catch(e){
@@ -4833,10 +4866,10 @@ function filterActors(type,btn){
 const ANNUAIRE_ADD_PHRASE = {
   joueur:'un joueur / une athlète', athlete:'un athlète', arbitre:'un arbitre',
   entraineur:'un entraîneur', club:'un club sportif', federation:'une fédération',
-  organisateur:'un organisateur', independant:'un joueur indépendant',
+  organisateur:'un organisateur', independant:'un footballeur indépendant',
   association:'une association', eleve_etudiant:'un élève / étudiant',
-  gabonais_diaspora:'un Gabonais de l’étranger', sportif_etranger:'un joueur étranger', handisport:'un sportif handisport',
-  ancien_sportif:'un ancien joueur', formateur:'un formateur', supporter:'un supporter'
+  gabonais_diaspora:'un Gabonais de l’étranger', sportif_etranger:'un footballeur étranger', handisport:'un sportif handisport',
+  ancien_sportif:'un ancien footballeur', formateur:'un formateur', supporter:'un supporter'
 };
 
 function updateAnnuaireAddActorCta(){
@@ -4953,7 +4986,7 @@ function renderActors(actors){
   if(isListMode){
     // ── MODE LISTE COMPACT ──
     const ROLE_ICONS_MAP={joueur:'⚽',athlete:'🏃',arbitre:'🟨',entraineur:'📋',club:'🏟️',association:'🤝',federation:'🏛️',independant:'🚴',organisateur:'🎪',admin:'⚙️',supporter:'💗',eleve_etudiant:'🎓',gabonais_diaspora:'🇬🇦', sportif_etranger:'🌍',handisport:'🦾',ancien_sportif:'🎖️',formateur:'🧑‍🏫',ecole_universite:'🏫'};
-    const ROLE_SHORT={joueur:'Joueur',athlete:'Athlète',arbitre:'Arbitre',entraineur:'Coach',club:'Club',association:'Asso.',federation:'Fédération',independant:'Indép.',organisateur:'Org.',supporter:'Supporter',admin:'Admin',eleve_etudiant:'Élève/Étud.',gabonais_diaspora:'Diaspora', sportif_etranger:'Étranger',handisport:'Handisport',ancien_sportif:'Ancien joueur',formateur:'Formateur',ecole_universite:'École/Univ.'};
+    const ROLE_SHORT={joueur:'Joueur',athlete:'Athlète',arbitre:'Arbitre',entraineur:'Coach',club:'Club',association:'Asso.',federation:'Fédération',independant:'Indép.',organisateur:'Org.',supporter:'Supporter',admin:'Admin',eleve_etudiant:'Élève/Étud.',gabonais_diaspora:'Diaspora', sportif_etranger:'Étranger',handisport:'Handisport',ancien_sportif:'Ancien footballeur',formateur:'Formateur',ecole_universite:'École/Univ.'};
 
     const renderRow=(a,idx)=>{
       const id=a.uid||a.id;
@@ -4990,7 +5023,7 @@ function renderActors(actors){
     if(groupAll){
       // Regroupement intelligent par rôle, ordre professionnel : Joueurs → Encadrement → Officiels → Organisations
       const GROUP_ORDER=['joueur','athlete','entraineur','arbitre','eleve_etudiant','ecole_universite','gabonais_diaspora', 'sportif_etranger','handisport','ancien_sportif','formateur','club','federation','association','organisateur','independant','supporter','admin'];
-      const GROUP_LABELS={joueur:'⚽ Joueurs',athlete:'🏃 Athlètes',entraineur:'📋 Entraîneurs',arbitre:'🟨 Arbitres',club:'🏟️ Clubs',federation:'🏛️ Fédérations',association:'🤝 Associations',organisateur:'🎪 Organisateurs',independant:'🚴 Indépendants',supporter:'💗 Supporters',admin:'⚙️ Administrateurs',eleve_etudiant:'🎓 Élèves / Étudiants',gabonais_diaspora:'🇬🇦 Gabonais de l’étranger', sportif_etranger:'🌍 Joueurs étrangers',handisport:'🦾 Sportifs handisport',ancien_sportif:'🎖️ Anciens joueurs',formateur:'🧑‍🏫 Formateurs',ecole_universite:'🏫 Écoles / Universités'};
+      const GROUP_LABELS={joueur:'⚽ Joueurs',athlete:'🏃 Athlètes',entraineur:'📋 Entraîneurs',arbitre:'🟨 Arbitres',club:'🏟️ Clubs',federation:'🏛️ Fédérations',association:'🤝 Associations',organisateur:'🎪 Organisateurs',independant:'🚴 Indépendants',supporter:'💗 Supporters',admin:'⚙️ Administrateurs',eleve_etudiant:'🎓 Élèves / Étudiants',gabonais_diaspora:'🇬🇦 Footballeur gabonais de l’étranger', sportif_etranger:'🌍 Footballeurs étrangers',handisport:'🦾 Sportifs handisport',ancien_sportif:'🎖️ Anciens footballeurs',formateur:'🧑‍🏫 Formateurs',ecole_universite:'🏫 Écoles / Universités'};
       const buckets={};
       actors.forEach(a=>{ const r=a.role||'joueur'; (buckets[r]=buckets[r]||[]).push(a); });
       orderedActors=[];
@@ -5072,7 +5105,7 @@ function renderActors(actors){
       const name=[a.prenom,a.nom,a.nomOrganisation].filter(Boolean).join(' ')||(ROLE_LABELS[a.role]||a.role||'Profil');
       const initial=name[0]?.toUpperCase()||'?';
       const roleKey=a.role||'joueur';
-      const roleName={joueur:'Joueur',athlete:'Athlète',arbitre:'Arbitre',entraineur:'Entraîneur',club:'Club',association:'Association',federation:'Fédération',independant:'Joueur indépendant',organisateur:'Organisateur',eleve_etudiant:'Élève / Étudiant',gabonais_diaspora:'Gabonais de l’étranger', sportif_etranger:'Joueur étranger',handisport:'Sportif handisport',ancien_sportif:'Ancien joueur',formateur:'Formateur',ecole_universite:'École / Université'}[roleKey]||roleKey;
+      const roleName={joueur:'Joueur',athlete:'Athlète',arbitre:'Arbitre',entraineur:'Entraîneur',club:'Club',association:'Association',federation:'Fédération',independant:'Footballeur indépendant',organisateur:'Organisateur',eleve_etudiant:'Élève / Étudiant',gabonais_diaspora:'Gabonais de l’étranger', sportif_etranger:'Footballeur étranger',handisport:'Sportif handisport',ancien_sportif:'Ancien footballeur',formateur:'Formateur',ecole_universite:'École / Université'}[roleKey]||roleKey;
       const badgeClass='badge-'+roleKey;
       const typeIcons={joueur:'⚽',athlete:'🏃',arbitre:'🟨',entraineur:'📋',club:'🏟️',association:'🤝',federation:'🏛️',independant:'🚴',organisateur:'🎪',eleve_etudiant:'🎓',gabonais_diaspora:'🇬🇦', sportif_etranger:'🌍',handisport:'🦾',ancien_sportif:'🎖️',formateur:'🧑‍🏫',ecole_universite:'🏫'};
       const typeDotIcon=typeIcons[roleKey]||'👤';
@@ -5282,7 +5315,7 @@ function openActorDetail(uid){
     if(a.filiere) html+=`<div class="adm-info-row"><span class="adm-info-label">Filière</span><span class="adm-info-val">${esc(a.filiere)}</span></div>`;
     html+=`</div>`;
   }
-  // Joueur étranger — statut & vérification documentaire (le n° de document exact
+  // Footballeur étranger — statut & vérification documentaire (le n° de document exact
   // reste une donnée sensible réservée au propriétaire, son club employeur ou l'admin)
   if(a.role==='sportif_etranger'){
     html+=`<div class="adm-section"><div class="adm-section-title">🌍 Statut joueur étranger</div>`;
@@ -5321,7 +5354,7 @@ function openActorDetail(uid){
     </div>`;
     html+=`</div>`;
   }
-  // Ancien joueur — carrière terminée, palmarès et reconversion
+  // Ancien footballeur — carrière terminée, palmarès et reconversion
   if(a.role==='ancien_sportif'){
     html+=`<div class="adm-section"><div class="adm-section-title">🎖️ Carrière</div>`;
     if(a.poste) html+=`<div class="adm-info-row"><span class="adm-info-label">Poste / Spécialité</span><span class="adm-info-val">${esc(a.poste)}</span></div>`;
@@ -5453,7 +5486,7 @@ function renderProfile(){
       const age=new Date().getFullYear()-(p.anneeNaissance||new Date(p.dateNaissance).getFullYear());
       document.getElementById('prof-age').textContent=age;
     } else document.getElementById('prof-age').textContent='—';
-    document.getElementById('prof-pied').textContent=p.pied||'—';
+    document.getElementById('prof-pied').textContent=p.pied||p.piedFort||'—';
     document.getElementById('prof-matchs').textContent=p.matchsJoues??0;
     document.getElementById('prof-buts').textContent=p.buts??0;
     document.getElementById('prof-passes').textContent=p.passes??0;
@@ -5778,7 +5811,7 @@ function buildEditForm(p){
     </div>`;
   }
 
-  // Profil Ancien joueur — carrière terminée, palmarès, reconversion
+  // Profil Ancien footballeur — carrière terminée, palmarès, reconversion
   if(p.role==='ancien_sportif'){
     h+=`<div class="section-divider" style="border-color:#9f1239;">🎖️ Carrière</div>`;
     h+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
@@ -6617,7 +6650,7 @@ function renderActorsAdmin(actors){
   try{const s=localStorage.getItem('gsc_profile_photos');if(s){const d=JSON.parse(s);localPhotos=d.photos||{};}}catch(e){}
 
   const ROLE_ICONS_MAP={joueur:'⚽',athlete:'🏃',arbitre:'🟨',entraineur:'📋',club:'🏟️',association:'🤝',federation:'🏛️',independant:'🚴',organisateur:'🎪',admin:'⚙️',supporter:'💗',eleve_etudiant:'🎓',gabonais_diaspora:'🇬🇦', sportif_etranger:'🌍',handisport:'🦾',ancien_sportif:'🎖️',formateur:'🧑‍🏫',ecole_universite:'🏫'};
-  const ROLE_SHORT={joueur:'Joueur',athlete:'Athlète',arbitre:'Arbitre',entraineur:'Coach',club:'Club',association:'Asso.',federation:'Fédération',independant:'Indép.',organisateur:'Org.',supporter:'Supporter',admin:'Admin',eleve_etudiant:'Élève/Étud.',gabonais_diaspora:'Diaspora', sportif_etranger:'Étranger',handisport:'Handisport',ancien_sportif:'Ancien joueur',formateur:'Formateur',ecole_universite:'École/Univ.'};
+  const ROLE_SHORT={joueur:'Joueur',athlete:'Athlète',arbitre:'Arbitre',entraineur:'Coach',club:'Club',association:'Asso.',federation:'Fédération',independant:'Indép.',organisateur:'Org.',supporter:'Supporter',admin:'Admin',eleve_etudiant:'Élève/Étud.',gabonais_diaspora:'Diaspora', sportif_etranger:'Étranger',handisport:'Handisport',ancien_sportif:'Ancien footballeur',formateur:'Formateur',ecole_universite:'École/Univ.'};
 
   const renderRow=(a,idx)=>{
     const id=a.uid||a.id;
@@ -6895,7 +6928,7 @@ function renderAdminReports(){
     ['Fiches en attente de validation',totalPending],
     ['Clubs / Associations / Fédérations',totalClubs],
     ['Sites sportifs référencés',totalSites],
-    ['Joueurs indépendants',visibleUsers.filter(u=>u.role==='independant').length],
+    ['Footballeurs indépendants',visibleUsers.filter(u=>u.role==='independant').length],
   ];
   document.getElementById('report-summary-tbody').innerHTML=rows.map((r,i)=>`<tr><td style="font-size:12px;color:var(--gray-txt);">RPT-${String(i+1).padStart(3,'0')}</td><td style="font-size:13px;">${r[0]}</td><td style="font-weight:700;font-size:13px;">${r[1]}</td></tr>`).join('');
 }
@@ -8113,7 +8146,7 @@ function renderDisciplineTabs() {
     judo:       ['#ec4899','#db2777','rgba(236,72,153,.07)'],
     natation:   ['#0ea5e9','#0284c7','rgba(14,165,233,.07)'],
   };
-  c.innerHTML = GSC_SPORTS_DATA.map((s,i) => {
+  c.innerHTML = GSC_SPORTS_DATA.filter(s=>s.id==='football'||s.nom==='Football').map((s,i) => {
     const col = SC[s.id] || [];
     const active = s.id === currentSportId;
     let st = '';

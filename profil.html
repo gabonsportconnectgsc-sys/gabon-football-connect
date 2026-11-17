@@ -162,6 +162,7 @@
             <div class="fg" id="ex-pied-fort"><label>Pied fort</label>
               <select id="a-pied"><option value="">—</option><option>Droit</option><option>Gauche</option><option>Les deux</option></select>
             </div>
+            <div class="fg" id="ex-categorie"><label>Catégorie</label><select id="a-categorie"><option value="">—</option><option>U13</option><option>U15</option><option>U17</option><option>U20</option><option>Seniors</option></select></div>
           </div>
           <div class="form-row">
             <div class="fg"><label id="a-poste-label">Poste / Spécialité *</label><input type="text" id="a-poste" placeholder="ex: Attaquant, 100m…"/></div>
@@ -1075,6 +1076,7 @@
       setVal('a-taille', data.taille);
       setVal('a-poids', data.poids);
       setVal('a-pied', data.piedFort);
+      setVal('a-categorie', data.categorie);
       setVal('a-poste2', data.poste2);
       setVal('a-maillot', data.numMaillot);
       setVal('a-bio', data.bio);
@@ -1285,6 +1287,7 @@
     const taille       = isJoueurRole ? (document.getElementById('a-taille')?.value || '') : '';
     const poids        = isJoueurRole ? (document.getElementById('a-poids')?.value || '') : '';
     const piedFort     = isJoueurRole ? (document.getElementById('a-pied')?.value || '') : '';
+    const categorieJoueur = isJoueurRole ? (document.getElementById('a-categorie')?.value || '') : '';
     const poste2       = isJoueurRole ? (document.getElementById('a-poste2')?.value?.trim() || '') : '';
     const numMaillot   = isJoueurRole ? (document.getElementById('a-maillot')?.value || '') : '';
     const physique     = isJoueurRole ? collectRatings('phys-ratings') : {};
@@ -1387,7 +1390,7 @@
         sport, ville, telephone: tel, whatsapp, sexe, dateNaissance: ddn,
         poste, niveau, nomOrganisation: org, licence,
         ...(isJoueurRole && {
-          taille, poids, piedFort, poste2, numMaillot,
+          taille, poids, piedFort, categorie: categorieJoueur, poste2, numMaillot,
           physique, technique, carriere,
           contrat: { club: clubActuel, type: contratType, debut: contratDebut, fin: contratFin, agent },
           bio, palmares
