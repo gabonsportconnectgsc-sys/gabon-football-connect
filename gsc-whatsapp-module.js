@@ -66,7 +66,7 @@
     independant: '🧍 Sportif indépendant', organisateur: '🎪 Organisateur',
     supporter: '💗 Supporter', eleve_etudiant: '🎓 Élève / Étudiant',
     gabonais_diaspora: '🇬🇦 Gabonais sportif à l’étranger', sportif_etranger: '🌍 Footballeur étranger', handisport: '🦾 Footballeur handisport',
-    ancien_sportif: '🎖️ Ancien Sportif', formateur: '🧑‍🏫 Formateur'
+    ancien_sportif: '🎖️ Ancien footballeur', formateur: '🧑‍🏫 Formateur'
   };
   const ROLE_ORDER = Object.keys(ROLE_LABELS);
 

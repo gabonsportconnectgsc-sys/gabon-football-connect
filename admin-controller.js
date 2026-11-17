@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   ADMIN-CONTROLLER.JS — Logique du panneau GSC Admin AMÉLIORÉ
+   ADMIN-CONTROLLER.JS — Logique du panneau GFC Admin AMÉLIORÉ
    • Toutes les catégories d'acteurs (écoles/universités ajoutées)
    • Comptage cohérent avec index.html
    • Navigation responsive sans débordement
@@ -75,10 +75,10 @@
     independant: '🚴 Indépendant',
     supporter: '💗 Supporter',
     eleve_etudiant: '🎓 Élève / Étudiant',
-    gabonais_diaspora: '🇬🇦 Gabonais sportif à l’étranger', sportif_etranger: '🌍 Sportif étranger',
+    gabonais_diaspora: '🇬🇦 Gabonais sportif à l’étranger', sportif_etranger: '🌍 Footballeur étranger',
     ecole_universite: '🏫 École/Université',
-    handisport: '🦾 Sportif handisport',
-    ancien_sportif: '🎖️ Ancien Sportif',
+    handisport: '🦾 Footballeur handisport',
+    ancien_sportif: '🎖️ Ancien footballeur',
     formateur: '🧑‍🏫 Formateur'
   };
   /* ── Catégories d'acteurs pour la fiche modale (player-modal) ──────────────
@@ -1591,8 +1591,8 @@
   const DOC_CAT_LABELS = {
     joueur: '⚽ Joueurs', club: '🏟️ Clubs', athlete: '🏃 Athlètes', entraineur: '📋 Entraîneurs', arbitre: '🟨 Arbitres',
     federation: '🏛️ Fédérations', association: '🤝 Associations', organisateur: '🎪 Organisateurs', ecole_universite: '🏫 Écoles / Universités',
-    formateur: '🧑‍🏫 Formateurs', eleve_etudiant: '🎓 Élèves / Étudiants', ancien_sportif: '🎖️ Anciens sportifs', handisport: '🦾 Handisport',
-    gabonais_diaspora: '🇬🇦 Gabonais de l’étranger', sportif_etranger: '🌍 Sportifs étrangers', independant: '🚴 Indépendants', supporter: '💗 Supporters',
+    formateur: '🧑‍🏫 Formateurs', eleve_etudiant: '🎓 Élèves / Étudiants', ancien_sportif: '🎖️ Anciens footballeurs', handisport: '🦾 Handisport',
+    gabonais_diaspora: '🇬🇦 Gabonais de l’étranger', sportif_etranger: '🌍 Footballeurs étrangers', independant: '🚴 Indépendants', supporter: '💗 Supporters',
     admin: '🛡️ Administrateurs', visiteur: '👁️ Visiteurs'
   };
 

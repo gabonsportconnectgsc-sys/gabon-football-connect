@@ -199,7 +199,7 @@
     try { return window.firebase && firebase.auth && firebase.auth().currentUser && firebase.auth().currentUser.uid; } catch (e) { return null; }
   }
   function watch(col, field, val, cb) {
-    var eb = function (e) { console.warn('[GSC admin-hub]', col, e && e.message || e); };
+    var eb = function (e) { console.warn('[GFC admin-hub]', col, e && e.message || e); };
     var db = window.db;
     if (typeof db.collection === 'function') return db.collection(col).where(field, '==', val).onSnapshot(cb, eb);
     if (window.query && window.collection && window.where && window.onSnapshot)
@@ -221,7 +221,7 @@
         if (el) { el.textContent = s.size; el.style.display = s.size > 0 ? 'inline-block' : 'none'; }
         render();
       });
-    } catch (e) { console.warn('[GSC admin-hub]', e); }
+    } catch (e) { console.warn('[GFC admin-hub]', e); }
   }
   function poll() {
     var e = $('nav-signalements-count');
@@ -242,7 +242,7 @@
       var rows = kids.filter(isP);
       rows.forEach(function (r) { r.classList.add('row-pending-blink'); });
       if (need) rows.slice().reverse().forEach(function (r) { tb.insertBefore(r, tb.firstChild); });
-    } catch (e) { console.warn('[GSC admin-hub] floatPending', e); }
+    } catch (e) { console.warn('[GFC admin-hub] floatPending', e); }
     pendObs.observe(tb, { childList: true });
   }
   function ensureFiches() {
@@ -264,7 +264,7 @@
   }
   function tick() {
     try { floatPending(); ensureFiches(); organize(); organizeMobile(); ensureHub(); hideDup(); poll(); startWatch(); render(); }
-    catch (e) { console.warn('[GSC admin-hub]', e); }
+    catch (e) { console.warn('[GFC admin-hub]', e); }
   }
 
   window.GSCAdminHub = { setCount: function (k, n) { C[k] = n; render(); } };

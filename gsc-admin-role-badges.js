@@ -1,4 +1,4 @@
-/* GSC admin — badges "nouveaux membres" par profil (menu latéral) */
+/* GFC admin — badges "nouveaux membres" par profil (menu latéral) */
 (function () {
   'use strict';
   var ROLES = { joueur: 'nav-joueurs', club: 'nav-clubs' };

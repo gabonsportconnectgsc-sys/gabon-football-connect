@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GSC Admin</title>
+<title>GFC Admin</title>
 
 <!-- ══ PWA — manifest + icône d'app (identique à index.html) ══
      Sans ce lien, admin.html ne peut pas être installé comme app et
@@ -13,7 +13,7 @@
 <meta name="theme-color" content="#009E60" />
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="GSC Admin">
+<meta name="apple-mobile-web-app-title" content="GFC Admin">
 <link rel="apple-touch-icon" href="icon-192.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com/">
@@ -804,12 +804,12 @@ tr.is-demo-row td { opacity: .82; }
 /* __gscFab */
 #gsc-docrec-fab{left:auto !important;right:12px !important;}
 </style>
-</head>
+<style id="gfc-center">.page-title,.dash-card-title{text-align:center}</style></head>
 <body>
 
 <div id="loading-screen" style="display: none;">
   <div class="loading-logo">⚽</div>
-  <div class="loading-title">GSC Admin</div>
+  <div class="loading-title">GFC Admin</div>
   <div class="loading-sub">Chargement du panneau…</div>
   <div class="spinner"></div>
 </div>
@@ -819,7 +819,7 @@ tr.is-demo-row td { opacity: .82; }
   <div style="width:100%;max-width:380px;background:#fff;border-radius:var(--radius-lg);padding:32px 28px;box-shadow:0 10px 40px rgba(0,0,0,.3);">
     <div style="text-align:center;margin-bottom:24px;">
       <div style="font-size:42px;margin-bottom:8px;">⚽</div>
-      <div style="font-family:var(--font-display);font-weight:800;font-size:20px;color:var(--navy);">GSC Admin</div>
+      <div style="font-family:var(--font-display);font-weight:800;font-size:20px;color:var(--navy);">GFC Admin</div>
       <div style="font-size:12.5px;color:var(--gray-txt);margin-top:4px;">Accès réservé à l'administration</div>
     </div>
     <div style="margin-bottom:14px;">
@@ -1290,9 +1290,9 @@ tr.is-demo-row td { opacity: .82; }
           <button class="filter-btn role-athlete" data-phfilter="athlete">🏃 Athlètes</button>
           <button class="filter-btn role-arbitre" data-phfilter="arbitre">🟨 Arbitres</button>
           <button class="filter-btn role-entraineur" data-phfilter="entraineur">📋 Entraîneurs</button>
-          <button class="filter-btn role-club" data-phfilter="club">⚽ Clubs</button>
-          <button class="filter-btn role-federation" data-phfilter="federation">🏆 Fédérations</button>
-          <button class="filter-btn role-association" data-phfilter="association">🏢 Associations</button>
+          <button class="filter-btn role-club" data-phfilter="club">🏟️ Clubs</button>
+          <button class="filter-btn role-federation" data-phfilter="federation">🏛️ Fédérations</button>
+          <button class="filter-btn role-association" data-phfilter="association">🤝 Associations</button>
           <button class="filter-btn role-organisateur" data-phfilter="organisateur">🎪 Organisateurs</button>
           <button class="filter-btn role-supporter" data-phfilter="supporter">💗 Supporters</button>
           <button class="filter-btn role-independant" data-phfilter="independant">🚴 Indépendants</button>
@@ -2261,10 +2261,10 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
     navigator.serviceWorker.register('sw.js', { scope: '/' })
       .then(function(registration) {
-        console.log('[GSC Admin] Service Worker enregistré :', registration);
+        console.log('[GFC Admin] Service Worker enregistré :', registration);
       })
       .catch(function(error) {
-        console.log('[GSC Admin] Échec enregistrement Service Worker :', error);
+        console.log('[GFC Admin] Échec enregistrement Service Worker :', error);
       });
   });
   navigator.serviceWorker.addEventListener('message', function(event){
@@ -2327,7 +2327,7 @@ document.addEventListener('DOMContentLoaded', function(){
     club: '🏟️ Club', federation: '🏛️ Fédération', association: '🤝 Association', admin: '⚙️ Administrateur',
     organisateur: '🎪 Organisateur', supporter: '💗 Supporter', independant: '🚴 Indépendant',
     eleve_etudiant: '🎓 Élève / Étudiant', gabonais_diaspora: '🇬🇦 Gabonais sportif à l’étranger', sportif_etranger: '🌍 Footballeur étranger', handisport: '🦾 Footballeur handisport',
-    ancien_sportif: '🎖️ Ancien Sportif', ecole_universite: '🏫 École / Université', formateur: '🧑‍🏫 Formateur'
+    ancien_sportif: '🎖️ Ancien footballeur', ecole_universite: '🏫 École / Université', formateur: '🧑‍🏫 Formateur'
   };
   const ROLE_COLORS = {
     joueur: '#009E60', athlete: '#0891b2', entraineur: '#f97316', arbitre: '#8b5cf6',
@@ -3020,7 +3020,7 @@ document.addEventListener('DOMContentLoaded', function(){
       }
     } catch (e) { console.warn('renderEtrangers:', e); }
     if (!users.length) {
-      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--gray-txt);padding:16px;">Aucun sportif étranger enregistré pour le moment.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--gray-txt);padding:16px;">Aucun footballeur étranger enregistré pour le moment.</td></tr>';
       return;
     }
     tbody.innerHTML = users.map(u => {
@@ -3105,7 +3105,7 @@ document.addEventListener('DOMContentLoaded', function(){
     club: '🏟️ Club', federation: '🏛️ Fédération', association: '🤝 Association', admin: '⚙️ Administrateur',
     organisateur: '🎪 Organisateur', supporter: '💗 Supporter', independant: '🚴 Indépendant',
     eleve_etudiant: '🎓 Élève / Étudiant', gabonais_diaspora: '🇬🇦 Gabonais sportif à l’étranger', sportif_etranger: '🌍 Footballeur étranger', handisport: '🦾 Footballeur handisport',
-    ancien_sportif: '🎖️ Ancien Sportif', ecole_universite: '🏫 École / Université', formateur: '🧑‍🏫 Formateur'
+    ancien_sportif: '🎖️ Ancien footballeur', ecole_universite: '🏫 École / Université', formateur: '🧑‍🏫 Formateur'
   };
 
   function generateGscId(uid, role) {
@@ -3506,7 +3506,7 @@ document.addEventListener('DOMContentLoaded', function(){
       const unlinkedOrgUsers = orgUsers.filter(u => !u.structureId).length;
       return structCount + unlinkedOrgUsers;
     } catch (e) {
-      console.warn('[GSC Admin] computeUnifiedOrgCount:', e);
+      console.warn('[GFC Admin] computeUnifiedOrgCount:', e);
       return orgUsers.length;
     }
   }
@@ -3585,7 +3585,7 @@ document.addEventListener('DOMContentLoaded', function(){
       if(actList){
         actList.innerHTML=`<div class="act-item"><div class="act-dot" style="background:var(--green)"></div><div class="act-text">${totalActive} membre(s) actif(s)</div><div class="act-time">Firestore</div></div><div class="act-item"><div class="act-dot" style="background:var(--green)"></div><div class="act-text">Panneau chargé</div><div class="act-time">maintenant</div></div>`;
       }
-    }catch(e){ console.warn('[GSC Admin] loadDashboardStats:', e); }
+    }catch(e){ console.warn('[GFC Admin] loadDashboardStats:', e); }
   }
   window.loadDashboardStats=loadDashboardStats;
 
@@ -3648,7 +3648,7 @@ document.addEventListener('DOMContentLoaded', function(){
       btn.textContent='Connexion Firestore…';
       try{ await ensureFirebaseAuthViaSupabase(); }
       catch(e){
-        console.error('[GSC Admin] Pont Firebase indisponible (login):', e);
+        console.error('[GFC Admin] Pont Firebase indisponible (login):', e);
         errEl.textContent = '⚠️ Connexion Firestore impossible — ' + (e&&e.message?e.message:'réessayez.');
         errEl.style.display='block';
         btn.disabled=false; btn.textContent='Se connecter';
@@ -3769,11 +3769,11 @@ document.addEventListener('DOMContentLoaded', function(){
         const doc = await firebase.firestore().collection('users').doc(uid).get();
         if(doc.exists){
           const role = doc.data()?.role || '';
-          console.log('[GSC Admin] Niveau 1 SDK — role:', role);
+          console.log('[GFC Admin] Niveau 1 SDK — role:', role);
           if(role) return role === 'admin';
         }
       }
-    }catch(e){ console.warn('[GSC Admin] Niveau 1 échoué:', e.message||e); }
+    }catch(e){ console.warn('[GFC Admin] Niveau 1 échoué:', e.message||e); }
 
     // ── Niveau 2 : REST Firestore retry ×3 ──────────────────────────────────
     const url = `https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents/users/${uid}?key=${FIREBASE_API_KEY}`;
@@ -3785,13 +3785,13 @@ document.addEventListener('DOMContentLoaded', function(){
         if(!res.ok) break;
         const json = await res.json();
         const role = json.fields?.role?.stringValue || '';
-        console.log('[GSC Admin] Niveau 2 REST — role:', role);
+        console.log('[GFC Admin] Niveau 2 REST — role:', role);
         if(role) return role === 'admin';
         break;
-      }catch(e){ console.warn(`[GSC Admin] Niveau 2 tentative ${attempt}:`, e.message||e); }
+      }catch(e){ console.warn(`[GFC Admin] Niveau 2 tentative ${attempt}:`, e.message||e); }
     }
 
-    console.error('[GSC Admin] Tous les niveaux ont échoué pour uid:', uid);
+    console.error('[GFC Admin] Tous les niveaux ont échoué pour uid:', uid);
     return false;
   }
 
@@ -3811,7 +3811,7 @@ document.addEventListener('DOMContentLoaded', function(){
           return;
         }
         // Pont Firebase Auth
-        try{ await ensureFirebaseAuthViaSupabase(); }catch(e){ console.warn('[GSC Admin] Pont indisponible (checkSession):',e); }
+        try{ await ensureFirebaseAuthViaSupabase(); }catch(e){ console.warn('[GFC Admin] Pont indisponible (checkSession):',e); }
         window.__gscAdminIdentity = { uid: session.user.id, email: session.user.email||'' };
         showApp();
       }
