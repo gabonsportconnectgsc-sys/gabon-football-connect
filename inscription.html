@@ -32,7 +32,7 @@
     <!-- ══ ÉCRAN GARDE : DÉJÀ CONNECTÉ ══ -->
     <!-- Empêche la création d'un doublon lorsque l'utilisateur a déjà une session
          active (ex: il revient sur inscription.html après avoir déjà créé son compte)
-         et tente de remplir à nouveau le formulaire "Devenir acteur sportif". -->
+         et tente de remplir à nouveau le formulaire "Devenir acteur du football". -->
     <div id="sguard" class="fade-in" style="display:none;">
       <div class="card-header">
         <div class="card-header-logo"><span class="l-g">G</span><span class="l-s">S</span><span class="l-c">C</span></div>
@@ -77,9 +77,9 @@
             <div class="type-icon visiteur">👁️</div>
             <div class="type-info">
               <div class="type-name">Membre Visiteur</div>
-              <div class="type-desc">Explorez la plateforme, consultez l'annuaire et suivez l'actualité sportive.</div>
+              <div class="type-desc">Explorez la plateforme, consultez l'annuaire et suivez l'actualité du football.</div>
               <div class="type-perms">
-                <div class="prow y"><span>✓</span> Consulter l'annuaire sportif</div>
+                <div class="prow y"><span>✓</span> Consulter l'annuaire du football</div>
                 <div class="prow y"><span>✓</span> Lire actualités &amp; résultats</div>
                 <div class="prow y"><span>✓</span> Sauvegarder des favoris</div>
                 <div class="prow n"><span>—</span> Figurer dans l'annuaire</div>
@@ -93,12 +93,12 @@
             <span class="rec-badge">Intégrez l'annuaire</span>
             <div class="type-icon acteur">🏅</div>
             <div class="type-info">
-              <div class="type-name">Acteur Sportif</div>
+              <div class="type-name">Acteur du football</div>
               <div class="type-desc">Joueur, entraîneur, arbitre, club, fédération ou indépendant : intégrez l'annuaire national.</div>
               <div class="type-perms">
                 <div class="prow y"><span>✓</span> Fiche dans l'annuaire national</div>
                 <div class="prow y"><span>✓</span> Carte GSC &amp; QR code officiel</div>
-                <div class="prow y"><span>✓</span> Gérer votre profil sportif</div>
+                <div class="prow y"><span>✓</span> Gérer votre profil football</div>
                 <div class="prow y"><span>✓</span> Outils selon votre rôle</div>
               </div>
             </div>
@@ -129,11 +129,11 @@
       <div class="card-body">
         <div class="perms-box">
           <div class="perms-title">🔑 Votre accès Membre Visiteur</div>
-          <div class="perm-item y">✅ Consulter l'annuaire national des acteurs sportifs</div>
+          <div class="perm-item y">✅ Consulter l'annuaire national des acteurs du football</div>
           <div class="perm-item y">✅ Lire toutes les actualités, résultats &amp; calendriers</div>
-          <div class="perm-item y">✅ Explorer la carte des sites sportifs du Gabon</div>
+          <div class="perm-item y">✅ Explorer la carte des sites de football du Gabon</div>
           <div class="perm-item y">✅ Sauvegarder des acteurs et structures en favoris</div>
-          <div class="perm-item n">🚫 Figurer dans l'annuaire (compte Acteur Sportif requis)</div>
+          <div class="perm-item n">🚫 Figurer dans l'annuaire (compte Acteur du football requis)</div>
           <div class="perm-item n">🚫 Modifier des fiches ou publier du contenu</div>
         </div>
         <div class="a-avatar-upload-wrap">
@@ -179,16 +179,16 @@
         <div id="v-err" class="err-msg"></div>
         <button class="btn-p blue" id="v-btn" onclick="submitVisiteur()">Créer mon compte Visiteur</button>
       </div>
-      <div class="card-foot"><p>Vous êtes acteur du sport ? <a onclick="show('s1a')">Créer un compte Acteur Sportif</a></p></div>
+      <div class="card-foot"><p>Vous êtes acteur du sport ? <a onclick="show('s1a')">Créer un compte Acteur du football</a></p></div>
     </div>
 
     <!-- ══ ÉCRAN 1A : CHOIX DU RÔLE ACTEUR ══ -->
     <div id="s1a" style="display:none;">
       <div class="card-header">
         <button class="btn-back" onclick="show('s0')">← Retour</button>
-        <div class="card-title">Acteur Sportif</div>
-        <div class="card-sub">Quel est votre rôle dans l'écosystème sportif ?</div>
-        <div class="account-tag acteur">🏅 Acteur Sportif</div>
+        <div class="card-title">Acteur du football</div>
+        <div class="card-sub">Quel est votre rôle dans l'écosystème du football ?</div>
+        <div class="account-tag acteur">🏅 Acteur du football</div>
         <div class="step-bar">
           <div class="step-dot done">✓<span class="step-lbl">Type</span></div>
           <div class="step-line done"></div>
@@ -205,12 +205,12 @@
           <div class="role-tile" data-role="joueur" onclick="pickRole('joueur',this)"><div class="rt-icon">⚽</div><div class="rt-label">Joueur</div><div class="rt-desc">Footballeur de club ou amateur</div></div>
           <div class="role-tile" data-role="entraineur" onclick="pickRole('entraineur',this)"><div class="rt-icon">📋</div><div class="rt-label">Entraîneur</div><div class="rt-desc">Coach ou staff technique</div></div>
           <div class="role-tile" data-role="arbitre" onclick="pickRole('arbitre',this)"><div class="rt-icon">🟨</div><div class="rt-label">Arbitre</div><div class="rt-desc">Officiel de match</div></div>
-          <div class="role-tile" data-role="club" onclick="pickRole('club',this)"><div class="rt-icon">🏟️</div><div class="rt-label">Club sportif</div><div class="rt-desc">Représentant officiel</div></div>
+          <div class="role-tile" data-role="club" onclick="pickRole('club',this)"><div class="rt-icon">🏟️</div><div class="rt-label">Club de football</div><div class="rt-desc">Représentant officiel</div></div>
           <div class="role-tile" data-role="federation" onclick="pickRole('federation',this)"><div class="rt-icon">🏛️</div><div class="rt-label">Fédération</div><div class="rt-desc">Instance nationale</div></div>
           <div class="role-tile" data-role="independant" onclick="pickRole('independant',this)"><div class="rt-icon">🧍</div><div class="rt-label">Indépendant</div><div class="rt-desc">Footballeur sans structure</div></div>
-          <div class="role-tile" data-role="association" onclick="pickRole('association',this)"><div class="rt-icon">🤝</div><div class="rt-label">Association</div><div class="rt-desc">Organisation sportive</div></div>
-          <div class="role-tile" data-role="eleve_etudiant" onclick="pickRole('eleve_etudiant',this)"><div class="rt-icon">🎓</div><div class="rt-label">Élève / Étudiant</div><div class="rt-desc">Espoir sportif</div></div>
-          <div class="role-tile" data-role="organisateur" onclick="pickRole('organisateur',this)"><div class="rt-icon">🎪</div><div class="rt-label">Organisateur</div><div class="rt-desc">Événements et compétitions sportives</div></div>
+          <div class="role-tile" data-role="association" onclick="pickRole('association',this)"><div class="rt-icon">🤝</div><div class="rt-label">Association</div><div class="rt-desc">Organisation de football</div></div>
+          <div class="role-tile" data-role="eleve_etudiant" onclick="pickRole('eleve_etudiant',this)"><div class="rt-icon">🎓</div><div class="rt-label">Élève / Étudiant</div><div class="rt-desc">Espoir du football</div></div>
+          <div class="role-tile" data-role="organisateur" onclick="pickRole('organisateur',this)"><div class="rt-icon">🎪</div><div class="rt-label">Organisateur</div><div class="rt-desc">Événements et compétitions de football</div></div>
           <div class="role-tile" data-role="supporter" onclick="pickRole('supporter',this)"><div class="rt-icon">💗</div><div class="rt-label">Supporter</div><div class="rt-desc">Fan d'un club de football</div></div>
           <div class="role-tile" data-role="sportif_etranger" onclick="pickRole('sportif_etranger',this)"><div class="rt-icon">🌍</div><div class="rt-label">Footballeur étranger</div><div class="rt-desc">Pratique au Gabon, nationalité étrangère</div></div>
           <div class="role-tile" data-role="gabonais_diaspora" onclick="pickRole('gabonais_diaspora',this)"><div class="rt-icon">🇬🇦</div><div class="rt-label">Gabonais footballeur à l’étranger</div><div class="rt-desc">Gabonais pratiquant hors du Gabon</div></div>
@@ -226,9 +226,9 @@
     <div id="s2a" style="display:none;">
       <div class="card-header">
         <button class="btn-back" onclick="show('s1a')">← Retour</button>
-        <div class="card-title" id="a-title">Mon profil sportif</div>
+        <div class="card-title" id="a-title">Mon profil football</div>
         <div class="card-sub">Complétez vos informations</div>
-        <div class="account-tag acteur" id="a-tag">🏅 Acteur Sportif</div>
+        <div class="account-tag acteur" id="a-tag">🏅 Acteur du football</div>
         <div class="step-bar">
           <div class="step-dot done">✓<span class="step-lbl">Type</span></div>
           <div class="step-line done"></div>
@@ -633,7 +633,7 @@
         <div class="cb-row"><input type="checkbox" id="a-cgu" checked/><label for="a-cgu">J'accepte les <a style="color:var(--green-dk);font-weight:600;">Conditions Générales</a> et la <a style="color:var(--green-dk);font-weight:600;">Politique de confidentialité</a>.</label></div>
         <div class="cb-row"><input type="checkbox" id="a-exact"/><label for="a-exact">Je certifie que les informations fournies sont exactes et me concernent personnellement.</label></div>
         <div id="a-err" class="err-msg"></div>
-        <button class="btn-p" id="a-btn" onclick="submitActeur()">Créer mon profil sportif →</button>
+        <button class="btn-p" id="a-btn" onclick="submitActeur()">Créer mon profil football →</button>
       </div>
     </div>
 
@@ -649,7 +649,7 @@
             <div><div style="font-weight:700;font-size:13.5px;" id="sv-name"></div><div class="vp-badge">👁️ MEMBRE VISITEUR</div></div>
           </div>
           <div style="font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--gray-txt);margin-bottom:8px;">Vos permissions</div>
-          <div class="perm-item y">✅ Consulter l'annuaire des acteurs sportifs</div>
+          <div class="perm-item y">✅ Consulter l'annuaire des acteurs du football</div>
           <div class="perm-item y">✅ Lire actualités, résultats &amp; calendriers</div>
           <div class="perm-item y">✅ Explorer la carte des sites sportifs</div>
           <div class="perm-item y">✅ Sauvegarder des favoris personnels</div>
@@ -658,10 +658,10 @@
         <div class="next-steps">
           <div class="ns"><div class="ns-num">1</div><div>Confirmez votre email (vérifiez vos spams si besoin)</div></div>
           <div class="ns"><div class="ns-num">2</div><div>Connectez-vous et explorez l'annuaire national</div></div>
-          <div class="ns"><div class="ns-num">3</div><div>Envie de rejoindre l'annuaire ? Convertissez votre compte en Acteur Sportif depuis votre profil</div></div>
+          <div class="ns"><div class="ns-num">3</div><div>Envie de rejoindre l'annuaire ? Convertissez votre compte en Acteur du football depuis votre profil</div></div>
         </div>
         <button class="btn-p blue" onclick="goHome('login')">Se connecter</button>
-        <button class="btn-sec" onclick="show('s1a')">↗ Créer un compte Acteur Sportif à la place</button>
+        <button class="btn-sec" onclick="show('s1a')">↗ Créer un compte Acteur du football à la place</button>
       </div>
     </div>
 
@@ -670,12 +670,12 @@
       <div class="success-wrap fade-in">
         <div class="success-ico g">🏅</div>
         <div class="success-title">Profil créé, <span id="sa-prenom"></span> !</div>
-        <div class="success-desc">Votre fiche <strong>Acteur Sportif</strong> est active et visible dans l'annuaire national.</div>
+        <div class="success-desc">Votre fiche <strong>Acteur du football</strong> est active et visible dans l'annuaire national.</div>
         <div class="perms-box green" style="text-align:left;margin-bottom:14px;">
-          <div class="perms-title g">🏅 Votre compte Acteur Sportif</div>
+          <div class="perms-title g">🏅 Votre compte Acteur du football</div>
           <div class="perm-item y">✅ Fiche dans l'annuaire national</div>
           <div class="perm-item y">✅ Carte GSC officielle &amp; QR code personnel</div>
-          <div class="perm-item y">✅ Gestion complète de votre profil sportif</div>
+          <div class="perm-item y">✅ Gestion complète de votre profil football</div>
           <div class="perm-item y">✅ Accès aux outils — rôle : <strong id="sa-role"></strong></div>
           <div class="perm-item" style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(0,158,96,.2);">
             <span style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--green-dk);display:block;margin-bottom:4px;">Votre identifiant GSC (QR Code)</span>
@@ -835,7 +835,7 @@
 
   const ROLE_LABELS = {
     joueur:'⚽ Joueur', athlete:'🏃 Athlète', entraineur:'📋 Entraîneur', arbitre:'🟨 Arbitre',
-    club:'🏟️ Club sportif', federation:'🏛️ Fédération', independant:'🧍 Indépendant',
+    club:'🏟️ Club de football', federation:'🏛️ Fédération', independant:'🧍 Indépendant',
     association:'🤝 Association', eleve_etudiant:'🎓 Élève / Étudiant',
     handisport:'🦾 Sportif handisport', organisateur:'🎪 Organisateur',
     supporter:'💗 Supporter', gabonais_diaspora:'🇬🇦 Gabonais footballeur à l’étranger', sportif_etranger:'🌍 Footballeur étranger', ancien_sportif:'🎖️ Ancien footballeur',
@@ -1556,7 +1556,7 @@ function sbError(e) {
     } catch(e) {
       errMsg('a-err', sbError(e));
     } finally {
-      btn.disabled = false; btn.textContent = 'Créer mon profil sportif →';
+      btn.disabled = false; btn.textContent = 'Créer mon profil football →';
     }
   }
 

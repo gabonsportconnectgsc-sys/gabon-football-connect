@@ -1769,7 +1769,7 @@ body.dark::before,body.dark-mode::before,[data-theme="dark"] body::before,html[d
         </button>
       </div>
 
-      <!-- Tuiles par groupe d'acteur sportif -->
+      <!-- Tuiles par groupe d'acteur du football -->
       <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--green);margin:16px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--green-lt);">
         🏅 Acteurs sportifs
       </div>
@@ -1856,13 +1856,13 @@ body.dark::before,body.dark-mode::before,[data-theme="dark"] body::before,html[d
           <div class="stat-lbl" style="color:#1a2d4a;text-shadow:none;">Footballeurs étrangers</div>
         </button>
 
-        <!-- Sportifs handisport -->
+        <!-- Footballeurs handisport -->
         <button class="stat-card" onclick="showView('annuaire');filterActors('handisport')"
           style="background:linear-gradient(135deg,#b45309,#78350f);padding:16px 12px;">
           <img class="stat-wm" data-wm-role="handisport" alt="" onload="this.classList.add('is-loaded')" onerror="this.classList.remove('is-loaded');this.removeAttribute('src')">
           <span style="font-size:46px;margin-bottom:14px;display:inline-block;align-self:flex-end;position:relative;z-index:2;">🦾</span>
           <div class="stat-val" id="stat-total-handisport">—</div>
-          <div class="stat-lbl" style="color:#ede9fe;">Sportifs handisport</div>
+          <div class="stat-lbl" style="color:#ede9fe;">Footballeurs handisport</div>
         </button>
 
         <!-- Anciens footballeurs -->
@@ -2223,7 +2223,7 @@ body.dark::before,body.dark-mode::before,[data-theme="dark"] body::before,html[d
               <span style="font-size:18px;line-height:1;">🇬🇦</span>Gabonais de l’étranger
             </button>
             <button class="actor-filter-btn" data-type="handisport" onclick="filterActors('handisport')" style="--abtn-color:#7c3aed;">
-              <span style="font-size:18px;line-height:1;">🦾</span>Sportifs handisport
+              <span style="font-size:18px;line-height:1;">🦾</span>Footballeurs handisport
             </button>
             <button class="actor-filter-btn" data-type="ancien_sportif" onclick="filterActors('ancien_sportif')" style="--abtn-color:#9f1239;">
               <span style="font-size:18px;line-height:1;">🎖️</span>Anciens footballeurs
@@ -2608,7 +2608,7 @@ body.dark::before,body.dark-mode::before,[data-theme="dark"] body::before,html[d
       </div>
       <div class="admin-section" id="admin-section-acteurs">
 
-        <!-- Tuiles cliquables par catégorie d'acteur sportif -->
+        <!-- Tuiles cliquables par catégorie d'acteur du football -->
         <div class="card fade-up" style="margin-bottom:14px;">
           <div class="card-header">
             <div class="card-title">🏅 Acteurs du football <span id="admin-acteurs-total-badge" style="font-size:13px;color:var(--gray-txt);font-weight:500;"></span></div>
@@ -4891,7 +4891,7 @@ function updateAnnuaireAddActorCta(){
 }
 
 // Redirige vers la page d'inscription en présélectionnant automatiquement le type
-// de compte ("Acteur Sportif") et le rôle correspondant à la catégorie/tuile active
+// de compte ("Acteur du football") et le rôle correspondant à la catégorie/tuile active
 // dans l'annuaire, pour épargner au visiteur les étapes "Type" et "Rôle".
 function goToInscriptionWithRole(){
   const role = (currentActorType && currentActorType!=='tous' && ANNUAIRE_ADD_PHRASE[currentActorType]) ? currentActorType : '';
@@ -5028,7 +5028,7 @@ function renderActors(actors){
     if(groupAll){
       // Regroupement intelligent par rôle, ordre professionnel : Joueurs → Encadrement → Officiels → Organisations
       const GROUP_ORDER=['joueur','athlete','entraineur','arbitre','eleve_etudiant','ecole_universite','gabonais_diaspora', 'sportif_etranger','handisport','ancien_sportif','formateur','club','federation','association','organisateur','independant','supporter','admin'];
-      const GROUP_LABELS={joueur:'⚽ Joueurs',athlete:'🏃 Athlètes',entraineur:'📋 Entraîneurs',arbitre:'🟨 Arbitres',club:'🏟️ Clubs',federation:'🏛️ Fédérations',association:'🤝 Associations',organisateur:'🎪 Organisateurs',independant:'🚴 Indépendants',supporter:'💗 Supporters',admin:'⚙️ Administrateurs',eleve_etudiant:'🎓 Élèves / Étudiants',gabonais_diaspora:'🇬🇦 Footballeur gabonais de l’étranger', sportif_etranger:'🌍 Footballeurs étrangers',handisport:'🦾 Sportifs handisport',ancien_sportif:'🎖️ Anciens footballeurs',formateur:'🧑‍🏫 Formateurs',ecole_universite:'🏫 Écoles / Universités'};
+      const GROUP_LABELS={joueur:'⚽ Joueurs',athlete:'🏃 Athlètes',entraineur:'📋 Entraîneurs',arbitre:'🟨 Arbitres',club:'🏟️ Clubs',federation:'🏛️ Fédérations',association:'🤝 Associations',organisateur:'🎪 Organisateurs',independant:'🚴 Indépendants',supporter:'💗 Supporters',admin:'⚙️ Administrateurs',eleve_etudiant:'🎓 Élèves / Étudiants',gabonais_diaspora:'🇬🇦 Footballeur gabonais de l’étranger', sportif_etranger:'🌍 Footballeurs étrangers',handisport:'🦾 Footballeurs handisport',ancien_sportif:'🎖️ Anciens footballeurs',formateur:'🧑‍🏫 Formateurs',ecole_universite:'🏫 Écoles / Universités'};
       const buckets={};
       actors.forEach(a=>{ const r=a.role||'joueur'; (buckets[r]=buckets[r]||[]).push(a); });
       orderedActors=[];
@@ -5474,7 +5474,7 @@ function renderProfile(){
   const becomeSuppCard=document.getElementById('prof-become-supporter-card');
   if(becomeSuppCard) becomeSuppCard.style.display=(isPersonnel&&!isSupporter)?'':'none';
 
-  // Gallery card — visible pour tous les membres inscrits (rôles acteurs sportifs)
+  // Gallery card — visible pour tous les membres inscrits (rôles acteurs du football)
   const allActorRoles=['joueur','athlete','arbitre','entraineur','independant','eleve_etudiant','gabonais_diaspora', 'sportif_etranger','handisport','ancien_sportif','formateur','club','association','federation','organisateur','ecole_universite'];
   const gallCard=document.getElementById('prof-gallery-card');
   if(gallCard){
@@ -5723,7 +5723,7 @@ function buildEditForm(p){
     h+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
       <div class="form-group"><label>Type</label>
         <select id="edit-type-org">
-          <option${p.typeOrganisation==='Club sportif'?' selected':''}>Club de football</option>
+          <option${p.typeOrganisation==='Club de football'?' selected':''}>Club de football</option>
           <option${p.typeOrganisation==='Association'?' selected':''}>Association</option>
           <option${p.typeOrganisation==='Comité sportif'?' selected':''}>Comité de football</option>
           <option${p.typeOrganisation==="Organisation de tournois"?' selected':''}>Organisation de tournois</option>
@@ -5988,7 +5988,7 @@ async function saveProfile(){
   if(isOrg){
     Object.assign(updates,{
       nomOrganisation:document.getElementById('edit-nom-org')?.value.trim()||'',
-      typeOrganisation:document.getElementById('edit-type-org')?.value||'Club sportif',
+      typeOrganisation:document.getElementById('edit-type-org')?.value||'Club de football',
       sport:(document.getElementById('edit-sport')?.value||'').replace(/^[^\w]+/,'').trim(),
       president:document.getElementById('edit-president')?.value.trim()||'',
       anneeCreation:document.getElementById('edit-annee')?.value||'',
