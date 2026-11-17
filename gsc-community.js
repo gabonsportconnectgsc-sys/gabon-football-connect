@@ -49,7 +49,6 @@
      une reconnaissance visuelle immédiate et cohérente dans toute l'app. */
   const ROLE_CATS = [
     { key: 'joueur', icon: '⚽', label: 'Joueurs', color: '#009E60', colorDk: '#007a47' },
-    { key: 'athlete', icon: '🏃', label: 'Athlètes', color: '#0891b2', colorDk: '#0e7490' },
     { key: 'arbitre', icon: '🟨', label: 'Arbitres', color: '#f59e0b', colorDk: '#d97706' },
     { key: 'entraineur', icon: '📋', label: 'Entraîneurs', color: '#0d9488', colorDk: '#0f766e' },
     { key: 'club', icon: '🏟️', label: 'Clubs', color: '#f97316', colorDk: '#c2410c' },
