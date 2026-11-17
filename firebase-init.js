@@ -1,0 +1,57 @@
+/* ═══════════════════════════════════════════════════════════════
+   FIREBASE-INIT.JS — Initialisation Firebase (SDK compat)
+   Projet partagé avec index.html : gabon-football-connect
+   ═══════════════════════════════════════════════════════════════
+   NOTE SÉCURITÉ :
+   La clé API Firebase ci-dessous N'EST PAS un secret. Elle identifie
+   le projet Firebase auprès de Google, elle n'authentifie personne.
+   Elle est destinée à être publique dans le code d'une app web
+   (voir doc officielle Firebase / Google Cloud).
+   L'obfuscation par concaténation de chaînes n'apporte AUCUNE
+   protection réelle — elle a été retirée pour ne pas donner une
+   fausse impression de sécurité.
+
+   La vraie protection contre les abus repose sur DEUX couches :
+   1. Restriction de la clé par domaine dans Google Cloud Console
+      → API et services → Identifiants (déjà configuré pour ce
+      projet : firebaseapp.com, web.app, github.io)
+   2. Firestore Security Rules strictes (à vérifier/renforcer dans
+      la console Firebase → Firestore → Règles)
+   Ne JAMAIS considérer la clé API comme la barrière de sécurité.
+   ═══════════════════════════════════════════════════════════════ */
+(function () {
+  const FIREBASE_CONFIG = {
+    apiKey: "AIzaSyCGqoecHxVd6_Nn9KedLy68xPkp7hI8Fd0",
+    authDomain: "gabon-football-connect.firebaseapp.com",
+    projectId: "gabon-football-connect",
+    storageBucket: "gabon-football-connect.firebasestorage.app",
+    messagingSenderId: "594012138316",
+    appId: "1:594012138316:web:904dd4ec38aaea7ac5bde9"
+  };
+
+  try {
+    if (typeof firebase === 'undefined') {
+      throw new Error('SDK Firebase (compat) non chargé — vérifiez les balises <script> firebase-app-compat.js / firebase-firestore-compat.js');
+    }
+    if (!firebase.apps.length) {
+      firebase.initializeApp(FIREBASE_CONFIG);
+      try {
+        if (firebase.appCheck) {
+          var h = location.hostname, dbg = false;
+          try { dbg = localStorage.getItem('gsc_appcheck_debug') === '1'; } catch (_) {}
+          if (dbg || h === 'localhost' || h === '127.0.0.1') self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+          firebase.appCheck().activate(new firebase.appCheck.ReCaptchaEnterpriseProvider('6Le-IO8tAAAAAM1cFa1-bveDlz9B-mI4WnuGm6jm'), true);
+        }
+      } catch (e) { console.warn('[AppCheck] non initialise', e); }
+    }
+    window.db = firebase.firestore();
+    window.storage = (typeof firebase.storage === 'function') ? firebase.storage() : null;
+    window._firebaseReady = true;
+    console.log('✅ Firebase initialisé (gabon-football-connect)');
+    document.dispatchEvent(new Event('firebase-ready'));
+  } catch (e) {
+    console.error('❌ Erreur initialisation Firebase :', e);
+    window._firebaseReady = false;
+    window.dispatchEvent(new CustomEvent('firebase-init-error', { detail: { error: e.message } }));
+  }
+})();
