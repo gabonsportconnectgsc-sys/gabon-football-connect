@@ -12,7 +12,10 @@
       "firestore.rules",
       "*.md",
       "*.cjs",
-      ".github/**"
+      ".github/**",
+      "**/*.bak*",
+      "diag*.txt",
+      "migrer.html"
     ],
     "rewrites": [
       {
