@@ -15,7 +15,7 @@
    on passe en stratégie "network-first / stale-while-revalidate" pour les
    fichiers JS/CSS de l'app (voir plus bas) afin que ce problème ne se
    reproduise plus à chaque futur correctif. */
-const CACHE_NAME = 'gsc-v74';
+const CACHE_NAME = 'gsc-v75';
 // ── NOUVEAU — cache dédié au Web Share Target (POST), voir handleShareTarget()
 // et le handler 'fetch' plus bas. Séparé de CACHE_NAME pour ne jamais être
 // purgé par la logique de versioning de l'app (activate ci-dessous).
@@ -23,6 +23,7 @@ const SHARE_CACHE = 'gsc-share-target-v1';
 const URLS_TO_CACHE = [
   'icon-192-round.png',
   'icon-512-round.png',
+  'img/fond-stade.webp',
   './offline.js',
   'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js',
   'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js',

@@ -1195,6 +1195,11 @@
     .form-section{margin-bottom:18px;}
     .btn-icon-danger{background:none;border:1px solid var(--gray-bd);color:var(--danger);border-radius:6px;width:28px;height:28px;flex-shrink:0;cursor:pointer;font-size:13px;}
     .btn-icon-danger:hover{background:var(--danger);color:#fff;border-color:var(--danger);}
+
+/* fond-stade-filigrane */
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:url("img/fond-stade.webp") center center/cover no-repeat;opacity:.14;}
+@media (prefers-color-scheme:dark){body::before{opacity:.10;}}
+body.dark::before,body.dark-mode::before,[data-theme="dark"] body::before,html[data-theme="dark"] body::before{opacity:.10;}
 </style>
 <style>.gsc-ico-user{flex-shrink:0;vertical-align:middle}</style>
 <style>/* __gscWaHide */
