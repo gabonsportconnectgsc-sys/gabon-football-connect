@@ -8367,13 +8367,13 @@ document.addEventListener('DOMContentLoaded', function(){
   if (typeof window._applyDashboardWatermarks === 'function') window._applyDashboardWatermarks();
 });
 document.addEventListener('DOMContentLoaded', function() {
-  // Add Sport Gabon quick button to both action grids
+  // Add Football Gabon quick button to both action grids
   const ballImg = `<img src="${SPORT_IMG.football}" style="width:30px;height:30px;border-radius:8px;object-fit:cover;flex-shrink:0;box-shadow:0 1px 4px rgba(0,0,0,.15);" alt="" onerror="this.style.display='none'">`;
   const sportBtn = (txt) => `<button class="quick-btn" onclick="showView('sport')">${ballImg}${txt}</button>`;
   const qa1 = document.getElementById('quick-actions-auth');
   const qa2 = document.getElementById('quick-actions-visitor');
-  if (qa1) qa1.insertAdjacentHTML('afterbegin', sportBtn('Sport Gabon'));
-  if (qa2) qa2.insertAdjacentHTML('afterbegin', sportBtn('Sport Gabon'));
+  if (qa1) qa1.insertAdjacentHTML('afterbegin', sportBtn('Football Gabon'));
+  if (qa2) qa2.insertAdjacentHTML('afterbegin', sportBtn('Football Gabon'));
 
   // ── INIT DIGITAL CLOCK & WEATHER ──
   initDashboardClock();
