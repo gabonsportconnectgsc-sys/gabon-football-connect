@@ -20,7 +20,7 @@
       return Promise.reject(new Error('Service Worker not supported'));
     }
 
-    return navigator.serviceWorker.register('/service-worker.js', {
+    return navigator.serviceWorker.register('service-worker.js', {
       scope: '/',
       updateViaCache: 'none'
     })

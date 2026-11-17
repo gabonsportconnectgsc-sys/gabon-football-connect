@@ -311,7 +311,7 @@
     // Importer le storage manager si disponible
     if (document.readyState === 'loading') {
       const script = document.createElement('script');
-      script.src = '/storage-manager.js';
+      script.src = 'storage-manager.js';
       script.onload = loadCachedData;
       document.head.appendChild(script);
     }
