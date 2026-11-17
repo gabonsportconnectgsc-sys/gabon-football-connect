@@ -12,3 +12,5 @@ node_modules/
 diag*.txt
 migrer.html
 *.bak*
+*.bak-gfc
+*.bak2-gfc

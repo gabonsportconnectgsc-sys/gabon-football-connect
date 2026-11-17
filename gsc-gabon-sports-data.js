@@ -47,70 +47,6 @@
       sourceNote: "Comité exécutif maintenu en fonction par la FIFA/CAF jusqu'aux élections, échéance au plus tard le 31/12/2026.",
     },
     {
-      id: 'FEGABASKET', nom: 'Fédération Gabonaise de Basketball', sigle: 'FEGABAB', sport: 'Basketball', type: 'federation',
-      president: 'Willy Conrad Asseko',
-      secretaireGeneral: '',
-      adresse: 'B.P. 679, Libreville',
-      telephone: '', email: '', siteWeb: '',
-      sourceNote: '',
-    },
-    {
-      id: 'FGHAND', nom: 'Fédération Gabonaise de Handball', sigle: 'FEGAHAND', sport: 'Handball', type: 'federation',
-      president: 'Général Sylvain Florient Pangou Mbembo',
-      secretaireGeneral: '',
-      adresse: 'Libreville',
-      telephone: '', email: '', siteWeb: '',
-      sourceNote: 'Réélu le 02/08/2025 pour un 2e mandat de 4 ans. Occupe aussi la présidence du CNOSG depuis mai 2026.',
-    },
-    {
-      id: 'FGVOLLEY', nom: 'Fédération Gabonaise de Volleyball', sigle: 'FEGAVOLLEY', sport: 'Volleyball', type: 'federation',
-      president: 'Raymond Bernard Bivigou',
-      secretaireGeneral: '',
-      adresse: 'Angondjè, Libreville',
-      telephone: '', email: '', siteWeb: '',
-      sourceNote: 'Réélu candidat unique, mandat depuis le 13/01/2024 (4 ans).',
-    },
-    {
-      id: 'FGA', nom: "Fédération Gabonaise d'Athlétisme", sigle: 'FGA', sport: 'Athlétisme', type: 'federation',
-      president: 'Anaclet Mathieu Taty',
-      secretaireGeneral: '',
-      adresse: 'Libreville',
-      telephone: '', email: '', siteWeb: '',
-      sourceNote: 'Taty est également Secrétaire Général du CNOSG depuis mai 2026.',
-    },
-    {
-      id: 'FGBOXE', nom: 'Fédération Gabonaise de Boxe', sigle: 'FGBOXE', sport: 'Boxe', type: 'federation',
-      president: '',
-      secretaireGeneral: '',
-      adresse: '',
-      telephone: '', email: '', siteWeb: '',
-      sourceNote: 'Présidence vacante publiquement rapportée (démission de Bonaventure Nzigou Manfoumbi) — à confirmer/actualiser.',
-    },
-    {
-      id: 'FGNAT', nom: 'Fédération Gabonaise de Natation', sigle: 'FEGANA', sport: 'Natation', type: 'federation',
-      president: 'Stéphane Soami Mabiala',
-      secretaireGeneral: '',
-      adresse: 'Libreville',
-      telephone: '', email: '', siteWeb: '',
-      sourceNote: 'Élu le 04/04/2024, succède à Crésant Pambo.',
-    },
-    {
-      id: 'FGJUDO', nom: 'Fédération Gabonaise de Judo', sigle: 'FGJUDO', sport: 'Judo', type: 'federation',
-      president: '',
-      secretaireGeneral: '',
-      adresse: '',
-      telephone: '', email: '', siteWeb: '',
-      sourceNote: 'Présidence non confirmée par une source publique fiable au moment de la rédaction.',
-    },
-    {
-      id: 'FGTKD', nom: 'Fédération Gabonaise de Taekwondo', sigle: 'FEGATAE', sport: 'Taekwondo', type: 'federation',
-      president: 'Me Denis Mboumba',
-      secretaireGeneral: '',
-      adresse: 'Akanda, Libreville',
-      telephone: '', email: '', siteWeb: '',
-      sourceNote: '',
-    },
-    {
       id: 'CNOSG', nom: 'Comité National Olympique et Sportif Gabonais', sigle: 'CNOSG', sport: 'Multisports', type: 'federation',
       president: 'Général Sylvain Florient Pangou Mbembo',
       secretaireGeneral: 'Anaclet Mathieu Taty',
@@ -178,8 +114,6 @@
   const AUTRES_STRUCTURES = [
     { id: 'cff-mounana',       nom: 'CFF Mounana',                   ville: 'Mounana',      sport: 'Football', division: 'National Foot 2 (relégué 2025)', federationId: 'FEGAFOOT', type: 'club', validationCapable: true },
     { id: 'cs-bendje',         nom: 'CS Bendjé',                     ville: 'Port-Gentil',  sport: 'Football', division: 'National Foot 2 (relégué 2025)', federationId: 'FEGAFOOT', type: 'club', validationCapable: true },
-    { id: 'bc-libreville',     nom: 'BC Libreville',                 ville: 'Libreville',   sport: 'Basketball', division: 'Championnat national', federationId: 'FEGABASKET', type: 'club', validationCapable: true },
-    { id: 'patronage-ste-marie', nom: 'Patronage Sainte-Marie',      ville: 'Libreville',   sport: 'Basketball', division: 'Championnat national', federationId: 'FEGABASKET', type: 'club', validationCapable: true },
     { id: 'asptt-libreville',  nom: 'ASPTT Libreville',              ville: 'Libreville',   sport: 'Multisports', division: '—', federationId: null, type: 'club', validationCapable: true },
   ];
 
@@ -196,10 +130,7 @@
   const ALL_CLUBS = [].concat(CLUBS_D1_FOOTBALL_2025_2026, AUTRES_STRUCTURES);
   const ALL_STRUCTURES = [].concat(FEDERATIONS, ALL_CLUBS, ETABLISSEMENTS);
 
-  const SPORTS_LIST = [
-    'Football', 'Basketball', 'Handball', 'Volleyball', 'Athlétisme',
-    'Boxe', 'Natation', 'Judo', 'Taekwondo', 'Multisports',
-  ];
+  const SPORTS_LIST = ['Football'];
 
   /* ══════════════════════════════════════════════════════════════════
    * 3. HELPERS

@@ -28,7 +28,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="GSC">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <title>Gabon Football Connect — Plateforme Nationale du Sport</title>
+  <title>Gabon Football Connect — Plateforme Nationale du Football</title>
 
   <!-- ══ SEO — canonical + partage réseaux sociaux (Open Graph / Twitter Card) ══ -->
   <link rel="canonical" href="https://gabon-football-connect.web.app/" />
@@ -36,7 +36,7 @@
   <meta name="google-site-verification" content="2cQV2ku3QIzzaA8aPn35HjfvLjZY-rc60iVfhPqxrqs" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Gabon Football Connect" />
-  <meta property="og:title" content="Gabon Football Connect — Plateforme Nationale du Sport" />
+  <meta property="og:title" content="Gabon Football Connect — Plateforme Nationale du Football" />
   <meta property="og:description" content="Plateforme nationale du sport au Gabon : annuaire des clubs, fédérations, athlètes et statistiques sportives." />
   <meta property="og:url" content="https://gabon-football-connect.web.app/" />
   <meta property="og:image" content="https://gabon-football-connect.web.app/og-image.jpg?v=2" />
@@ -46,7 +46,7 @@
   <meta property="og:image:height" content="630" />
   <meta property="og:locale" content="fr_FR" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Gabon Football Connect — Plateforme Nationale du Sport" />
+  <meta name="twitter:title" content="Gabon Football Connect — Plateforme Nationale du Football" />
   <meta name="twitter:description" content="Plateforme nationale de gestion du sport au Gabon." />
   <meta name="twitter:image" content="https://gabon-football-connect.web.app/og-image.jpg?v=2" />
   <!-- og:image / twitter:image → og-image.jpg (1200×630, généré à partir du logo GSC fourni,
@@ -1201,6 +1201,7 @@
 #gsc-wa-fab,.gsc-wa-fab{display:none !important;}</style>
 <link rel="stylesheet" href="css/timeline-competitions.css">
 <link rel="stylesheet" href="css/gabonais-diaspora.css">
+<style id="gfc-hide">.stat-card:has(#stat-total-handisport),.actor-filter-btn[data-type="handisport"],.actor-filter-btn[data-type="athlete"]{display:none!important}</style>
 </head>
 <body>
 <!-- ═══ ÉCRAN DE DÉMARRAGE PERSONNALISÉ (après le splash natif de la PWA) ═══
@@ -1373,7 +1374,7 @@
       <img src="icon-topnav.png" alt="GSC" style="border-radius:50%;object-fit:cover;flex-shrink:0;image-rendering:high-quality;">
       <div class="topnav-logo-text">
         <span class="l-gabon">Gabon</span>
-        <span class="l-sport">Sport</span>
+        <span class="l-sport">Football</span>
         <span class="l-connect">Connect</span>
       </div>
       <div class="nav-menu-dropdown" id="nav-menu-dropdown">
@@ -1538,7 +1539,7 @@
         <!-- Rôle sportif -->
         <div class="form-group"><label>Rôle / Poste *</label>
           <select id="auth-register-role" onchange="toggleSupporterOptIn()">
-            <option value="joueur">⚽ Joueur / Athlète</option>
+            <option value="joueur">⚽ Joueur</option>
             <option value="entraineur">📋 Entraîneur / Coach</option>
             <option value="arbitre">🟨 Arbitre</option>
             <option value="club">🏟️ Club sportif</option>
@@ -1550,8 +1551,7 @@
             <option value="gabonais_diaspora">🇬🇦 Gabonais sportif à l’étranger</option>
 <option value="sportif_etranger">🌍 Sportif étranger</option>
             <option value="ancien_sportif">🎖️ Ancien Sportif</option>
-            <option value="handisport">🦾 Sportif handisport</option>
-            <option value="formateur">🧑‍🏫 Formateur</option>
+                        <option value="formateur">🧑‍🏫 Formateur</option>
           </select>
         </div>
         <div class="form-group" id="auth-register-sport-wrap">
@@ -1559,18 +1559,8 @@
           <select id="auth-register-sport">
             <option value="">-- Selectionner --</option>
             <option>⚽ Football</option>
-            <option>🏀 Basketball</option>
-            <option>🤾 Handball</option>
-            <option>🏐 Volleyball</option>
-            <option>🏃 Athletisme</option>
-            <option>🏊 Natation</option>
-            <option>🥊 Boxe</option>
-            <option>🥋 Judo</option>
-            <option>🎾 Tennis</option>
-            <option>🏉 Rugby</option>
-            <option>🚴 Cyclisme</option>
-            <option>🥋 Taekwondo</option>
-          </select>
+                                                <option>🏃 Athletisme</option>
+                                                                                              </select>
         </div>
         <div class="form-group" id="auth-register-supporter-wrap" style="display:none;">
           <label class="checkbox-label" style="display:flex;align-items:center;gap:8px;font-weight:600;font-size:13px;cursor:pointer;">
@@ -1675,18 +1665,7 @@
         <select id="complete-profile-sport">
           <option value="">-- Sélectionner --</option>
           <option>⚽ Football</option>
-          <option>🏀 Basketball</option>
-          <option>🤾 Handball</option>
-          <option>🏐 Volleyball</option>
-          <option>🏃 Athlétisme</option>
-          <option>🏊 Natation</option>
-          <option>🥊 Boxe</option>
-          <option>🥋 Judo</option>
-          <option>🎾 Tennis</option>
-          <option>🏉 Rugby</option>
-          <option>🚴 Cyclisme</option>
-          <option>🥋 Taekwondo</option>
-        </select>
+                                                                                                                      </select>
       </div>
       <button class="btn-sm" id="complete-profile-submit" onclick="handleCompleteProfile()" style="width:100%;padding:12px;background:var(--green);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;margin-top:6px;">Continuer</button>
       <div id="complete-profile-error" style="color:var(--danger);font-size:12.5px;margin-top:10px;text-align:center;display:none;"></div>
@@ -1769,13 +1748,13 @@
       </div>
       <div class="stats-grid fade-up" id="dashboard-landing-anchor" style="grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
 
-        <!-- Joueurs / Athlètes — joueur de football avec ballon -->
+        <!-- Joueurs — joueur de football avec ballon -->
         <button class="stat-card" onclick="showView('annuaire');filterActors('joueur')"
           style="background:linear-gradient(135deg,#009E60,#007a47);padding:16px 12px;">
           <img class="stat-wm" data-wm-role="joueur" alt="" onload="this.classList.add('is-loaded')" onerror="this.classList.remove('is-loaded');this.removeAttribute('src')">
           <img src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=80&h=80&fit=crop&auto=format" class="stat-real-icon" alt="" onerror="this.outerHTML='<span style=font-size:46px;margin-bottom:14px;display:inline-block;align-self:flex-end;>⚽</span>'">
           <div class="stat-val" id="stat-total-joueurs">—</div>
-          <div class="stat-lbl" style="color:#FFD700;">Joueurs / Athlètes</div>
+          <div class="stat-lbl" style="color:#FFD700;">Joueurs</div>
         </button>
 
         <!-- Clubs — maillots de football accrochés -->
@@ -1932,12 +1911,12 @@
 
       <!-- MENTIONS LÉGALES FOOTER ACCUEIL -->
       <div class="legal-footer fade-up">
-        <div class="legal-footer-title">🇬🇦 Gabon Football Connect — GSC</div>
-        <div style="margin-bottom:8px;">Plateforme nationale de gestion du sport gabonais</div>
+        <div class="legal-footer-title">🇬🇦 Gabon Football Connect — GFC</div>
+        <div style="margin-bottom:8px;">Plateforme nationale de gestion du football gabonais</div>
 
         <div style="background:linear-gradient(135deg,#f7d774 0%,#d4a017 35%,#b8860c 65%,#8a6d1a 100%);border:1px solid rgba(255,235,150,.55);border-radius:var(--radius-md,12px);padding:12px 14px;margin:4px 0 14px;box-shadow:0 2px 14px rgba(212,160,23,.35), 0 1px 0 rgba(255,255,255,.25) inset, 0 -8px 16px rgba(0,0,0,.12) inset;position:relative;overflow:hidden;">
           <p style="margin:0;font-size:10.5px;line-height:1.55;text-align:justify;color:#ffffff;letter-spacing:.1px;text-shadow:0 1px 2px rgba(0,0,0,.25);position:relative;z-index:1;">
-            Inspiré par la vision de modernisation du sport et de transformation numérique de l'administration publique portée par Son Excellence <strong style="color:#0a2e6e;font-variant:small-caps;letter-spacing:.6px;font-weight:800;font-size:1.2em;text-shadow:0 1px 2px rgba(0,0,0,.25);">Brice Clotaire OLIGUI NGUEMA</strong>, Président de la République, Chef de l'État, Chef du Gouvernement, ainsi que par les réformes engagées sous l'autorité de Monsieur <strong style="color:#0d3d1f;font-weight:800;">Paul Ulrich KESSANY ZATEGWA</strong>, Ministre de la Jeunesse, des Sports, du Rayonnement culturel et des Arts, chargé de la Vie associative, Gabon Football Connect (GSC) a été conçu comme une plateforme numérique destinée à accompagner la gouvernance, la modernisation et le développement durable de l'écosystème sportif gabonais.
+            Inspiré par la vision de modernisation du sport et de transformation numérique de l'administration publique portée par Son Excellence <strong style="color:#0a2e6e;font-variant:small-caps;letter-spacing:.6px;font-weight:800;font-size:1.2em;text-shadow:0 1px 2px rgba(0,0,0,.25);">Brice Clotaire OLIGUI NGUEMA</strong>, Président de la République, Chef de l'État, Chef du Gouvernement, ainsi que par les réformes engagées sous l'autorité de Monsieur <strong style="color:#0d3d1f;font-weight:800;">Paul Ulrich KESSANY ZATEGWA</strong>, Ministre de la Jeunesse, des Sports, du Rayonnement culturel et des Arts, chargé de la Vie associative, Gabon Football Connect (GFC) a été conçu comme une plateforme numérique destinée à accompagner la gouvernance, la modernisation et le développement durable de l'écosystème sportif gabonais.
           </p>
         </div>
 
@@ -2018,7 +1997,7 @@
                 <label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--gray-txt);display:block;margin-bottom:4px;">Rôle</label>
                 <select id="sf-role" class="search-input" onchange="applyScoutFilters()" style="font-size:12px;padding:8px 10px;">
                   <option value="">Tous</option>
-                  <option value="joueur">⚽ Joueur/Athlète</option>
+                  <option value="joueur">⚽ Joueur</option>
                   <option value="arbitre">🟨 Arbitre</option>
                   <option value="entraineur">📋 Entraîneur</option>
                   <option value="independant">🏃 Indépendant</option>
@@ -2028,11 +2007,10 @@
                 <label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--gray-txt);display:block;margin-bottom:4px;">Sport</label>
                 <select id="sf-sport" class="search-input" onchange="applyScoutFilters();updatePositionOptions()" style="font-size:12px;padding:8px 10px;">
                   <option value="">Tous sports</option>
-                  <option>Football</option><option>Basketball</option><option>Handball</option>
-                  <option>Volleyball</option><option>Athlétisme</option><option>Natation</option>
-                  <option>Boxe</option><option>Judo</option><option>Tennis</option><option>Rugby</option>
-                  <option>Taekwondo</option><option>Cyclisme</option><option>Lutte</option>
-                </select>
+                  <option>Football</option>
+                  
+                  
+                                  </select>
               </div>
               <div>
                 <label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--gray-txt);display:block;margin-bottom:4px;">Niveau</label>
@@ -2179,9 +2157,9 @@
               <span style="font-size:18px;line-height:1;">👥</span>Tous
             </button>
             <button class="actor-filter-btn" data-type="joueur" onclick="filterActors('joueur')" style="--abtn-color:#1a2d4a;" title="Inclut aussi les Athlètes (sport individuel)">
-              <span style="font-size:18px;line-height:1;">⚽</span>Joueurs/Athlètes
+              <span style="font-size:18px;line-height:1;">⚽</span>Joueurs
             </button>
-            <button class="actor-filter-btn" data-type="athlete" onclick="filterActors('athlete')" style="--abtn-color:#0891b2;" title="Athlètes uniquement (sous-ensemble de Joueurs/Athlètes)">
+            <button class="actor-filter-btn" data-type="athlete" onclick="filterActors('athlete')" style="--abtn-color:#0891b2;" title="Athlètes uniquement (sous-ensemble de Joueurs)">
               <span style="font-size:18px;line-height:1;">🏃</span>Athlètes seuls
             </button>
             <button class="actor-filter-btn" data-type="arbitre" onclick="filterActors('arbitre')" style="--abtn-color:#8b5cf6;">
@@ -2242,9 +2220,9 @@
             <input class="search-input" id="annuaire-search" placeholder="🔍 Nom, sport, ville…" oninput="searchAnnuaire()" style="flex:1;">
             <select class="search-input" id="annuaire-sport" onchange="searchAnnuaire()" style="flex:1;max-width:160px;">
               <option value="">Tous sports</option>
-              <option>Football</option><option>Basketball</option><option>Handball</option>
-              <option>Volleyball</option><option>Athlétisme</option><option>Natation</option>
-              <option>Boxe</option><option>Judo</option><option>Tennis</option><option>Rugby</option>
+              <option>Football</option>
+              
+              
             </select>
           </div>
         </div>
@@ -2424,13 +2402,7 @@
           <div class="sites-filters" id="site-type-filters">
             <button class="site-filter-btn active" data-stype="tous" onclick="filterSites('tous')">🗺️ Tous</button>
             <button class="site-filter-btn" data-stype="Stade" onclick="filterSites('Stade')">🏟️ Stades</button>
-            <button class="site-filter-btn" data-stype="Gymnase" onclick="filterSites('Gymnase')">🏋️ Gymnases</button>
-            <button class="site-filter-btn" data-stype="Piscine" onclick="filterSites('Piscine')">🏊 Piscines</button>
-            <button class="site-filter-btn" data-stype="Court" onclick="filterSites('Court')">🎾 Courts</button>
-            <button class="site-filter-btn" data-stype="Salle" onclick="filterSites('Salle')">🏸 Salles</button>
-            <button class="site-filter-btn" data-stype="Dojo" onclick="filterSites('Dojo')">🥋 Dojos</button>
             <button class="site-filter-btn" data-stype="Terrain" onclick="filterSites('Terrain')">⛳ Terrains</button>
-            <button class="site-filter-btn" data-stype="Piste" onclick="filterSites('Piste')">🏃 Pistes</button>
           </div>
           <div style="display:flex;gap:10px;margin-bottom:12px;">
             <input class="search-input" id="sites-search" placeholder="🔍 Nom du site…" oninput="searchSites()" style="flex:1;">
@@ -2558,8 +2530,7 @@
               <option value="gabonais_diaspora">Gabonais sportif à l’étranger</option>
 <option value="sportif_etranger">Sportif étranger</option>
               <option value="ancien_sportif">Ancien Sportif</option>
-              <option value="handisport">Sportif handisport</option>
-              <option value="formateur">Formateur</option>
+                            <option value="formateur">Formateur</option>
               <option value="admin">Admin</option>
               <option value="supporter">💗 Supporters</option>
             </select>
@@ -2572,9 +2543,9 @@
             </select>
             <select class="search-input" id="srch-sport" onchange="filterAdminUsers()">
               <option value="">Tous sports</option>
-              <option>Football</option><option>Basketball</option><option>Handball</option>
-              <option>Volleyball</option><option>Athlétisme</option><option>Natation</option>
-              <option>Boxe</option><option>Judo</option><option>Tennis</option><option>Rugby</option>
+              <option>Football</option>
+              
+              
             </select>
             <select class="search-input" id="srch-ville" onchange="filterAdminUsers()">
               <option value="">Toutes villes</option>
@@ -2628,7 +2599,7 @@
               <button class="stat-card" onclick="adminFilterActorsTile('joueur')" style="background:linear-gradient(135deg,#009E60,#007a47);padding:14px 10px;">
                 <span style="font-size:34px;margin-bottom:8px;display:inline-block;align-self:flex-end;">⚽</span>
                 <div class="stat-val" id="admin-acr-joueur" style="font-size:22px;">—</div>
-                <div class="stat-lbl" style="color:#FFD700;">Joueurs / Athlètes</div>
+                <div class="stat-lbl" style="color:#FFD700;">Joueurs</div>
               </button>
               <button class="stat-card" onclick="adminFilterActorsTile('club')" style="background:linear-gradient(135deg,#f97316,#c2410c);padding:14px 10px;">
                 <span style="font-size:34px;margin-bottom:8px;display:inline-block;align-self:flex-end;">🏟️</span>
@@ -2701,11 +2672,10 @@
             <input class="search-input" id="admin-acteurs-search" placeholder="🔍 Nom, sport, ville…" oninput="adminSearchActors()">
             <select class="search-input" id="admin-acteurs-sport" onchange="adminSearchActors()">
               <option value="">Tous sports</option>
-              <option>Football</option><option>Basketball</option><option>Handball</option>
-              <option>Volleyball</option><option>Athlétisme</option><option>Natation</option>
-              <option>Boxe</option><option>Judo</option><option>Tennis</option><option>Rugby</option>
-              <option>Taekwondo</option><option>Cyclisme</option><option>Lutte</option>
-            </select>
+              <option>Football</option>
+              
+              
+                          </select>
           </div>
           <div style="display:flex;gap:8px;">
             <button class="search-btn" onclick="adminSearchActors()">🔍 Rechercher</button>
@@ -2740,8 +2710,8 @@
             <div class="form-group">
               <label>Catégorie</label>
               <select id="news-cat">
-                <option>Football</option><option>Basketball</option><option>Handball</option>
-                <option>Athlétisme</option><option>Infrastructure</option><option>Sélection nationale</option><option>Autre</option>
+                <option>Football</option>
+                <option>Infrastructure</option><option>Sélection nationale</option><option>Autre</option>
               </select>
             </div>
             <div class="form-group"><label>Titre</label><input type="text" id="news-titre" placeholder="Titre de l'actualité…"></div>
@@ -2990,8 +2960,8 @@
             <h3>🙋 Compte Visiteur (inscrit, sans fiche sportive)</h3>
             <p>Un compte simple (prénom, nom, ville, sport favori) pour suivre l'actualité, publier et commenter dans le Forum, sans fiche sportive détaillée. Peut à tout moment s'auto-déclarer <strong>💗 Supporter</strong> depuis son profil.</p>
 
-            <h3>⚽ Acteurs individuels (11 rôles)</h3>
-            <p><strong>Joueur, Athlète, Entraîneur, Arbitre, Indépendant, Élève/Étudiant, Sportif étranger, Sportif handisport, Ancien Sportif, Formateur, Supporter.</strong> Chacun a sa propre fiche détaillée (photo, historique, palmarès…) et gère lui-même son profil et ses publications — <u>sauf exception ci-dessous</u>.</p>
+            <h3>⚽ Acteurs individuels (9 rôles)</h3>
+            <p><strong>Joueur, Entraîneur, Arbitre, Indépendant, Élève/Étudiant, Sportif étranger, Ancien Sportif, Formateur, Supporter.</strong> Chacun a sa propre fiche détaillée (photo, historique, palmarès…) et gère lui-même son profil et ses publications — <u>sauf exception ci-dessous</u>.</p>
 
             <h3>🔒 Fiche « gérée par un tiers »</h3>
             <p>Un joueur peut ne <strong>plus</strong> pouvoir éditer sa propre fiche dans deux cas précis : s'il a été <strong>réclamé et accepté</strong> par un club (le club envoie une offre de rattachement, le joueur l'accepte lui-même), ou si son niveau (National/International) le place automatiquement sous la responsabilité de sa <strong>fédération</strong>. Dans ce cas, une bannière l'indique clairement sur sa fiche, avec le nom de la structure à contacter pour toute modification.</p>
@@ -3033,7 +3003,7 @@
             <h3>⚖️ Mentions légales</h3>
             <div class="info" style="margin-bottom:14px;">Conformément aux lois en vigueur en République Gabonaise.</div>
             <h3>Éditeur de la plateforme</h3>
-            <p><strong>Gabon Football Connect (GSC)</strong><br>
+            <p><strong>Gabon Football Connect (GFC)</strong><br>
             Plateforme nationale de gestion sportive — République Gabonaise 🇬🇦</p>
             <h3>Responsable technique</h3>
             <p><strong>KOZANGUE ESSONO PATRICK BERTIN</strong><br>
@@ -3160,8 +3130,7 @@
         <option value="eleve_etudiant">🎓 Élève / Étudiant</option>
         <option value="gabonais_diaspora">🇬🇦 Gabonais sportif à l’étranger</option>
 <option value="sportif_etranger">🌍 Sportif étranger</option>
-        <option value="handisport">🦾 Sportif handisport</option>
-        <option value="ancien_sportif">🎖️ Ancien Sportif</option>
+                <option value="ancien_sportif">🎖️ Ancien Sportif</option>
         <option value="formateur">🧑‍🏫 Formateur</option>
         <option value="ecole_universite">🏫 École / Université</option>
         <option value="admin">⚙️ Admin</option>
@@ -3169,9 +3138,9 @@
     </div>
     <div class="form-group"><label>Sport</label>
       <select id="admin-edit-sport">
-        <option>Football</option><option>Basketball</option><option>Handball</option>
-        <option>Volleyball</option><option>Athlétisme</option><option>Natation</option>
-        <option>Boxe</option><option>Judo</option><option>Tennis</option><option>Rugby</option>
+        <option>Football</option>
+        
+        
         <option>Multi-sports</option>
       </select>
     </div>
@@ -3242,7 +3211,7 @@ let currentDetailActorUid = null;
 
 const ROLE_LABELS = {
   admin:'⚙️ Administrateur', federation:'🏛️ Fédération', club:'🏟️ Club',
-  association:'🤝 Association', joueur:'⚽ Joueur / Athlète', athlete:'🏃 Athlète', arbitre:'🟨 Arbitre',
+  association:'🤝 Association', joueur:'⚽ Joueur', athlete:'🏃 Athlète', arbitre:'🟨 Arbitre',
   entraineur:'📋 Entraîneur', visiteur:'👁️ Visiteur', independant:'🧍 Sportif indépendant',
   organisateur:'🎪 Organisateur', supporter:'💗 Supporter',
   eleve_etudiant:'🎓 Élève / Étudiant', gabonais_diaspora:'🇬🇦 Gabonais sportif à l’étranger', sportif_etranger:'🌍 Sportif étranger',
@@ -5000,7 +4969,7 @@ function renderActors(actors){
     if(groupAll){
       // Regroupement intelligent par rôle, ordre professionnel : Joueurs → Encadrement → Officiels → Organisations
       const GROUP_ORDER=['joueur','athlete','entraineur','arbitre','eleve_etudiant','ecole_universite','gabonais_diaspora', 'sportif_etranger','handisport','ancien_sportif','formateur','club','federation','association','organisateur','independant','supporter','admin'];
-      const GROUP_LABELS={joueur:'⚽ Joueurs / Athlètes',athlete:'🏃 Athlètes',entraineur:'📋 Entraîneurs',arbitre:'🟨 Arbitres',club:'🏟️ Clubs',federation:'🏛️ Fédérations',association:'🤝 Associations',organisateur:'🎪 Organisateurs',independant:'🚴 Indépendants',supporter:'💗 Supporters',admin:'⚙️ Administrateurs',eleve_etudiant:'🎓 Élèves / Étudiants',gabonais_diaspora:'🇬🇦 Gabonais de l’étranger', sportif_etranger:'🌍 Sportifs étrangers',handisport:'🦾 Sportifs handisport',ancien_sportif:'🎖️ Anciens Sportifs',formateur:'🧑‍🏫 Formateurs',ecole_universite:'🏫 Écoles / Universités'};
+      const GROUP_LABELS={joueur:'⚽ Joueurs',athlete:'🏃 Athlètes',entraineur:'📋 Entraîneurs',arbitre:'🟨 Arbitres',club:'🏟️ Clubs',federation:'🏛️ Fédérations',association:'🤝 Associations',organisateur:'🎪 Organisateurs',independant:'🚴 Indépendants',supporter:'💗 Supporters',admin:'⚙️ Administrateurs',eleve_etudiant:'🎓 Élèves / Étudiants',gabonais_diaspora:'🇬🇦 Gabonais de l’étranger', sportif_etranger:'🌍 Sportifs étrangers',handisport:'🦾 Sportifs handisport',ancien_sportif:'🎖️ Anciens Sportifs',formateur:'🧑‍🏫 Formateurs',ecole_universite:'🏫 Écoles / Universités'};
       const buckets={};
       actors.forEach(a=>{ const r=a.role||'joueur'; (buckets[r]=buckets[r]||[]).push(a); });
       orderedActors=[];
@@ -5610,7 +5579,7 @@ function buildEditForm(p){
     </div>`;
 
     h+=`<div class="section-divider orange">🏅 Informations sportives</div>`;
-    const sports=['Football','Basketball','Handball','Volleyball','Athlétisme','Natation','Boxe','Judo','Tennis','Rugby','Cyclisme','Taekwondo'];
+    const sports=['Football'];
     const sportIcons={'Football':'⚽','Basketball':'🏀','Handball':'🤾','Volleyball':'🏐','Athlétisme':'🏃','Natation':'🏊','Boxe':'🥊','Judo':'🥋','Tennis':'🎾','Rugby':'🏉','Cyclisme':'🚴','Taekwondo':'🥋'};
     h+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
       <div class="form-group"><label>Sport</label>
@@ -6152,7 +6121,6 @@ const GSC_SITES_DATA = [
   {id:'seed-s01',nom:'Stade Omnisport Omar Bongo',type:'Stade',ville:'Libreville',lat:0.391806,lng:9.452167,capacite:40000,verified:true},
   {id:'seed-s02',nom:"Stade de l'Amitié Sino-Gabonaise (Angondjé)",type:'Stade',ville:'Libreville',lat:0.52222,lng:9.39333,capacite:40000,verified:true},
   {id:'seed-s03',nom:'Stade Augustin Monédan (Sibang)',type:'Stade',ville:'Libreville',lat:0.4225,lng:9.4790,capacite:7000,verified:true},
-  {id:'seed-s04',nom:'Palais des Sports de Libreville',type:'Salle',ville:'Libreville',lat:0.39472,lng:9.45278,capacite:6000,verified:true},
   {id:'seed-s05',nom:'Stade de Franceville',type:'Stade',ville:'Franceville',lat:-1.6333,lng:13.5833,capacite:22000,verified:true},
   {id:'seed-s06',nom:"Stade d'Oyem",type:'Stade',ville:'Oyem',lat:1.7066,lng:11.6451,capacite:20500,verified:true},
   {id:'seed-s07',nom:'Stade de Port-Gentil',type:'Stade',ville:'Port-Gentil',lat:-0.805361,lng:8.803806,capacite:20000,verified:true},
@@ -6160,18 +6128,9 @@ const GSC_SITES_DATA = [
   {id:'seed-s09',nom:'Stade Gaston Peyrille',type:'Stade',ville:'Bitam',lat:2.0833,lng:11.4833,capacite:7000,verified:true},
   {id:'seed-s10',nom:'Stade Idriss Ngari',type:'Stade',ville:'Owendo',lat:0.2906,lng:9.4972,capacite:5000,verified:true},
   {id:'seed-s11',nom:'Stade Mbéba',type:'Stade',ville:'Lastoursville',lat:-0.8167,lng:12.7167,capacite:4000,verified:true},
-  {id:'seed-s12',nom:'Gymnase Léon Mba',type:'Gymnase',ville:'Libreville',lat:0.4012,lng:9.4555,capacite:1200},
-  {id:'seed-s13',nom:'Piscine Olympique de Libreville',type:'Piscine',ville:'Libreville',lat:0.3955,lng:9.4488,capacite:500},
-  {id:'seed-s14',nom:"Complexe de Tennis d'Akanda",type:'Court',ville:'Libreville',lat:0.4865,lng:9.3815,capacite:300},
-  {id:'seed-s15',nom:'Dojo National de Judo',type:'Dojo',ville:'Libreville',lat:0.3870,lng:9.4540,capacite:400},
-  {id:'seed-s16',nom:"Piste d'Athlétisme de Sibang",type:'Piste',ville:'Libreville',lat:0.4230,lng:9.4810,capacite:2000},
   {id:'seed-s17',nom:'Terrain Multisports de Nzeng-Ayong',type:'Terrain',ville:'Libreville',lat:0.4430,lng:9.4790,capacite:300},
-  {id:'seed-s18',nom:'Gymnase Municipal de Port-Gentil',type:'Gymnase',ville:'Port-Gentil',lat:-0.7150,lng:8.7860,capacite:800},
-  {id:'seed-s19',nom:'Piscine Municipale de Port-Gentil',type:'Piscine',ville:'Port-Gentil',lat:-0.7280,lng:8.7720,capacite:300},
-  {id:'seed-s20',nom:'Gymnase de Franceville',type:'Gymnase',ville:'Franceville',lat:-1.6280,lng:13.5790,capacite:900},
   {id:'seed-s21',nom:'Terrain Multisports de Mouila',type:'Terrain',ville:'Mouila',lat:-1.8667,lng:11.0500,capacite:200},
   {id:'seed-s22',nom:'Terrain Multisports de Lambaréné',type:'Terrain',ville:'Lambaréné',lat:-0.7000,lng:10.2333,capacite:200},
-  {id:'seed-s23',nom:'Gymnase de Moanda',type:'Gymnase',ville:'Moanda',lat:-1.5667,lng:13.2000,capacite:600},
   {id:'seed-s24',nom:'Terrain Multisports de Tchibanga',type:'Terrain',ville:'Tchibanga',lat:-2.85,lng:11.0167,capacite:200},
   {id:'seed-s25',nom:'Terrain Multisports de Koulamoutou',type:'Terrain',ville:'Koulamoutou',lat:-1.1333,lng:12.4833,capacite:200}
 ];
@@ -7473,8 +7432,6 @@ const librevilleSportsData={
     {id:'s001',nom:'Stade Omnisports Omar Bongo',type:'Stade',lat:0.4162,lng:9.4673,ville:'Libreville',capacite:15000},
     {id:'s002',nom:'Stade Amitié',type:'Stade',lat:0.4155,lng:9.4680,ville:'Libreville',capacite:8000},
     {id:'s003',nom:'Stade Léon Mba',type:'Stade',lat:0.4170,lng:9.4665,ville:'Libreville',capacite:5000},
-    {id:'s004',nom:'Gymnase Léon Eyeghé',type:'Gymnase',lat:0.4145,lng:9.4685,ville:'Libreville',capacite:3000},
-    {id:'s005',nom:'Piscine Municipale',type:'Piscine',lat:0.4160,lng:9.4670,ville:'Libreville',capacite:800},
   ],
   federations:[
     {id:'f001',nom:'Fédération Gabonaise de Football',sigle:'FGF',lat:0.4162,lng:9.4673,ville:'Libreville'},
@@ -8044,235 +8001,6 @@ const GSC_SPORTS_DATA = [
       }
     ]
   },
-  {
-    id: 'basketball',
-    nom: 'Basketball',
-    img: SPORT_IMG.basketball,
-    federation: {
-      nom: 'Fédération Gabonaise de Basketball',
-      sigle: 'FEGABASKET',
-      president: 'Willy Conrad Asseko',
-      fondee: 1970,
-      affiliation: 'FIBA / FIBA Afrique',
-      siege: 'Libreville',
-      email: '',
-      img: SPORT_IMG.basketball,
-    },
-    championnats: [
-      {
-        nom: 'Championnat National Basketball',
-        niveau: 'National',
-        saison: '2025-2026',
-        badge: 'Elite',
-        img: SPORT_IMG.basketball,
-        divisions: [
-          {nom: 'Division Élite Masculine', clubs: 10, desc: 'Meilleure division nationale masculine', clubs_list: [
-            'AS Police Basket','Stade Mandji Basket','AS Sogéa Basket','ASSIGA',
-            'BC Libreville','AS CEB Basket','ABC Port-Gentil','AS Moanda Basket',
-            'UGB Basket','BC Oyem'
-          ]},
-          {nom: 'Division Élite Féminine', clubs: 8, desc: 'Meilleure division nationale féminine', clubs_list: [
-            'AS Police F Basket','ASSIGA F','AS Sogéa F','ABC F Port-Gentil',
-            'BC Libreville F','AS CEB F','UGB F','Stade Mandji F'
-          ]},
-          {nom: 'Division 2 Masculine', clubs: 12, desc: 'Deuxième niveau national', clubs_list: []},
-          {nom: 'U18 Masculin', clubs: 16, desc: 'Catégorie jeunes moins de 18 ans', clubs_list: []}
-        ]
-      }
-    ]
-  },
-  {
-    id: 'handball',
-    nom: 'Handball',
-    img: SPORT_IMG.handball,
-    federation: {
-      nom: 'Fédération Gabonaise de Handball',
-      sigle: 'FEGAHAND',
-      president: 'Général Sylvain Florient Pangou Mbembo',
-      fondee: 1972,
-      affiliation: 'IHF / CAHB',
-      siege: 'Libreville',
-      email: '',
-      img: SPORT_IMG.handball,
-    },
-    championnats: [
-      {
-        nom: 'Championnat National Handball',
-        niveau: 'National',
-        saison: '2025-2026',
-        badge: 'D1',
-        img: SPORT_IMG.handball,
-        divisions: [
-          {nom: 'Division 1 Masculine', clubs: 10, desc: 'Élite nationale masculine', clubs_list: [
-            'AS Police Hand','AS Sogéa Hand','Stade Mandji Hand','ASSIGA Hand',
-            'HC Libreville','AS CEB Hand','HC Port-Gentil','HC Franceville',
-            'AS Oyem Hand','HC Ntoum'
-          ]},
-          {nom: 'Division 1 Féminine', clubs: 8, desc: 'Élite nationale féminine', clubs_list: [
-            'AS Police F Hand','AS Sogéa F','Stade Mandji F','HC Libreville F',
-            'HC Port-Gentil F','AS CEB F','ASSIGA F','HC Ntoum F'
-          ]},
-          {nom: 'Division 2 Masculine', clubs: 12, desc: 'Deuxième niveau national', clubs_list: []},
-          {nom: 'Catégorie Jeunes U18', clubs: 14, desc: 'Moins de 18 ans masculin et féminin', clubs_list: []}
-        ]
-      }
-    ]
-  },
-  {
-    id: 'volleyball',
-    nom: 'Volleyball',
-    img: SPORT_IMG.volleyball,
-    federation: {
-      nom: 'Fédération Gabonaise de Volleyball',
-      sigle: 'FEGAVOL',
-      president: 'Raymond Bernard Bivigou',
-      fondee: 1968,
-      affiliation: 'FIVB / CAVB',
-      siege: 'Libreville',
-      email: '',
-      img: SPORT_IMG.volleyball,
-    },
-    championnats: [
-      {
-        nom: 'Championnat National Volleyball',
-        niveau: 'National',
-        saison: '2025-2026',
-        badge: 'D1',
-        img: SPORT_IMG.volleyball,
-        divisions: [
-          {nom: 'Division Élite Masculine', clubs: 8, desc: 'Élite nationale masculine', clubs_list: [
-            'AS Police VB','ASVO Libreville','VC Mandji','AS CEB VB',
-            'VC Port-Gentil','AS Sogéa VB','VC Franceville','VC Oyem'
-          ]},
-          {nom: 'Division Élite Féminine', clubs: 8, desc: 'Élite nationale féminine', clubs_list: [
-            'AS Police F VB','ASVO F','VC Mandji F','VC Port-Gentil F',
-            'AS CEB F VB','AS Sogéa F VB','VC Franceville F','VC Ntoum F'
-          ]},
-          {nom: 'Beach Volleyball', clubs: 16, desc: 'Équipes de beach-volley', clubs_list: []}
-        ]
-      }
-    ]
-  },
-  {
-    id: 'athletisme',
-    nom: 'Athlétisme',
-    img: SPORT_IMG.athletisme,
-    federation: {
-      nom: 'Fédération Gabonaise d\'Athlétisme',
-      sigle: 'FEGATH',
-      president: 'Anaclet Mathieu Taty',
-      fondee: 1965,
-      affiliation: 'World Athletics / CAA',
-      siege: 'Libreville',
-      email: '',
-      img: SPORT_IMG.athletisme,
-    },
-    championnats: [
-      {
-        nom: 'Championnats Nationaux d\'Athlétisme',
-        niveau: 'National',
-        saison: '2026',
-        badge: 'Champ. Nat.',
-        img: SPORT_IMG.athletisme,
-        divisions: [
-          {nom: 'Seniors — Toutes disciplines', clubs: 0, desc: 'Sprint, fond, sauts, lancers, marche', clubs_list: []},
-          {nom: 'Espoirs U23', clubs: 0, desc: 'Moins de 23 ans toutes disciplines', clubs_list: []},
-          {nom: 'Juniors U20', clubs: 0, desc: 'Moins de 20 ans', clubs_list: []},
-          {nom: 'Cadets U17', clubs: 0, desc: 'Moins de 17 ans', clubs_list: []},
-          {nom: 'Ligues Provinciales (9 provinces)', clubs: 0, desc: 'Estuaire, Haut-Ogooué, Ogooué-Lolo, Nyanga…', clubs_list: []}
-        ]
-      }
-    ]
-  },
-  {
-    id: 'boxe',
-    nom: 'Boxe',
-    img: SPORT_IMG.boxe,
-    federation: {
-      nom: 'Fédération Gabonaise de Boxe',
-      sigle: 'FEGABOX',
-      president: 'À confirmer',
-      fondee: 1966,
-      affiliation: 'IBA / CABF',
-      siege: 'Libreville',
-      email: '',
-      img: SPORT_IMG.boxe,
-    },
-    championnats: [
-      {
-        nom: 'Championnat National de Boxe',
-        niveau: 'National',
-        saison: '2026',
-        badge: 'Champ.',
-        img: SPORT_IMG.boxe,
-        divisions: [
-          {nom: 'Boxe Anglaise — Seniors', clubs: 0, desc: 'Toutes catégories de poids (49kg–92kg+)', clubs_list: []},
-          {nom: 'Boxe Anglaise — Jeunes U18', clubs: 0, desc: 'Catégories juniors', clubs_list: []},
-          {nom: 'Kick-boxing / Muay Thai', clubs: 0, desc: 'Disciplines de boxe pieds-poings', clubs_list: []}
-        ]
-      }
-    ]
-  },
-  {
-    id: 'judo',
-    nom: 'Judo',
-    img: SPORT_IMG.judo,
-    federation: {
-      nom: 'Fédération Gabonaise de Judo et Arts Martiaux',
-      sigle: 'FEGAJAM',
-      president: 'À confirmer',
-      fondee: 1968,
-      affiliation: 'IJF / Union Africaine de Judo',
-      siege: 'Libreville',
-      email: '',
-      img: SPORT_IMG.judo,
-    },
-    championnats: [
-      {
-        nom: 'Championnat National de Judo',
-        niveau: 'National',
-        saison: '2026',
-        badge: 'Champ.',
-        img: SPORT_IMG.judo,
-        divisions: [
-          {nom: 'Seniors — Toutes catégories', clubs: 0, desc: 'Masculin et Féminin (7 catégories de poids)', clubs_list: []},
-          {nom: 'Juniors U20', clubs: 0, desc: 'Moins de 20 ans', clubs_list: []},
-          {nom: 'Cadets U17', clubs: 0, desc: 'Moins de 17 ans', clubs_list: []},
-          {nom: 'Karaté — Seniors', clubs: 0, desc: 'Kata et Kumité', clubs_list: []},
-          {nom: 'Taekwondo — Seniors', clubs: 0, desc: 'Formes et combats', clubs_list: []}
-        ]
-      }
-    ]
-  },
-  {
-    id: 'natation',
-    nom: 'Natation',
-    img: SPORT_IMG.natation,
-    federation: {
-      nom: 'Fédération Gabonaise de Natation',
-      sigle: 'FEGANAT',
-      president: 'Stéphane Soami Mabiala',
-      fondee: 1970,
-      affiliation: 'FINA / World Aquatics / CANA',
-      siege: 'Libreville',
-      email: '',
-      img: SPORT_IMG.natation,
-    },
-    championnats: [
-      {
-        nom: 'Championnats Nationaux de Natation',
-        niveau: 'National',
-        saison: '2026',
-        badge: 'Champ.',
-        img: SPORT_IMG.natation,
-        divisions: [
-          {nom: 'Seniors — Eau calme', clubs: 0, desc: 'Nage libre, dos, brasse, papillon, 4 nages', clubs_list: []},
-          {nom: 'Juniors U20', clubs: 0, desc: 'Moins de 20 ans', clubs_list: []},
-          {nom: 'Natation artistique', clubs: 0, desc: 'Anciennement natation synchronisée', clubs_list: []}
-        ]
-      }
-    ]
-  }
 ];
 
 let currentSportId = 'football';
@@ -8963,7 +8691,7 @@ window.resetScoutFilters = resetScoutFilters;
         <canvas id="qr-print-prof-canvas" style="width:200px;height:200px;display:block;margin:0 auto 14px;"></canvas>
         <div style="font-family:monospace;font-size:13px;font-weight:700;color:#009E60;letter-spacing:.8px;" id="qr-print-prof-gscid">—</div>
         <div style="font-size:9px;color:#64748b;margin-top:8px;">Scannez pour accéder à la fiche officielle — gabonsportconnect.ga</div>
-        <div style="margin-top:10px;font-size:9px;color:#94a3b8;">🇬🇦 Plateforme Nationale du Sport Gabonais</div>
+        <div style="margin-top:10px;font-size:9px;color:#94a3b8;">🇬🇦 Plateforme Nationale du Football Gabonais</div>
       </div>
     </div>
   </div>
@@ -9969,7 +9697,7 @@ document.addEventListener('DOMContentLoaded', function(){
         window.GSCNotif.push({
           type:'system',
           title:'Bienvenue sur Gabon Football Connect !',
-          body:'Plateforme nationale du sport gabonais. Consultez l\'annuaire, les actualités et plus encore.',
+          body:'Plateforme nationale du football gabonais. Consultez l\'annuaire, les actualités et plus encore.',
           recipientId: currentUser.uid,
           personal:true,
         });
