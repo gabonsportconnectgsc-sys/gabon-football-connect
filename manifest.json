@@ -49,8 +49,8 @@
   "shortcuts": [
     {
       "name": "Gabon Football Connect",
-      "short_name": "GSC",
-      "description": "Accueil - Plateforme de gestion du sport",
+      "short_name": "GFC",
+      "description": "Accueil - Plateforme de gestion du football",
       "url": "index.html?source=shortcut",
       "icons": [
         {
@@ -62,7 +62,7 @@
     },
     {
       "name": "Console Admin",
-      "short_name": "GSC Admin",
+      "short_name": "GFC Admin",
       "description": "Administration - Gestion centralisée",
       "url": "admin.html?source=shortcut",
       "icons": [

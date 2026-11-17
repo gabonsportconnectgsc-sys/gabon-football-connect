@@ -22,7 +22,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#009E60" />
-  <meta name="description" content="Gabon Football Connect : plateforme nationale du sport au Gabon. Annuaire des acteurs, clubs, fédérations, structures sportives et statistiques en temps réel." />
+  <meta name="description" content="Gabon Football Connect : plateforme nationale du football au Gabon. Annuaire des acteurs, clubs, fédérations, structures et clubs et statistiques en temps réel." />
   <!-- PWA iOS (Safari iPhone/iPad) -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -37,7 +37,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Gabon Football Connect" />
   <meta property="og:title" content="Gabon Football Connect — Plateforme Nationale du Football" />
-  <meta property="og:description" content="Plateforme nationale du sport au Gabon : annuaire des clubs, fédérations, athlètes et statistiques sportives." />
+  <meta property="og:description" content="Plateforme nationale du football au Gabon : annuaire des clubs, fédérations, joueurs et statistiques." />
   <meta property="og:url" content="https://gabon-football-connect.web.app/" />
   <meta property="og:image" content="https://gabon-football-connect.web.app/og-image.jpg?v=2" />
   <meta property="og:image:secure_url" content="https://gabon-football-connect.web.app/og-image.jpg?v=2" />
@@ -47,7 +47,7 @@
   <meta property="og:locale" content="fr_FR" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Gabon Football Connect — Plateforme Nationale du Football" />
-  <meta name="twitter:description" content="Plateforme nationale de gestion du sport au Gabon." />
+  <meta name="twitter:description" content="Plateforme nationale de gestion du football gabonais." />
   <meta name="twitter:image" content="https://gabon-football-connect.web.app/og-image.jpg?v=2" />
   <!-- og:image / twitter:image → og-image.jpg (1200×630, généré à partir du logo GSC fourni,
        fond blanc, format standard réseaux sociaux). Fichier à déposer à la racine du dépôt
@@ -1202,7 +1202,7 @@
 <link rel="stylesheet" href="css/timeline-competitions.css">
 <link rel="stylesheet" href="css/gabonais-diaspora.css">
 <style id="gfc-hide">.stat-card:has(#stat-total-handisport),.actor-filter-btn[data-type="handisport"],.actor-filter-btn[data-type="athlete"]{display:none!important}</style>
-</head>
+<style>#sf-sport,#annuaire-sport,#srch-sport,#admin-acteurs-sport,#auth-register-sport-wrap,#complete-profile-sport-wrap,div:has(>#sf-sport)>label{display:none!important}</style></head>
 <body>
 <!-- ═══ ÉCRAN DE DÉMARRAGE PERSONNALISÉ (après le splash natif de la PWA) ═══
      Le splash natif Android (généré depuis manifest.json) est statique et ne
@@ -1392,7 +1392,7 @@
   <!-- TOP NAV -->
   <nav class="topnav">
     <div class="topnav-logo" onclick="goHome()" title="Gabon Football Connect — Retour à l'accueil">
-      <img src="icon-topnav.png" alt="GSC" style="border-radius:50%;object-fit:cover;flex-shrink:0;image-rendering:high-quality;">
+      <img src="icon-topnav.png" alt="GFC" style="border-radius:50%;object-fit:cover;flex-shrink:0;image-rendering:high-quality;">
       <div class="topnav-logo-text">
         <span class="l-gabon">Gabon</span>
         <span class="l-sport">Football</span>
@@ -1439,8 +1439,8 @@
       <div class="side-menu-section-title">📱 Navigation</div>
       <button class="side-menu-item" onclick="showView('dashboard');closeMenu()"><span class="smi-ico">🏠</span>Accueil / Tableau de bord</button>
       <button class="side-menu-item" onclick="showView('annuaire');closeMenu()"><span class="smi-ico">📋</span>Annuaire des acteurs</button>
-      <button class="side-menu-item" onclick="showView('sport');closeMenu()"><span class="smi-ico">⚽</span>Sport Gabon</button>
-      <button class="side-menu-item" onclick="showView('stades');closeMenu()"><span class="smi-ico">🗺️</span>Carte sportive</button>
+      <button class="side-menu-item" onclick="showView('sport');closeMenu()"><span class="smi-ico">⚽</span>Football Gabon</button>
+      <button class="side-menu-item" onclick="showView('stades');closeMenu()"><span class="smi-ico">🗺️</span>Carte du football</button>
       <button class="side-menu-item" onclick="showView('structures');closeMenu()"><span class="smi-ico">🏢</span>Structures &amp; Clubs</button>
       <button class="side-menu-item" id="side-menu-actualites" onclick="showView('actualites');closeMenu()"><span class="smi-ico">📰</span>Actualités</button>
 
@@ -1563,15 +1563,15 @@
             <option value="joueur">⚽ Joueur</option>
             <option value="entraineur">📋 Entraîneur / Coach</option>
             <option value="arbitre">🟨 Arbitre</option>
-            <option value="club">🏟️ Club sportif</option>
-            <option value="association">🤝 Association sportive</option>
+            <option value="club">🏟️ Club de football</option>
+            <option value="association">🤝 Association de football</option>
             <option value="federation">🏛️ Fédération</option>
             <option value="organisateur">🎯 Organisateur</option>
-            <option value="independant">🏃 Sportif indépendant</option>
+            <option value="independant">🏃 Joueur indépendant</option>
             <option value="eleve_etudiant">🎓 Élève / Étudiant</option>
-            <option value="gabonais_diaspora">🇬🇦 Gabonais sportif à l’étranger</option>
-<option value="sportif_etranger">🌍 Sportif étranger</option>
-            <option value="ancien_sportif">🎖️ Ancien Sportif</option>
+            <option value="gabonais_diaspora">🇬🇦 Gabonais de l’étranger</option>
+<option value="sportif_etranger">🌍 Joueur étranger</option>
+            <option value="ancien_sportif">🎖️ Ancien joueur</option>
                         <option value="formateur">🧑‍🏫 Formateur</option>
           </select>
         </div>
@@ -1579,7 +1579,7 @@
           <label>Sport / Discipline *</label>
           <select id="auth-register-sport">
             <option value="">-- Selectionner --</option>
-            <option>⚽ Football</option>
+            <option selected>⚽ Football</option>
                                                 <option>🏃 Athletisme</option>
                                                                                               </select>
         </div>
@@ -1636,7 +1636,7 @@
             </optgroup>
             <optgroup label="🏃 Indépendant">
               <option value="Indépendant">Indépendant (sans club)</option>
-              <option value="Auto-entrepreneur">Auto-entrepreneur sportif</option>
+              <option value="Auto-entrepreneur">Auto-entrepreneur du football</option>
             </optgroup>
             <option value="Autre">🌍 Autre (préciser dans le profil)</option>
           </select>
@@ -1719,7 +1719,7 @@
       <!-- Fiche en attente de validation -->
       <div class="readonly-notice" id="pending-self-notice" style="display:none;background:linear-gradient(135deg,#fffbeb,#fef3c7);border-color:#fbbf24;color:#92400e;">
         <span class="rn-icon">⏳</span>
-        <span>Votre fiche est <strong>visible dans l'annuaire avec la mention ⏳ « en attente de validation »</strong> jusqu'à la vérification de votre structure par l'administration GSC.</span>
+        <span>Votre fiche est <strong>visible dans l'annuaire avec la mention ⏳ « en attente de validation »</strong> jusqu'à la vérification de votre structure par l'administration GFC.</span>
       </div>
 
       <div class="dashboard-hero fade-up">
@@ -1737,7 +1737,7 @@
       <!-- ══ BOUTONS RAPIDES : Mode d'emploi + Installer GSC ══ -->
       <div style="display:flex;justify-content:center;gap:10px;margin:0 0 14px 0;">
         <button onclick="showView('legal')" style="flex:1;max-width:160px;display:flex;align-items:center;justify-content:center;gap:6px;padding:7px 12px;font-size:12px;font-weight:700;border:1.5px solid #0A1628;background:#fff;color:#0A1628;border-radius:20px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08);white-space:nowrap;">📖 Mode d'emploi</button>
-        <button onclick="installGSC()" id="btn-install-gsc" style="flex:1;max-width:160px;display:flex;align-items:center;justify-content:center;gap:6px;padding:7px 12px;font-size:12px;font-weight:700;border:none;background:linear-gradient(135deg,#009E60,#007a47);color:#fff;border-radius:20px;cursor:pointer;box-shadow:0 2px 8px rgba(0,158,96,.3);white-space:nowrap;">📲 Installer GSC</button>
+        <button onclick="installGSC()" id="btn-install-gsc" style="flex:1;max-width:160px;display:flex;align-items:center;justify-content:center;gap:6px;padding:7px 12px;font-size:12px;font-weight:700;border:none;background:linear-gradient(135deg,#009E60,#007a47);color:#fff;border-radius:20px;cursor:pointer;box-shadow:0 2px 8px rgba(0,158,96,.3);white-space:nowrap;">📲 Installer GFC</button>
       </div>
 
       <div class="profile-completion fade-up" id="profile-completion-bar" onclick="handleCompletionClick()" style="display:none;">
@@ -1784,7 +1784,7 @@
           <img class="stat-wm" data-wm-role="club" alt="" onload="this.classList.add('is-loaded')" onerror="this.classList.remove('is-loaded');this.removeAttribute('src')">
           <img src="https://images.unsplash.com/photo-1606925797300-0b35e9d1794e?w=80&h=80&fit=crop&auto=format" class="stat-real-icon" alt="" onerror="this.outerHTML='<span style=font-size:46px;margin-bottom:14px;display:inline-block;align-self:flex-end;>🏟️</span>'">
           <div class="stat-val" id="stat-total-clubs">—</div>
-          <div class="stat-lbl" style="color:#ffe9c2;">Clubs sportifs</div>
+          <div class="stat-lbl" style="color:#ffe9c2;">Clubs de football</div>
         </button>
 
         <!-- Arbitres — carton jaune / sifflet -->
@@ -1829,7 +1829,7 @@
           <img class="stat-wm" data-wm-role="independant" alt="" onload="this.classList.add('is-loaded')" onerror="this.classList.remove('is-loaded');this.removeAttribute('src')">
           <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=80&h=80&fit=crop&auto=format" class="stat-real-icon" alt="" onerror="this.outerHTML='<span style=font-size:46px;margin-bottom:14px;display:inline-block;align-self:flex-end;>🏃</span>'">
           <div class="stat-val" id="stat-total-independants">—</div>
-          <div class="stat-lbl" style="color:#bae6fd;">Sportifs indépendants</div>
+          <div class="stat-lbl" style="color:#bae6fd;">Joueurs indépendants</div>
         </button>
 
         <!-- Élèves / Étudiants -->
@@ -1841,13 +1841,13 @@
           <div class="stat-lbl" style="color:#e0e7ff;">Élèves / Étudiants</div>
         </button>
 
-        <!-- Sportifs étrangers -->
+        <!-- Joueurs étrangers -->
         <button class="stat-card" onclick="showView('annuaire');filterActors('sportif_etranger')"
           style="background:linear-gradient(135deg,#ca8a04,#92660a);padding:16px 12px;">
           <img class="stat-wm" data-wm-role="sportif_etranger" alt="" onload="this.classList.add('is-loaded')" onerror="this.classList.remove('is-loaded');this.removeAttribute('src')">
           <span style="font-size:46px;margin-bottom:14px;display:inline-block;align-self:flex-end;position:relative;z-index:2;">🌍</span>
           <div class="stat-val" id="stat-total-etrangers">—</div>
-          <div class="stat-lbl" style="color:#1a2d4a;text-shadow:none;">Sportifs étrangers</div>
+          <div class="stat-lbl" style="color:#1a2d4a;text-shadow:none;">Joueurs étrangers</div>
         </button>
 
         <!-- Sportifs handisport -->
@@ -1859,13 +1859,13 @@
           <div class="stat-lbl" style="color:#ede9fe;">Sportifs handisport</div>
         </button>
 
-        <!-- Anciens Sportifs -->
+        <!-- Anciens joueurs -->
         <button class="stat-card" onclick="showView('annuaire');filterActors('ancien_sportif')"
           style="background:linear-gradient(135deg,#9f1239,#4c0519);padding:16px 12px;">
           <img class="stat-wm" data-wm-role="ancien_sportif" alt="" onload="this.classList.add('is-loaded')" onerror="this.classList.remove('is-loaded');this.removeAttribute('src')">
           <span style="font-size:46px;margin-bottom:14px;display:inline-block;align-self:flex-end;position:relative;z-index:2;">🎖️</span>
           <div class="stat-val" id="stat-total-anciens">—</div>
-          <div class="stat-lbl" style="color:#ffe4e6;">Anciens Sportifs</div>
+          <div class="stat-lbl" style="color:#ffe4e6;">Anciens joueurs</div>
         </button>
 
         <!-- Formateurs -->
@@ -1903,8 +1903,8 @@
         <div class="card-body" style="display:flex;align-items:center;gap:14px;">
           <div style="font-size:32px;flex-shrink:0;">🏅</div>
           <div style="flex:1;">
-            <div style="font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--navy);margin-bottom:2px;">Vous pratiquez un sport au Gabon ?</div>
-            <div style="font-size:12px;color:var(--gray-txt);">Joueur, club, arbitre, entraîneur, organisateur ou sportif indépendant : intégrez l'annuaire national.</div>
+            <div style="font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--navy);margin-bottom:2px;">Vous jouez au football au Gabon ?</div>
+            <div style="font-size:12px;color:var(--gray-txt);">Joueur, club, arbitre, entraîneur, organisateur ou joueur indépendant : intégrez l'annuaire national.</div>
           </div>
           <button class="btn-sm" style="border-color:var(--green);color:var(--green-dk);flex-shrink:0;pointer-events:none;">S'inscrire</button>
         </div>
@@ -1913,14 +1913,14 @@
       <div class="quick-actions fade-up" id="quick-actions-auth" style="display:none;">
         <button class="quick-btn" onclick="showView('profil')"><img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=60&h=60&fit=crop&auto=format" class="qb-real-icon" alt="" onerror="this.outerHTML='<span class=qb-icon>👤</span>'">Mon profil</button>
         <button class="quick-btn" onclick="showView('annuaire')"><img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=60&h=60&fit=crop&auto=format" class="qb-real-icon" alt="" onerror="this.outerHTML='<span class=qb-icon>📋</span>'">Annuaire</button>
-        <button class="quick-btn" onclick="showView('stades')"><img src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=60&h=60&fit=crop&auto=format" class="qb-real-icon" alt="" onerror="this.outerHTML='<span class=qb-icon>🗺️</span>'">Carte sportive</button>
+        <button class="quick-btn" onclick="showView('stades')"><img src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=60&h=60&fit=crop&auto=format" class="qb-real-icon" alt="" onerror="this.outerHTML='<span class=qb-icon>🗺️</span>'">Carte du football</button>
         <button class="quick-btn" onclick="showView('actualites')"><img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=60&h=60&fit=crop&auto=format" class="qb-real-icon" alt="" onerror="this.outerHTML='<span class=qb-icon>📰</span>'">Actualités</button>
       </div>
       <div class="quick-actions fade-up" id="quick-actions-visitor" style="display:none;">
         <button class="quick-btn" onclick="showView('annuaire')"><img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=60&h=60&fit=crop&auto=format" class="qb-real-icon" alt="" onerror="this.outerHTML='<span class=qb-icon>📋</span>'">Annuaire acteurs</button>
-        <button class="quick-btn" onclick="showView('stades')"><img src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=60&h=60&fit=crop&auto=format" class="qb-real-icon" alt="" onerror="this.outerHTML='<span class=qb-icon>🗺️</span>'">Carte sportive</button>
+        <button class="quick-btn" onclick="showView('stades')"><img src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=60&h=60&fit=crop&auto=format" class="qb-real-icon" alt="" onerror="this.outerHTML='<span class=qb-icon>🗺️</span>'">Carte du football</button>
         <button class="quick-btn" onclick="showView('actualites')"><img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=60&h=60&fit=crop&auto=format" class="qb-real-icon" alt="" onerror="this.outerHTML='<span class=qb-icon>📰</span>'">Actualités</button>
-        <button class="quick-btn" onclick="goToAuth('register')" style="border-color:var(--green);color:var(--green-dk);"><img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=60&h=60&fit=crop&auto=format" class="qb-real-icon" alt="" onerror="this.outerHTML='<span class=qb-icon>🏅</span>'">Intégrer comme acteur sportif</button>
+        <button class="quick-btn" onclick="goToAuth('register')" style="border-color:var(--green);color:var(--green-dk);"><img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=60&h=60&fit=crop&auto=format" class="qb-real-icon" alt="" onerror="this.outerHTML='<span class=qb-icon>🏅</span>'">Intégrer comme acteur du football</button>
         <button class="quick-btn" onclick="goToAuth('login')" style="border-color:var(--green);color:var(--green-dk);"><span class="qb-icon"><svg class="gsc-ico-user" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></span>Se connecter</button>
       </div>
 
@@ -1937,7 +1937,7 @@
 
         <div style="background:linear-gradient(135deg,#f7d774 0%,#d4a017 35%,#b8860c 65%,#8a6d1a 100%);border:1px solid rgba(255,235,150,.55);border-radius:var(--radius-md,12px);padding:12px 14px;margin:4px 0 14px;box-shadow:0 2px 14px rgba(212,160,23,.35), 0 1px 0 rgba(255,255,255,.25) inset, 0 -8px 16px rgba(0,0,0,.12) inset;position:relative;overflow:hidden;">
           <p style="margin:0;font-size:10.5px;line-height:1.55;text-align:justify;color:#ffffff;letter-spacing:.1px;text-shadow:0 1px 2px rgba(0,0,0,.25);position:relative;z-index:1;">
-            Inspiré par la vision de modernisation du sport et de transformation numérique de l'administration publique portée par Son Excellence <strong style="color:#0a2e6e;font-variant:small-caps;letter-spacing:.6px;font-weight:800;font-size:1.2em;text-shadow:0 1px 2px rgba(0,0,0,.25);">Brice Clotaire OLIGUI NGUEMA</strong>, Président de la République, Chef de l'État, Chef du Gouvernement, ainsi que par les réformes engagées sous l'autorité de Monsieur <strong style="color:#0d3d1f;font-weight:800;">Paul Ulrich KESSANY ZATEGWA</strong>, Ministre de la Jeunesse, des Sports, du Rayonnement culturel et des Arts, chargé de la Vie associative, Gabon Football Connect (GFC) a été conçu comme une plateforme numérique destinée à accompagner la gouvernance, la modernisation et le développement durable de l'écosystème sportif gabonais.
+            Inspiré par la vision de modernisation du football et de transformation numérique de l'administration publique portée par Son Excellence <strong style="color:#0a2e6e;font-variant:small-caps;letter-spacing:.6px;font-weight:800;font-size:1.2em;text-shadow:0 1px 2px rgba(0,0,0,.25);">Brice Clotaire OLIGUI NGUEMA</strong>, Président de la République, Chef de l'État, Chef du Gouvernement, ainsi que par les réformes engagées sous l'autorité de Monsieur <strong style="color:#0d3d1f;font-weight:800;">Paul Ulrich KESSANY ZATEGWA</strong>, Ministre de la Jeunesse, des Sports, du Rayonnement culturel et des Arts, chargé de la Vie associative, Gabon Football Connect (GFC) a été conçu comme une plateforme numérique destinée à accompagner la gouvernance, la modernisation et le développement durable de l'écosystème du football gabonais.
           </p>
         </div>
 
@@ -1957,14 +1957,14 @@
               onclick="event.stopPropagation();openFullscreenPhoto(this.src, this.alt)"
               style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid rgba(255,255,255,.4);box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:zoom-in;">
             <div style="flex:1;min-width:0;">
-              <div class="lf-role">🏅 Expertise sportive</div>
+              <div class="lf-role">🏅 Expertise football</div>
               <div class="lf-name">BRICE-LÉGER NTSONG MVÉ</div>
               <div class="lf-sub">Professeur d’EPS · Entraîneur Licence B CAF · Éducateur Futsal · Diplômé Manager du Sport · Manager du sport / Entraîneur</div>
             </div>
           </div>
         </div>
         <div class="legal-footer-divider"></div>
-        <div>© 2026 GSC · <a href="#" onclick="showView('legal')">Mentions légales & CGU</a> · <a href="mailto:gabonsportconnectgsc@gmail.com">Contact</a></div>
+        <div>© 2026 GFC · <a href="#" onclick="showView('legal')">Mentions légales & CGU</a> · <a href="mailto:gabonsportconnectgsc@gmail.com">Contact</a></div>
       </div>
 
       <div class="card fade-up mb-16">
@@ -1980,7 +1980,7 @@
     <section class="view" id="view-annuaire">
       <div class="card mb-16 fade-up">
         <div class="card-header">
-          <div class="card-title"><img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=80&h=80&fit=crop&auto=format" style="width:18px;height:18px;border-radius:4px;object-fit:cover;vertical-align:middle;margin-right:4px;" alt="" onerror="this.style.display='none'">Annuaire des acteurs sportifs</div>
+          <div class="card-title"><img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=80&h=80&fit=crop&auto=format" style="width:18px;height:18px;border-radius:4px;object-fit:cover;vertical-align:middle;margin-right:4px;" alt="" onerror="this.style.display='none'">Annuaire des acteurs du football</div>
         </div>
         <div class="card-body">
           <div class="readonly-notice" style="margin-bottom:0;">
@@ -1999,7 +1999,7 @@
               <div>Recherche</div>
               <div>Sélectionneur / Recruteur</div>
             </div>
-            <div style="font-size:10px;color:rgba(255,255,255,.55);">Filtres avancés par profil physique, technique & sportif</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.55);">Filtres avancés par profil physique, technique & de jeu</div>
           </div>
           <div style="display:flex;gap:6px;align-items:center;justify-content:center;width:100%;">
             <button id="btn-view-grid" onclick="setViewMode('grid')" title="Vue cartes" style="width:30px;height:30px;border-radius:8px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:rgba(255,255,255,.6);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;">⊞</button>
@@ -2211,7 +2211,7 @@
               <span style="font-size:18px;line-height:1;">🎓</span>Élèves/Étudiants
             </button>
             <button class="actor-filter-btn" data-type="sportif_etranger" onclick="filterActors('sportif_etranger')" style="--abtn-color:#ca8a04;">
-              <span style="font-size:18px;line-height:1;">🌍</span>Sportifs étrangers
+              <span style="font-size:18px;line-height:1;">🌍</span>Joueurs étrangers
             </button>
             <button class="actor-filter-btn" data-type="gabonais_diaspora" onclick="filterActors('gabonais_diaspora')" style="--abtn-color:#0891b2;">
               <span style="font-size:18px;line-height:1;">🇬🇦</span>Gabonais de l’étranger
@@ -2220,7 +2220,7 @@
               <span style="font-size:18px;line-height:1;">🦾</span>Sportifs handisport
             </button>
             <button class="actor-filter-btn" data-type="ancien_sportif" onclick="filterActors('ancien_sportif')" style="--abtn-color:#9f1239;">
-              <span style="font-size:18px;line-height:1;">🎖️</span>Anciens Sportifs
+              <span style="font-size:18px;line-height:1;">🎖️</span>Anciens joueurs
             </button>
             <button class="actor-filter-btn" data-type="formateur" onclick="filterActors('formateur')" style="--abtn-color:#a21caf;">
               <span style="font-size:18px;line-height:1;">🧑‍🏫</span>Formateurs
@@ -2238,7 +2238,7 @@
           </div>
 
           <div style="display:flex;gap:10px;margin-top:12px;margin-bottom:4px;">
-            <input class="search-input" id="annuaire-search" placeholder="🔍 Nom, sport, ville…" oninput="searchAnnuaire()" style="flex:1;">
+            <input class="search-input" id="annuaire-search" placeholder="🔍 Nom, club, ville…" oninput="searchAnnuaire()" style="flex:1;">
             <select class="search-input" id="annuaire-sport" onchange="searchAnnuaire()" style="flex:1;max-width:160px;">
               <option value="">Tous sports</option>
               <option>Football</option>
@@ -2302,7 +2302,7 @@
       <!-- Sports stats -->
       <div class="card mb-16 fade-up" id="prof-stats-card">
         <div class="card-header">
-          <div class="card-title">📊 Statistiques sportives</div>
+          <div class="card-title">📊 Statistiques du football</div>
           <div id="prof-position-badge"></div>
         </div>
         <div class="card-body">
@@ -2416,7 +2416,7 @@
     <section class="view" id="view-stades">
       <div class="card mb-16 fade-up">
         <div class="card-header">
-          <div class="card-title"><img src="https://images.unsplash.com/photo-1478429145907-6c7a20c77a79?w=80&h=80&fit=crop&auto=format" style="width:18px;height:18px;border-radius:4px;object-fit:cover;vertical-align:middle;margin-right:4px;" alt="" onerror="this.style.display='none'">Carte des sites sportifs</div>
+          <div class="card-title"><img src="https://images.unsplash.com/photo-1478429145907-6c7a20c77a79?w=80&h=80&fit=crop&auto=format" style="width:18px;height:18px;border-radius:4px;object-fit:cover;vertical-align:middle;margin-right:4px;" alt="" onerror="this.style.display='none'">Carte des terrains de football</div>
           <button class="btn-sm" id="btn-add-site" onclick="openAddSiteModal()" style="display:none;">+ Ajouter</button>
         </div>
         <div class="card-body" style="padding-bottom:0">
@@ -2449,7 +2449,7 @@
     <section class="view" id="view-structures">
       <div class="card mb-16 fade-up">
         <div class="card-header">
-          <div class="card-title">🏢 Structures sportives <span id="structures-public-count" style="font-weight:500;color:var(--gray-txt);font-size:12px;"></span></div>
+          <div class="card-title">🏢 Structures du football <span id="structures-public-count" style="font-weight:500;color:var(--gray-txt);font-size:12px;"></span></div>
         </div>
         <div class="card-body" style="padding-bottom:0">
           <div class="sites-filters" id="structures-public-filters"></div>
@@ -2481,7 +2481,7 @@
     <section class="view" id="view-actualites">
       <div class="card fade-up mb-16">
         <div class="card-header">
-          <div class="card-title"><img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=80&h=80&fit=crop&auto=format" style="width:18px;height:18px;border-radius:4px;object-fit:cover;vertical-align:middle;margin-right:4px;" alt="" onerror="this.style.display='none'">Actualités Sport Gabon</div>
+          <div class="card-title"><img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=80&h=80&fit=crop&auto=format" style="width:18px;height:18px;border-radius:4px;object-fit:cover;vertical-align:middle;margin-right:4px;" alt="" onerror="this.style.display='none'">Actualités Football Gabon</div>
           <button class="btn-sm" onclick="refreshOnlineNews()" id="btn-refresh-news">↺ Actualiser</button>
         </div>
         <div class="card-body" style="padding-bottom:8px;">
@@ -2501,7 +2501,7 @@
     <!-- ── ADMIN VIEW ── -->
     <section class="view" id="view-admin">
       <div class="admin-header fade-up">
-        <div class="admin-title">⚙️ Administration — GSC</div>
+        <div class="admin-title">⚙️ Administration — GFC</div>
         <div class="admin-sub">Panneau de contrôle général</div>
         <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;">
           <button onclick="(function(){const url=location.origin+location.pathname+'?admin=1';navigator.clipboard?.writeText(url).then(()=>toast('🔗 Lien admin copié !','success')).catch(()=>toast(url,'info'));})()" style="padding:6px 14px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:20px;color:rgba(255,255,255,.85);font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;" title="Copier le lien d'accès direct admin">🔗 Copier le lien direct admin</button>
@@ -2546,11 +2546,11 @@
               <option value="association">Association</option>
               <option value="federation">Fédération</option>
               <option value="organisateur">Organisateur</option>
-              <option value="independant">Sportif indépendant</option>
+              <option value="independant">Joueur indépendant</option>
               <option value="eleve_etudiant">Élève / Étudiant</option>
-              <option value="gabonais_diaspora">Gabonais sportif à l’étranger</option>
-<option value="sportif_etranger">Sportif étranger</option>
-              <option value="ancien_sportif">Ancien Sportif</option>
+              <option value="gabonais_diaspora">Gabonais de l’étranger</option>
+<option value="sportif_etranger">Joueur étranger</option>
+              <option value="ancien_sportif">Ancien joueur</option>
                             <option value="formateur">Formateur</option>
               <option value="admin">Admin</option>
               <option value="supporter">💗 Supporters</option>
@@ -2593,7 +2593,7 @@
               <table class="users-table">
                 <thead>
                   <tr>
-                    <th>Utilisateur</th><th>Rôle / Sport</th><th>Ville</th><th>Niveau</th><th>Statut</th><th>Actions</th>
+                    <th>Utilisateur</th><th>Rôle</th><th>Ville</th><th>Niveau</th><th>Statut</th><th>Actions</th>
                   </tr>
                 </thead>
                 <tbody id="admin-users-tbody"></tbody>
@@ -2607,7 +2607,7 @@
         <!-- Tuiles cliquables par catégorie d'acteur sportif -->
         <div class="card fade-up" style="margin-bottom:14px;">
           <div class="card-header">
-            <div class="card-title">🏅 Acteurs sportifs <span id="admin-acteurs-total-badge" style="font-size:13px;color:var(--gray-txt);font-weight:500;"></span></div>
+            <div class="card-title">🏅 Acteurs du football <span id="admin-acteurs-total-badge" style="font-size:13px;color:var(--gray-txt);font-weight:500;"></span></div>
             <button class="btn-sm" onclick="loadAdminActorsTab()">↺ Actualiser</button>
           </div>
           <div class="card-body">
@@ -2660,7 +2660,7 @@
               <button class="stat-card" onclick="adminFilterActorsTile('sportif_etranger')" style="background:linear-gradient(135deg,#ca8a04,#92660a);padding:14px 10px;">
                 <span style="font-size:34px;margin-bottom:8px;display:inline-block;align-self:flex-end;">🌍</span>
                 <div class="stat-val" id="admin-acr-sportif_etranger" style="font-size:22px;">—</div>
-                <div class="stat-lbl" style="color:#1a2d4a;text-shadow:none;">Sportifs étrangers</div>
+                <div class="stat-lbl" style="color:#1a2d4a;text-shadow:none;">Joueurs étrangers</div>
               </button>
             <button class="stat-card" onclick="adminFilterActorsTile('gabonais_diaspora')" style="background:linear-gradient(135deg,#0891b2,#155e75);padding:14px 10px;">
                 <span style="font-size:34px;margin-bottom:8px;display:inline-block;align-self:flex-end;">🇬🇦</span>
@@ -2670,7 +2670,7 @@
               <button class="stat-card" onclick="adminFilterActorsTile('ancien_sportif')" style="background:linear-gradient(135deg,#9f1239,#4c0519);padding:14px 10px;">
                 <span style="font-size:34px;margin-bottom:8px;display:inline-block;align-self:flex-end;">🎖️</span>
                 <div class="stat-val" id="admin-acr-ancien_sportif" style="font-size:22px;">—</div>
-                <div class="stat-lbl" style="color:#ffe4e6;">Anciens Sportifs</div>
+                <div class="stat-lbl" style="color:#ffe4e6;">Anciens joueurs</div>
               </button>
               <button class="stat-card" onclick="adminFilterActorsTile('formateur')" style="background:linear-gradient(135deg,#a21caf,#701a75);padding:14px 10px;">
                 <span style="font-size:34px;margin-bottom:8px;display:inline-block;align-self:flex-end;">🧑‍🏫</span>
@@ -2690,7 +2690,7 @@
         <div class="search-panel fade-up">
           <h3>🔍 Filtrer les acteurs</h3>
           <div class="search-grid">
-            <input class="search-input" id="admin-acteurs-search" placeholder="🔍 Nom, sport, ville…" oninput="adminSearchActors()">
+            <input class="search-input" id="admin-acteurs-search" placeholder="🔍 Nom, club, ville…" oninput="adminSearchActors()">
             <select class="search-input" id="admin-acteurs-sport" onchange="adminSearchActors()">
               <option value="">Tous sports</option>
               <option>Football</option>
@@ -2718,7 +2718,7 @@
       <div class="admin-section" id="admin-section-sites">
         <div class="card fade-up">
           <div class="card-header">
-            <div class="card-title">📍 Sites sportifs</div>
+            <div class="card-title">📍 Terrains de football</div>
             <button class="btn-sm" onclick="loadAdminSites()">↺ Actualiser</button>
           </div>
           <div class="card-body" id="admin-sites-list"></div>
@@ -2747,7 +2747,7 @@
       <!-- ── IMPORT SITES (OSM) ── -->
       <div class="admin-section" id="admin-section-import">
         <div class="import-maps-section fade-up">
-          <div class="import-maps-title">🗺️ Importer Sites Sportifs (OSM / Nominatim)</div>
+          <div class="import-maps-title">🗺️ Importer des terrains (OSM / Nominatim)</div>
 
           <div class="libreville-badges">
             <div class="libreville-badge">📍 Libreville</div>
@@ -2855,7 +2855,7 @@
             <div class="report-canvas-wrap"><canvas id="chart-roles"></canvas></div>
           </div>
           <div class="report-card fade-up">
-            <div class="report-card-title">Acteurs par sport</div>
+            <div class="report-card-title">Répartition des acteurs</div>
             <div class="report-canvas-wrap"><canvas id="chart-sports"></canvas></div>
           </div>
           <div class="report-card fade-up">
@@ -2898,7 +2898,7 @@
       <div class="sport-gabon-header fade-up">
         <img src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=400&h=160&fit=crop&auto=format" class="sport-header-bg" alt="">
         <div class="sport-header-content">
-          <div class="sport-header-title">🇬🇦 Sport Gabonais</div>
+          <div class="sport-header-title">🇬🇦 Football Gabonais</div>
           <div class="sport-header-sub">Fédérations · LINAFP · Ligues Provinciales · OGSSU Scolaire & Universitaire</div>
         </div>
       </div>
@@ -2955,7 +2955,7 @@
       <div class="card fade-up" style="margin-top:12px;border:1.5px dashed var(--green);">
         <div class="card-body" style="font-size:12px;color:var(--gray-txt);text-align:center;padding:14px;">
           <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=40&h=40&fit=crop&auto=format" style="width:28px;height:28px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:6px;" alt="">
-          Ces données sont mises à jour par les <strong>fédérations</strong> et l'<strong>admin GSC</strong>. Sources : FEGAFOOT, LINAFP, OGSSU, AGP, Gabonallsport.
+          Ces données sont mises à jour par les <strong>fédérations</strong> et l'<strong>admin GFC</strong>. Sources : FEGAFOOT, LINAFP, OGSSU, AGP, Gabonallsport.
         </div>
       </div>
     </section>
@@ -2973,16 +2973,16 @@
           </div>
           <div class="legal-pane active" id="legal-roles">
             <h3>Architecture des accès</h3>
-            <div class="info">GSC distingue deux portes d'entrée à l'inscription — <strong>Visiteur</strong> (compte simple) et <strong>Acteur sportif</strong> — puis 15 rôles d'acteur, chacun avec des droits différenciés.</div>
+            <div class="info">GFC distingue deux portes d'entrée à l'inscription — <strong>Visiteur</strong> (compte simple) et <strong>Acteur du football</strong> — puis 13 rôles d'acteur, chacun avec des droits différenciés.</div>
 
             <h3>👁️ Visiteur (non connecté)</h3>
-            <p>Accès en <strong>lecture seule</strong> à l'annuaire complet, aux statistiques, à la carte des sites sportifs et au Forum communautaire. Aucune inscription requise pour consulter.</p>
+            <p>Accès en <strong>lecture seule</strong> à l'annuaire complet, aux statistiques, à la carte des terrains de football et au Forum communautaire. Aucune inscription requise pour consulter.</p>
 
-            <h3>🙋 Compte Visiteur (inscrit, sans fiche sportive)</h3>
-            <p>Un compte simple (prénom, nom, ville, sport favori) pour suivre l'actualité, publier et commenter dans le Forum, sans fiche sportive détaillée. Peut à tout moment s'auto-déclarer <strong>💗 Supporter</strong> depuis son profil.</p>
+            <h3>🙋 Compte Visiteur (inscrit, sans fiche joueur)</h3>
+            <p>Un compte simple (prénom, nom, ville, club favori) pour suivre l'actualité, publier et commenter dans le Forum, sans fiche détaillée. Peut à tout moment s'auto-déclarer <strong>💗 Supporter</strong> depuis son profil.</p>
 
             <h3>⚽ Acteurs individuels (9 rôles)</h3>
-            <p><strong>Joueur, Entraîneur, Arbitre, Indépendant, Élève/Étudiant, Sportif étranger, Ancien Sportif, Formateur, Supporter.</strong> Chacun a sa propre fiche détaillée (photo, historique, palmarès…) et gère lui-même son profil et ses publications — <u>sauf exception ci-dessous</u>.</p>
+            <p><strong>Joueur, Entraîneur, Arbitre, Joueur indépendant, Élève/Étudiant, Joueur étranger, Ancien joueur, Formateur, Supporter.</strong> Chacun a sa propre fiche détaillée (photo, historique, palmarès…) et gère lui-même son profil et ses publications — <u>sauf exception ci-dessous</u>.</p>
 
             <h3>🔒 Fiche « gérée par un tiers »</h3>
             <p>Un joueur peut ne <strong>plus</strong> pouvoir éditer sa propre fiche dans deux cas précis : s'il a été <strong>réclamé et accepté</strong> par un club (le club envoie une offre de rattachement, le joueur l'accepte lui-même), ou si son niveau (National/International) le place automatiquement sous la responsabilité de sa <strong>fédération</strong>. Dans ce cas, une bannière l'indique clairement sur sa fiche, avec le nom de la structure à contacter pour toute modification.</p>
@@ -2991,44 +2991,44 @@
             <p><strong>Club, Fédération, Association, Organisateur.</strong> Gèrent une fiche d'organisation distincte de leur compte personnel : identité, gouvernance, effectifs par saison, infrastructures. Doivent déposer leurs <strong>documents administratifs obligatoires</strong> (statuts, récépissé, licence fédérale…), dont la liste s'adapte automatiquement à leur discipline — un badge Bronze/Argent/Or reflète leur niveau de conformité. Le grand public ne voit jamais la liste nominative de leurs membres, seulement des effectifs agrégés (comptages par catégorie).</p>
 
             <h3>⏳ Validation des structures</h3>
-            <p>Les <strong>membres individuels</strong> (joueurs, entraîneurs, arbitres…) sont visibles dans l'annuaire dès leur inscription. Les <strong>structures</strong> (clubs, associations, fédérations, organisateurs) sont visibles aussitôt avec la mention <strong>⏳ en attente de validation</strong> jusqu'à la vérification par l'administration GSC.</p>
+            <p>Les <strong>membres individuels</strong> (joueurs, entraîneurs, arbitres…) sont visibles dans l'annuaire dès leur inscription. Les <strong>structures</strong> (clubs, associations, fédérations, organisateurs) sont visibles aussitôt avec la mention <strong>⏳ en attente de validation</strong> jusqu'à la vérification par l'administration GFC.</p>
 
-            <h3>⚙️ Administrateur GSC</h3>
+            <h3>⚙️ Administrateur GFC</h3>
             <p>Contrôle total : validation des inscriptions, vérification documentaire, gestion des rattachements club/fédération, modération du Forum et des signalements, suppression de contenu ou de compte.</p>
           </div>
           <div class="legal-pane" id="legal-donnees">
             <h3>Protection des données</h3>
-            <p>Les données personnelles saisies sur GSC sont stockées de manière sécurisée sur Firebase (Google Cloud). Elles ne sont pas revendues à des tiers.</p>
+            <p>Les données personnelles saisies sur GFC sont stockées de manière sécurisée sur Firebase (Google Cloud). Elles ne sont pas revendues à des tiers.</p>
             <p>Chaque acteur peut modifier ou supprimer ses propres données depuis son profil, sauf lorsque sa fiche est gérée par un club ou une fédération (voir onglet Rôles). Les documents administratifs des structures (statuts, licences…) ne sont visibles que par la structure elle-même et l'administration — jamais par le grand public.</p>
             <h3>Hébergement</h3>
             <p>La plateforme est hébergée sur Firebase Hosting (Google) et GitHub Pages. Les données sont stockées dans Cloud Firestore, infrastructure Google Cloud.</p>
             <h3>Cookies</h3>
-            <p>GSC utilise uniquement les cookies techniques nécessaires à l'authentification. Aucun cookie publicitaire n'est utilisé.</p>
+            <p>GFC utilise uniquement les cookies techniques nécessaires à l'authentification. Aucun cookie publicitaire n'est utilisé.</p>
           </div>
           <div class="legal-pane" id="legal-contact">
             <h3>Contact</h3>
             <p>📧 <strong>gabonsportconnectgsc@gmail.com</strong></p>
             <p>🌐 <a href="https://gabon-football-connect.web.app" target="_blank" style="color:var(--green);">gabon-football-connect.web.app</a></p>
             <p>🌐 <a href="https://gabon-football-connect.web.app/" target="_blank" style="color:var(--green);">gabonsportconnectgsc-sys.github.io/gabon-football-connect</a></p>
-            <p>Pour demander un accès Fédération ou signaler un problème, contactez l'administration GSC.</p>
+            <p>Pour demander un accès Fédération ou signaler un problème, contactez l'administration GFC.</p>
             <h3>Équipe du projet</h3>
             <div style="background:#f0faf5;border:1.5px solid var(--green);border-radius:var(--radius-sm);padding:14px;margin-top:8px;display:flex;gap:12px;align-items:center;">
               <img src="img/createur-technique.jpg" alt="Photo de Kozangue Essono Patrick Bertin" loading="lazy" onclick="openFullscreenPhoto(this.src, this.alt)" style="width:56px;height:56px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid var(--green);cursor:zoom-in;">
               <p id="info-createur" style="margin:0;flex:1;min-width:0;"><strong>💻 Créateur technique</strong><br>
               KOZANGUE ESSONO PATRICK BERTIN<br>
-              <span style="font-size:12px;color:var(--gray-txt);">Informaticien · Fondateur & Président PCINFORMATIQUE · Créateur : AMBIGAB(241), MAGERANTE, MALAGA, GSC</span></p>
+              <span style="font-size:12px;color:var(--gray-txt);">Informaticien · Fondateur & Président PCINFORMATIQUE · Créateur : AMBIGAB(241), MAGERANTE, MALAGA, GFC</span></p>
             </div>
-            <div style="background:#f0faf5;border:1.5px solid var(--green);border-radius:var(--radius-sm);padding:14px;margin-top:10px;display:flex;gap:12px;align-items:center;"><img src="img/expert-sportif.jpg" alt="Photo de Brice-Léger Ntsong Mvé" loading="lazy" onclick="openFullscreenPhoto(this.src, this.alt)" style="width:56px;height:56px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid var(--green);cursor:zoom-in;"><p id="info-expert" style="margin:0;flex:1;min-width:0;"><strong>🏅 Expertise sportive</strong><br>BRICE-LÉGER NTSONG MVÉ<br><span style="font-size:12px;color:var(--gray-txt);">Professeur d’EPS · Entraîneur Licence B CAF · Éducateur Futsal · Diplômé Manager du Sport · Manager du sport / Entraîneur</span></p></div>
+            <div style="background:#f0faf5;border:1.5px solid var(--green);border-radius:var(--radius-sm);padding:14px;margin-top:10px;display:flex;gap:12px;align-items:center;"><img src="img/expert-sportif.jpg" alt="Photo de Brice-Léger Ntsong Mvé" loading="lazy" onclick="openFullscreenPhoto(this.src, this.alt)" style="width:56px;height:56px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid var(--green);cursor:zoom-in;"><p id="info-expert" style="margin:0;flex:1;min-width:0;"><strong>🏅 Expertise football</strong><br>BRICE-LÉGER NTSONG MVÉ<br><span style="font-size:12px;color:var(--gray-txt);">Professeur d’EPS · Entraîneur Licence B CAF · Éducateur Futsal · Diplômé Manager du Sport · Manager du sport / Entraîneur</span></p></div>
           </div>
           <div class="legal-pane" id="legal-mentions">
             <h3>⚖️ Mentions légales</h3>
             <div class="info" style="margin-bottom:14px;">Conformément aux lois en vigueur en République Gabonaise.</div>
             <h3>Éditeur de la plateforme</h3>
             <p><strong>Gabon Football Connect (GFC)</strong><br>
-            Plateforme nationale de gestion sportive — République Gabonaise 🇬🇦</p>
+            Plateforme nationale de gestion du football — République Gabonaise 🇬🇦</p>
             <h3>Responsable technique</h3>
             <p><strong>KOZANGUE ESSONO PATRICK BERTIN</strong><br>
-            Informaticien, Fondateur & Président de PCINFORMATIQUE. Créateur des plateformes AMBIGAB(241), MAGERANTE, MALAGA et GSC.<br>
+            Informaticien, Fondateur & Président de PCINFORMATIQUE. Créateur des plateformes AMBIGAB(241), MAGERANTE, MALAGA et GFC.<br>
             📧 <a href="mailto:gabonsportconnectgsc@gmail.com" style="color:var(--green);">gabonsportconnectgsc@gmail.com</a></p>
             <h3>Hébergement</h3>
             <p>Firebase Hosting — Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA.<br>
@@ -3036,7 +3036,7 @@
             <h3>Propriété intellectuelle</h3>
             <p>L'ensemble du contenu de cette plateforme (code, design, données, logos) est la propriété exclusive de Gabon Football Connect. Toute reproduction sans autorisation est interdite.</p>
             <h3>Responsabilité</h3>
-            <p>GSC s'efforce de fournir des informations fiables et à jour. La plateforme ne saurait être tenue responsable des données saisies par les utilisateurs ou des erreurs provenant de tiers.</p>
+            <p>GFC s'efforce de fournir des informations fiables et à jour. La plateforme ne saurait être tenue responsable des données saisies par les utilisateurs ou des erreurs provenant de tiers.</p>
             <p style="font-size:12px;color:var(--gray-txt);margin-top:14px;">© 2026 Gabon Football Connect — Tous droits réservés.</p>
           </div>
         </div>
@@ -3052,7 +3052,7 @@
             <div class="lf-sub">Informaticien · PCINFORMATIQUE</div>
           </div>
           <div class="lf-person" style="margin-top:8px;">
-            <div class="lf-role">🏅 Expertise sportive</div>
+            <div class="lf-role">🏅 Expertise football</div>
             <div class="lf-name">BRICE-LÉGER NTSONG MVÉ</div>
             <div class="lf-sub">Professeur d’EPS · Entraîneur Licence B CAF · Éducateur Futsal · Diplômé Manager du Sport · Manager du sport / Entraîneur</div>
           </div>
@@ -3096,7 +3096,7 @@
 <div class="modal" id="modal-site" onclick="if(event.target===this)closeModal('modal-site')">
   <div class="modal-card">
     <button class="modal-close-x" onclick="closeModal('modal-site')" aria-label="Fermer">✕</button>
-    <div class="modal-title">📍 Géolocaliser un site sportif</div>
+    <div class="modal-title">📍 Géolocaliser un terrain</div>
     <div class="form-group"><label>Nom du site</label><input type="text" id="site-nom" placeholder="Stade Omar Bongo…"></div>
     <div class="form-group"><label>Type</label>
       <select id="site-type">
@@ -3142,16 +3142,16 @@
         <option value="athlete">🏃 Athlète</option>
         <option value="arbitre">🟨 Arbitre</option>
         <option value="entraineur">📋 Entraîneur</option>
-        <option value="club">🏟️ Club sportif</option>
-        <option value="association">🤝 Association sportive</option>
-        <option value="independant">🧍 Sportif indépendant</option>
+        <option value="club">🏟️ Club de football</option>
+        <option value="association">🤝 Association de football</option>
+        <option value="independant">🧍 Joueur indépendant</option>
         <option value="federation">🏛️ Fédération</option>
         <option value="organisateur">🎯 Organisateur</option>
         <option value="supporter">💗 Supporter</option>
         <option value="eleve_etudiant">🎓 Élève / Étudiant</option>
-        <option value="gabonais_diaspora">🇬🇦 Gabonais sportif à l’étranger</option>
-<option value="sportif_etranger">🌍 Sportif étranger</option>
-                <option value="ancien_sportif">🎖️ Ancien Sportif</option>
+        <option value="gabonais_diaspora">🇬🇦 Gabonais de l’étranger</option>
+<option value="sportif_etranger">🌍 Joueur étranger</option>
+                <option value="ancien_sportif">🎖️ Ancien joueur</option>
         <option value="formateur">🧑‍🏫 Formateur</option>
         <option value="ecole_universite">🏫 École / Université</option>
         <option value="admin">⚙️ Admin</option>
@@ -3233,10 +3233,10 @@ let currentDetailActorUid = null;
 const ROLE_LABELS = {
   admin:'⚙️ Administrateur', federation:'🏛️ Fédération', club:'🏟️ Club',
   association:'🤝 Association', joueur:'⚽ Joueur', athlete:'🏃 Athlète', arbitre:'🟨 Arbitre',
-  entraineur:'📋 Entraîneur', visiteur:'👁️ Visiteur', independant:'🧍 Sportif indépendant',
+  entraineur:'📋 Entraîneur', visiteur:'👁️ Visiteur', independant:'🧍 Joueur indépendant',
   organisateur:'🎪 Organisateur', supporter:'💗 Supporter',
-  eleve_etudiant:'🎓 Élève / Étudiant', gabonais_diaspora:'🇬🇦 Gabonais sportif à l’étranger', sportif_etranger:'🌍 Sportif étranger',
-  handisport:'🦾 Sportif handisport', ancien_sportif:'🎖️ Ancien Sportif',
+  eleve_etudiant:'🎓 Élève / Étudiant', gabonais_diaspora:'🇬🇦 Gabonais de l’étranger', sportif_etranger:'🌍 Joueur étranger',
+  handisport:'🦾 Sportif handisport', ancien_sportif:'🎖️ Ancien joueur',
   formateur:'🧑‍🏫 Formateur', ecole_universite:'🏫 École / Université'
 };
 const ROLE_ICONS = {
@@ -4697,7 +4697,7 @@ function renderDashboard(){
   if(pendingNoticeEl){
     const _orgPend=(p.validationAdmin==='pending');
     pendingNoticeEl.style.display=(p.status==='pending'||_orgPend)?'flex':'none';
-    try{ const _sp=pendingNoticeEl.querySelector('span:last-child'); if(_sp) _sp.innerHTML=_orgPend?"Votre structure est <strong>visible dans l'annuaire avec la mention ⏳ « en attente de validation »</strong> jusqu'à la vérification par l'administration GSC.":"Votre fiche est <strong>en attente de validation</strong> par l'administrateur. Elle sera visible dans l'annuaire dès son approbation."; }catch(e){}
+    try{ const _sp=pendingNoticeEl.querySelector('span:last-child'); if(_sp) _sp.innerHTML=_orgPend?"Votre structure est <strong>visible dans l'annuaire avec la mention ⏳ « en attente de validation »</strong> jusqu'à la vérification par l'administration GFC.":"Votre fiche est <strong>en attente de validation</strong> par l'administrateur. Elle sera visible dans l'annuaire dès son approbation."; }catch(e){}
   }
   // Completion bar
   let fields;
@@ -4833,10 +4833,10 @@ function filterActors(type,btn){
 const ANNUAIRE_ADD_PHRASE = {
   joueur:'un joueur / une athlète', athlete:'un athlète', arbitre:'un arbitre',
   entraineur:'un entraîneur', club:'un club sportif', federation:'une fédération',
-  organisateur:'un organisateur', independant:'un sportif indépendant',
+  organisateur:'un organisateur', independant:'un joueur indépendant',
   association:'une association', eleve_etudiant:'un élève / étudiant',
-  gabonais_diaspora:'un Gabonais sportif à l’étranger', sportif_etranger:'un sportif étranger', handisport:'un sportif handisport',
-  ancien_sportif:'un ancien sportif', formateur:'un formateur', supporter:'un supporter'
+  gabonais_diaspora:'un Gabonais de l’étranger', sportif_etranger:'un joueur étranger', handisport:'un sportif handisport',
+  ancien_sportif:'un ancien joueur', formateur:'un formateur', supporter:'un supporter'
 };
 
 function updateAnnuaireAddActorCta(){
@@ -4953,7 +4953,7 @@ function renderActors(actors){
   if(isListMode){
     // ── MODE LISTE COMPACT ──
     const ROLE_ICONS_MAP={joueur:'⚽',athlete:'🏃',arbitre:'🟨',entraineur:'📋',club:'🏟️',association:'🤝',federation:'🏛️',independant:'🚴',organisateur:'🎪',admin:'⚙️',supporter:'💗',eleve_etudiant:'🎓',gabonais_diaspora:'🇬🇦', sportif_etranger:'🌍',handisport:'🦾',ancien_sportif:'🎖️',formateur:'🧑‍🏫',ecole_universite:'🏫'};
-    const ROLE_SHORT={joueur:'Joueur',athlete:'Athlète',arbitre:'Arbitre',entraineur:'Coach',club:'Club',association:'Asso.',federation:'Fédération',independant:'Indép.',organisateur:'Org.',supporter:'Supporter',admin:'Admin',eleve_etudiant:'Élève/Étud.',gabonais_diaspora:'Diaspora', sportif_etranger:'Étranger',handisport:'Handisport',ancien_sportif:'Ancien Sportif',formateur:'Formateur',ecole_universite:'École/Univ.'};
+    const ROLE_SHORT={joueur:'Joueur',athlete:'Athlète',arbitre:'Arbitre',entraineur:'Coach',club:'Club',association:'Asso.',federation:'Fédération',independant:'Indép.',organisateur:'Org.',supporter:'Supporter',admin:'Admin',eleve_etudiant:'Élève/Étud.',gabonais_diaspora:'Diaspora', sportif_etranger:'Étranger',handisport:'Handisport',ancien_sportif:'Ancien joueur',formateur:'Formateur',ecole_universite:'École/Univ.'};
 
     const renderRow=(a,idx)=>{
       const id=a.uid||a.id;
@@ -4971,7 +4971,7 @@ function renderActors(actors){
       return `<div class="actor-compact-row" onclick="openActorDetail('${esc(id)}')">
         <div class="acr-avatar">${avatarHtml}</div>
         <div class="acr-info">
-          <div class="acr-name">${esc(name)}${demoTag}${(a.validationAdmin==='pending'&&__gscCanSeePending())?'<span class="gsc-pending-badge" title="En attente de validation GSC" style="display:inline-block;margin-left:6px;padding:2px 8px;border-radius:10px;background:#f97316;color:#fff;font-size:10px;font-weight:800;letter-spacing:.3px;white-space:nowrap;vertical-align:middle">⏳ En attente</span>':''}</div>
+          <div class="acr-name">${esc(name)}${demoTag}${(a.validationAdmin==='pending'&&__gscCanSeePending())?'<span class="gsc-pending-badge" title="En attente de validation GFC" style="display:inline-block;margin-left:6px;padding:2px 8px;border-radius:10px;background:#f97316;color:#fff;font-size:10px;font-weight:800;letter-spacing:.3px;white-space:nowrap;vertical-align:middle">⏳ En attente</span>':''}</div>
           <div class="acr-meta">${esc(meta)}</div>
         </div>
         <span class="acr-badge ${roleKey}">${roleShort}</span>
@@ -4990,7 +4990,7 @@ function renderActors(actors){
     if(groupAll){
       // Regroupement intelligent par rôle, ordre professionnel : Joueurs → Encadrement → Officiels → Organisations
       const GROUP_ORDER=['joueur','athlete','entraineur','arbitre','eleve_etudiant','ecole_universite','gabonais_diaspora', 'sportif_etranger','handisport','ancien_sportif','formateur','club','federation','association','organisateur','independant','supporter','admin'];
-      const GROUP_LABELS={joueur:'⚽ Joueurs',athlete:'🏃 Athlètes',entraineur:'📋 Entraîneurs',arbitre:'🟨 Arbitres',club:'🏟️ Clubs',federation:'🏛️ Fédérations',association:'🤝 Associations',organisateur:'🎪 Organisateurs',independant:'🚴 Indépendants',supporter:'💗 Supporters',admin:'⚙️ Administrateurs',eleve_etudiant:'🎓 Élèves / Étudiants',gabonais_diaspora:'🇬🇦 Gabonais de l’étranger', sportif_etranger:'🌍 Sportifs étrangers',handisport:'🦾 Sportifs handisport',ancien_sportif:'🎖️ Anciens Sportifs',formateur:'🧑‍🏫 Formateurs',ecole_universite:'🏫 Écoles / Universités'};
+      const GROUP_LABELS={joueur:'⚽ Joueurs',athlete:'🏃 Athlètes',entraineur:'📋 Entraîneurs',arbitre:'🟨 Arbitres',club:'🏟️ Clubs',federation:'🏛️ Fédérations',association:'🤝 Associations',organisateur:'🎪 Organisateurs',independant:'🚴 Indépendants',supporter:'💗 Supporters',admin:'⚙️ Administrateurs',eleve_etudiant:'🎓 Élèves / Étudiants',gabonais_diaspora:'🇬🇦 Gabonais de l’étranger', sportif_etranger:'🌍 Joueurs étrangers',handisport:'🦾 Sportifs handisport',ancien_sportif:'🎖️ Anciens joueurs',formateur:'🧑‍🏫 Formateurs',ecole_universite:'🏫 Écoles / Universités'};
       const buckets={};
       actors.forEach(a=>{ const r=a.role||'joueur'; (buckets[r]=buckets[r]||[]).push(a); });
       orderedActors=[];
@@ -5072,7 +5072,7 @@ function renderActors(actors){
       const name=[a.prenom,a.nom,a.nomOrganisation].filter(Boolean).join(' ')||(ROLE_LABELS[a.role]||a.role||'Profil');
       const initial=name[0]?.toUpperCase()||'?';
       const roleKey=a.role||'joueur';
-      const roleName={joueur:'Joueur',athlete:'Athlète',arbitre:'Arbitre',entraineur:'Entraîneur',club:'Club',association:'Association',federation:'Fédération',independant:'Sportif indépendant',organisateur:'Organisateur',eleve_etudiant:'Élève / Étudiant',gabonais_diaspora:'Gabonais sportif à l’étranger', sportif_etranger:'Sportif étranger',handisport:'Sportif handisport',ancien_sportif:'Ancien Sportif',formateur:'Formateur',ecole_universite:'École / Université'}[roleKey]||roleKey;
+      const roleName={joueur:'Joueur',athlete:'Athlète',arbitre:'Arbitre',entraineur:'Entraîneur',club:'Club',association:'Association',federation:'Fédération',independant:'Joueur indépendant',organisateur:'Organisateur',eleve_etudiant:'Élève / Étudiant',gabonais_diaspora:'Gabonais de l’étranger', sportif_etranger:'Joueur étranger',handisport:'Sportif handisport',ancien_sportif:'Ancien joueur',formateur:'Formateur',ecole_universite:'École / Université'}[roleKey]||roleKey;
       const badgeClass='badge-'+roleKey;
       const typeIcons={joueur:'⚽',athlete:'🏃',arbitre:'🟨',entraineur:'📋',club:'🏟️',association:'🤝',federation:'🏛️',independant:'🚴',organisateur:'🎪',eleve_etudiant:'🎓',gabonais_diaspora:'🇬🇦', sportif_etranger:'🌍',handisport:'🦾',ancien_sportif:'🎖️',formateur:'🧑‍🏫',ecole_universite:'🏫'};
       const typeDotIcon=typeIcons[roleKey]||'👤';
@@ -5083,7 +5083,7 @@ function renderActors(actors){
       const qrIdx=qrIndexCounter++;
       return `
         <div class="actor-card" onclick="openActorDetail('${esc(id)}')">
-          <div class="actor-card-header">${(a.validationAdmin==='pending'&&__gscCanSeePending())?'<div class="gsc-pending-ribbon" title="En attente de validation GSC" style="align-self:stretch;margin:-16px -14px 4px;padding:6px 8px;background:#f97316;color:#fff;font-size:11px;font-weight:800;text-align:center;letter-spacing:.3px">⏳ En attente de validation</div>':''}
+          <div class="actor-card-header">${(a.validationAdmin==='pending'&&__gscCanSeePending())?'<div class="gsc-pending-ribbon" title="En attente de validation GFC" style="align-self:stretch;margin:-16px -14px 4px;padding:6px 8px;background:#f97316;color:#fff;font-size:11px;font-weight:800;text-align:center;letter-spacing:.3px">⏳ En attente de validation</div>':''}
             <div class="actor-avatar-wrap">
               <div class="actor-avatar">${photoSrc?`<img src="${esc(sanitizeUrl(photoSrc))}" alt="${esc(name)}" loading="lazy">`:(ROLE_ICONS[roleKey]||esc(initial))}</div>
               <div class="actor-type-dot ${roleKey}" title="${esc(roleName)}">${typeDotIcon}</div>
@@ -5282,10 +5282,10 @@ function openActorDetail(uid){
     if(a.filiere) html+=`<div class="adm-info-row"><span class="adm-info-label">Filière</span><span class="adm-info-val">${esc(a.filiere)}</span></div>`;
     html+=`</div>`;
   }
-  // Sportif étranger — statut & vérification documentaire (le n° de document exact
+  // Joueur étranger — statut & vérification documentaire (le n° de document exact
   // reste une donnée sensible réservée au propriétaire, son club employeur ou l'admin)
   if(a.role==='sportif_etranger'){
-    html+=`<div class="adm-section"><div class="adm-section-title">🌍 Statut sportif étranger</div>`;
+    html+=`<div class="adm-section"><div class="adm-section-title">🌍 Statut joueur étranger</div>`;
     if(a.statutPro) html+=`<div class="adm-info-row"><span class="adm-info-label">Statut</span><span class="adm-info-val">${esc(a.statutPro)}</span></div>`;
     if(a.employeur) html+=`<div class="adm-info-row"><span class="adm-info-label">Employeur / Club</span><span class="adm-info-val">${esc(a.employeur)}</span></div>`;
     if(a.documentType) html+=`<div class="adm-info-row"><span class="adm-info-label">Document</span><span class="adm-info-val">${esc(a.documentType)}${(a.documentNumero&&canViewSensitive)?' n° '+esc(a.documentNumero):''}</span></div>`;
@@ -5321,9 +5321,9 @@ function openActorDetail(uid){
     </div>`;
     html+=`</div>`;
   }
-  // Ancien Sportif — carrière terminée, palmarès et reconversion
+  // Ancien joueur — carrière terminée, palmarès et reconversion
   if(a.role==='ancien_sportif'){
-    html+=`<div class="adm-section"><div class="adm-section-title">🎖️ Carrière sportive</div>`;
+    html+=`<div class="adm-section"><div class="adm-section-title">🎖️ Carrière</div>`;
     if(a.poste) html+=`<div class="adm-info-row"><span class="adm-info-label">Poste / Spécialité</span><span class="adm-info-val">${esc(a.poste)}</span></div>`;
     if(a.niveauCarriere) html+=`<div class="adm-info-row"><span class="adm-info-label">Niveau atteint</span><span class="adm-info-val">${esc(a.niveauCarriere)}</span></div>`;
     if(a.anneeDebutCarriere||a.anneeFinCarriere) html+=`<div class="adm-info-row"><span class="adm-info-label">Période</span><span class="adm-info-val">${esc(a.anneeDebutCarriere||'?')} – ${esc(a.anneeFinCarriere||'?')}</span></div>`;
@@ -5599,7 +5599,7 @@ function buildEditForm(p){
       </div>
     </div>`;
 
-    h+=`<div class="section-divider orange">🏅 Informations sportives</div>`;
+    h+=`<div class="section-divider orange">🏅 Informations de jeu</div>`;
     const sports=['Football'];
     const sportIcons={'Football':'⚽','Basketball':'🏀','Handball':'🤾','Volleyball':'🏐','Athlétisme':'🏃','Natation':'🏊','Boxe':'🥊','Judo':'🥋','Tennis':'🎾','Rugby':'🏉','Cyclisme':'🚴','Taekwondo':'🥋'};
     h+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
@@ -5685,9 +5685,9 @@ function buildEditForm(p){
     h+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
       <div class="form-group"><label>Type</label>
         <select id="edit-type-org">
-          <option${p.typeOrganisation==='Club sportif'?' selected':''}>Club sportif</option>
+          <option${p.typeOrganisation==='Club sportif'?' selected':''}>Club de football</option>
           <option${p.typeOrganisation==='Association'?' selected':''}>Association</option>
-          <option${p.typeOrganisation==='Comité sportif'?' selected':''}>Comité sportif</option>
+          <option${p.typeOrganisation==='Comité sportif'?' selected':''}>Comité de football</option>
           <option${p.typeOrganisation==="Organisation de tournois"?' selected':''}>Organisation de tournois</option>
           <option${p.typeOrganisation==="Organisation d'évènements"?' selected':''}>Organisation d'évènements</option>
           <option${p.typeOrganisation==='Fédération'?' selected':''}>Fédération</option>
@@ -5778,9 +5778,9 @@ function buildEditForm(p){
     </div>`;
   }
 
-  // Profil Ancien Sportif — carrière terminée, palmarès, reconversion
+  // Profil Ancien joueur — carrière terminée, palmarès, reconversion
   if(p.role==='ancien_sportif'){
-    h+=`<div class="section-divider" style="border-color:#9f1239;">🎖️ Carrière sportive</div>`;
+    h+=`<div class="section-divider" style="border-color:#9f1239;">🎖️ Carrière</div>`;
     h+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
       <div class="form-group"><label>Poste / Spécialité</label><input type="text" id="edit-anc-poste" value="${p.poste||''}" placeholder="ex: Attaquant, 100m…"></div>
       <div class="form-group"><label>Niveau atteint</label>
@@ -6299,11 +6299,11 @@ var currentNewsCat = 'all';
 // Fallback seed news (données réalistes gabonaises)
 const GSC_SEED_NEWS = [
   {id:'sn1',cat:'Football',title:'National Foot 1 — La saison 2025-2026 lancée le 7 mars',excerpt:'La LINAFP (Brice Mbika Ndjambou) a officiellement ouvert la saison 2025-2026 à Lambaréné : Stade Migovéen vs AS Mangasport en match inaugural. La D2 démarre le 21 mars.',date:'Mars 2026',tag:'LINAFP',source:'AGP / Union',url:'#'},
-  {id:'sn2',cat:'Football',title:'FEGAFOOT : Pierre Alain Mounguengui réélu président',excerpt:'Le président de la Fédération Gabonaise de Football a été reconduit dans ses fonctions lors de l\'assemblée générale.',date:'Récent',tag:'FEGAFOOT',source:'GSC Sport',url:'#'},
+  {id:'sn2',cat:'Football',title:'FEGAFOOT : Pierre Alain Mounguengui réélu président',excerpt:'Le président de la Fédération Gabonaise de Football a été reconduit dans ses fonctions lors de l\'assemblée générale.',date:'Récent',tag:'FEGAFOOT',source:'GFC',url:'#'},
   {id:'sn3',cat:'Scolaire',title:'41e Jeux OGSSU — Mars 2025 : 9 provinces mobilisées',excerpt:'L\'Office Gabonais des Sports Scolaires et Universitaires tient sa 41e édition après 10 ans d\'interruption. ~2000 athlètes des 9 provinces à Libreville.',date:'Mars 2025',tag:'OGSSU',source:'AGP / Primature',url:'#'},
-  {id:'sn4',cat:'Football',title:'AS Mangasport : champion 2024-2025 (10e titre)',excerpt:'Mangasport de Moanda remporte son 10e titre de champion du Gabon. Le FC Canon 105 se qualifie pour la Coupe de la Confédération CAF.',date:'2025',tag:'National Foot',source:'GSC Sport',url:'#'},
+  {id:'sn4',cat:'Football',title:'AS Mangasport : champion 2024-2025 (10e titre)',excerpt:'Mangasport de Moanda remporte son 10e titre de champion du Gabon. Le FC Canon 105 se qualifie pour la Coupe de la Confédération CAF.',date:'2025',tag:'National Foot',source:'GFC',url:'#'},
   {id:'sn5',cat:'Football',title:'Stade Migovéen (Lambaréné) : champion D2 et promu en D1',excerpt:'Le Stade Migovéen décroche le titre de champion de D2 2024-2025 avec 49 points, suivi d\'Oyem AC et Ogooué FC. Trois clubs promus en National Foot 1.',date:'Mai 2025',tag:'Promotion',source:'7 Jours Info',url:'#'},
-  {id:'sn6',cat:'Football',title:'Denis Bouanga : meilleur buteur de MLS',excerpt:'La star gabonaise continue de briller avec Los Angeles FC et s\'affirme comme l\'un des meilleurs joueurs de la ligue nord-américaine.',date:'2025',tag:'MLS',source:'GSC Sport',url:'#'},
+  {id:'sn6',cat:'Football',title:'Denis Bouanga : meilleur buteur de MLS',excerpt:'La star gabonaise continue de briller avec Los Angeles FC et s\'affirme comme l\'un des meilleurs joueurs de la ligue nord-américaine.',date:'2025',tag:'MLS',source:'GFC',url:'#'},
   {id:'sn7',cat:'Scolaire',title:'OGSSU 2024 : Woleu-Ntem champion football (tirs au but)',excerpt:'Le Woleu-Ntem s\'impose face au Haut-Ogooué aux tirs au but lors de la finale des Jeux OGSSU 2024 au stade du 6e arrondissement de Libreville.',date:'Mars 2024',tag:'OGSSU',source:'AGP / Primature',url:'#'},
   {id:'sn8',cat:'Football',title:'Sous-ligue d\'Owendo : saison U13/U15/U17 lancée',excerpt:'La sous-ligue de football d\'Owendo inaugure la saison 2025-2026 au complexe sportif Léon Augier avec les catégories jeunes.',date:'Févr. 2026',tag:'Football local',source:'Gabonallsport',url:'#'},
 ];
@@ -6385,7 +6385,7 @@ function renderNewsFiltered(){
     return `<div class="news-online-card" ${n.url&&n.url!=='#'?`onclick="window.open('${esc(sanitizeUrl(n.url))}','_blank')"`:''}> 
       <div class="news-online-accent ${accentClass}"></div>
       <div class="news-online-body">
-        <div class="news-online-source">${esc(n.source||'GSC Sport')}</div>
+        <div class="news-online-source">${esc(n.source||'GFC')}</div>
         <div class="news-online-title">${esc(n.title)}</div>
         ${n.excerpt?`<div class="news-online-excerpt">${esc(n.excerpt.substring(0,200))}…</div>`:''}
         <div class="news-online-footer">
@@ -6617,7 +6617,7 @@ function renderActorsAdmin(actors){
   try{const s=localStorage.getItem('gsc_profile_photos');if(s){const d=JSON.parse(s);localPhotos=d.photos||{};}}catch(e){}
 
   const ROLE_ICONS_MAP={joueur:'⚽',athlete:'🏃',arbitre:'🟨',entraineur:'📋',club:'🏟️',association:'🤝',federation:'🏛️',independant:'🚴',organisateur:'🎪',admin:'⚙️',supporter:'💗',eleve_etudiant:'🎓',gabonais_diaspora:'🇬🇦', sportif_etranger:'🌍',handisport:'🦾',ancien_sportif:'🎖️',formateur:'🧑‍🏫',ecole_universite:'🏫'};
-  const ROLE_SHORT={joueur:'Joueur',athlete:'Athlète',arbitre:'Arbitre',entraineur:'Coach',club:'Club',association:'Asso.',federation:'Fédération',independant:'Indép.',organisateur:'Org.',supporter:'Supporter',admin:'Admin',eleve_etudiant:'Élève/Étud.',gabonais_diaspora:'Diaspora', sportif_etranger:'Étranger',handisport:'Handisport',ancien_sportif:'Ancien Sportif',formateur:'Formateur',ecole_universite:'École/Univ.'};
+  const ROLE_SHORT={joueur:'Joueur',athlete:'Athlète',arbitre:'Arbitre',entraineur:'Coach',club:'Club',association:'Asso.',federation:'Fédération',independant:'Indép.',organisateur:'Org.',supporter:'Supporter',admin:'Admin',eleve_etudiant:'Élève/Étud.',gabonais_diaspora:'Diaspora', sportif_etranger:'Étranger',handisport:'Handisport',ancien_sportif:'Ancien joueur',formateur:'Formateur',ecole_universite:'École/Univ.'};
 
   const renderRow=(a,idx)=>{
     const id=a.uid||a.id;
@@ -6895,7 +6895,7 @@ function renderAdminReports(){
     ['Fiches en attente de validation',totalPending],
     ['Clubs / Associations / Fédérations',totalClubs],
     ['Sites sportifs référencés',totalSites],
-    ['Sportifs indépendants',visibleUsers.filter(u=>u.role==='independant').length],
+    ['Joueurs indépendants',visibleUsers.filter(u=>u.role==='independant').length],
   ];
   document.getElementById('report-summary-tbody').innerHTML=rows.map((r,i)=>`<tr><td style="font-size:12px;color:var(--gray-txt);">RPT-${String(i+1).padStart(3,'0')}</td><td style="font-size:13px;">${r[0]}</td><td style="font-weight:700;font-size:13px;">${r[1]}</td></tr>`).join('');
 }
@@ -8940,7 +8940,7 @@ function injectActorQr(uid, role, containerSelector){
     </div>
     <div>
       <div class="actor-gsc-id-small">${esc(gscId)}</div>
-      <div style="font-size:10px;color:var(--gray-txt);margin-top:2px;">Identification GSC</div>
+      <div style="font-size:10px;color:var(--gray-txt);margin-top:2px;">Identification GFC</div>
     </div>`;
   container.appendChild(row);
   setTimeout(()=>{ drawQrOnCanvas(document.getElementById(`actor-qr-${uid}`), url, 56); }, 80);
