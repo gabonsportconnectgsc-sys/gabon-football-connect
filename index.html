@@ -10071,5 +10071,22 @@ document.addEventListener('DOMContentLoaded', function(){
   });
 })();</script>
 <script src="gfc-auth-override.js"></script>
+<script id="gfc-tiles-fit">
+(function(){
+  function fit(){
+    var g=document.getElementById('dashboard-landing-anchor'); if(!g)return;
+    var all=[].slice.call(g.querySelectorAll('.stat-card')).filter(function(e){return e.offsetParent!==null;});
+    if(!all.length)return;
+    var gw=g.clientWidth;
+    var half=all.filter(function(e){return e.offsetWidth<gw*0.7;});
+    half.forEach(function(e){e.style.minHeight='';});
+    var h=0; half.forEach(function(e){h=Math.max(h,e.offsetHeight);});
+    if(h) half.forEach(function(e){e.style.minHeight=h+'px';});
+  }
+  window.addEventListener('load',function(){fit();setTimeout(fit,600);setTimeout(fit,2000);});
+  window.addEventListener('resize',fit);
+  setInterval(fit,2500);
+})();
+</script>
 </body>
 </html>
