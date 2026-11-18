@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin.html
 
-Sitemap: https://gabon-sport-connect.web.app/sitemap.xml
+Sitemap: https://gabon-football-connect.web.app/sitemap.xml
