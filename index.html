@@ -1263,7 +1263,21 @@ html .actor-compact-row .acr-info{display:contents}
 html .actor-compact-row .acr-name{grid-column:2;grid-row:2;white-space:normal !important;overflow:visible !important;text-overflow:clip !important;overflow-wrap:anywhere;word-break:break-word;line-height:1.25;font-size:13.5px;min-width:0}
 html .actor-compact-row .acr-meta{grid-column:2;grid-row:3;white-space:normal !important;overflow:visible !important;text-overflow:clip !important;overflow-wrap:anywhere;line-height:1.3;min-width:0}
 html .actor-compact-row .acr-qr{grid-column:3;grid-row:1/span 3;align-self:center}
-</style></head>
+</style><style id="gfc-histo-compact">
+/* Historique de connexion — menu latéral compact */
+.side-menu-nav .login-history-header{padding:2px 10px 3px !important;}
+.side-menu-nav .login-history-header span{font-size:9px !important;letter-spacing:.5px !important;}
+.side-menu-nav .login-history-seeall{font-size:10px !important;padding:1px 4px !important;}
+#side-menu-login-history{gap:0 !important;padding:0 2px !important;height:auto !important;min-height:0 !important;flex:none !important;}
+#side-menu-login-history .login-history-row{padding:3px 6px !important;gap:7px !important;min-height:0 !important;height:auto !important;flex:none !important;}
+#side-menu-login-history .login-history-avatar{width:22px !important;height:22px !important;font-size:9px !important;}
+#side-menu-login-history .login-history-name{font-size:11px !important;line-height:1.2 !important;}
+#side-menu-login-history .login-history-meta{font-size:9.5px !important;line-height:1.2 !important;}
+#side-menu-login-history .login-history-time{font-size:9px !important;line-height:1.15 !important;}
+#side-menu-login-history .login-history-time .lh-date{font-size:9.5px !important;}
+#side-menu-login-history .login-history-empty{font-size:11px !important;padding:6px 10px !important;}
+</style>
+</head>
 <body>
 <!-- ═══ ÉCRAN DE DÉMARRAGE PERSONNALISÉ (après le splash natif de la PWA) ═══
      Le splash natif Android (généré depuis manifest.json) est statique et ne
@@ -1530,6 +1544,14 @@ html .actor-compact-row .acr-qr{grid-column:3;grid-row:1/span 3;align-self:cente
         <span class="smi-ico">🔔</span><span id="notif-label">Activer les notifications</span>
       </button>
 
+      <!-- INFORMATIONS -->
+      <div class="side-menu-divider" style="margin:6px 0;"></div>
+      <div class="side-menu-section-title">ℹ️ Informations</div>
+      <button class="side-menu-item" onclick="showView('legal');switchLegalTab('roles',{target:document.querySelector('.legal-tab')});closeMenu()"><span class="smi-ico">🎭</span>Rôles et accès</button>
+      <button class="side-menu-item" onclick="showView('legal');switchLegalTab('donnees',{target:document.querySelector('.legal-tab:nth-child(2)')});closeMenu()"><span class="smi-ico">🔒</span>Données & confidentialité</button>
+      <button class="side-menu-item" onclick="showView('legal');switchLegalTab('contact',{target:document.querySelector('.legal-tab:nth-child(3)')});closeMenu()"><span class="smi-ico">📞</span>Contact & équipe</button>
+      <button class="side-menu-item" onclick="showView('legal');switchLegalTab('legal',{target:document.querySelector('.legal-tab:nth-child(4)')});closeMenu()"><span class="smi-ico">📜</span>Mentions légales & CGU</button>
+
       <!-- HISTORIQUE -->
       <div class="side-menu-divider" style="margin:6px 0;"></div>
       <div class="login-history-header">
@@ -1539,14 +1561,6 @@ html .actor-compact-row .acr-qr{grid-column:3;grid-row:1/span 3;align-self:cente
       <div class="login-history-list" id="side-menu-login-history">
         <div class="login-history-empty">Aucune connexion enregistrée.</div>
       </div>
-
-      <!-- INFORMATIONS -->
-      <div class="side-menu-divider" style="margin:6px 0;"></div>
-      <div class="side-menu-section-title">ℹ️ Informations</div>
-      <button class="side-menu-item" onclick="showView('legal');switchLegalTab('roles',{target:document.querySelector('.legal-tab')});closeMenu()"><span class="smi-ico">🎭</span>Rôles et accès</button>
-      <button class="side-menu-item" onclick="showView('legal');switchLegalTab('donnees',{target:document.querySelector('.legal-tab:nth-child(2)')});closeMenu()"><span class="smi-ico">🔒</span>Données & confidentialité</button>
-      <button class="side-menu-item" onclick="showView('legal');switchLegalTab('contact',{target:document.querySelector('.legal-tab:nth-child(3)')});closeMenu()"><span class="smi-ico">📞</span>Contact & équipe</button>
-      <button class="side-menu-item" onclick="showView('legal');switchLegalTab('legal',{target:document.querySelector('.legal-tab:nth-child(4)')});closeMenu()"><span class="smi-ico">📜</span>Mentions légales & CGU</button>
 
     </nav>
 
@@ -4529,7 +4543,7 @@ async function renderLoginHistoryCompact(){
   const el = document.getElementById('side-menu-login-history');
   if(!el) return;
   if(_loginHistoryCache===null) _loginHistoryCache = await loadLoginHistory(50);
-  const rows = _loginHistoryCache.slice(0,5);
+  const rows = _loginHistoryCache.slice(0,10);
   if(!rows.length){
     el.innerHTML = '<div class="login-history-empty">Aucune connexion enregistrée.</div>';
     return;
