@@ -15,11 +15,13 @@
    on passe en stratégie "network-first / stale-while-revalidate" pour les
    fichiers JS/CSS de l'app (voir plus bas) afin que ce problème ne se
    reproduise plus à chaque futur correctif. */
-const CACHE_NAME = 'gsc-v94';
+const CACHE_NAME = 'gsc-v95';
 // ── NOUVEAU — cache dédié au Web Share Target (POST), voir handleShareTarget()
 // et le handler 'fetch' plus bas. Séparé de CACHE_NAME pour ne jamais être
 // purgé par la logique de versioning de l'app (activate ci-dessous).
 const SHARE_CACHE = 'gsc-share-target-v1';
+const TILES_CACHE = 'gsc-tiles-v1'; // tuiles de carte, non purgé par les changements de version
+const TILES_MAX = 500;
 const URLS_TO_CACHE = [
   'icon-192-round.png',
   'icon-512-round.png',
@@ -55,7 +57,7 @@ self.addEventListener('install', event => {
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames =>
-      Promise.all(cacheNames.map(n => (n !== CACHE_NAME && n !== SHARE_CACHE) ? caches.delete(n) : null))
+      Promise.all(cacheNames.map(n => (n !== CACHE_NAME && n !== SHARE_CACHE && n !== TILES_CACHE) ? caches.delete(n) : null))
     )
   );
   self.clients.claim();
@@ -97,6 +99,21 @@ self.addEventListener('fetch', event => {
   /* HORS LIGNE : les API Firebase sont gérées par le SDK, jamais par le service worker */
   if (/(^|\.)(firestore|identitytoolkit|securetoken|firebaseinstallations|content-firebaseappcheck)\.googleapis\.com$/.test(url.hostname)) return;
   /* HORS LIGNE : pages avec délai de 6 s puis repli sur le cache */
+  if (url.hostname.endsWith('tile.openstreetmap.org')) {
+    event.respondWith((async () => {
+      const c = await caches.open(TILES_CACHE);
+      const hit = await c.match(request); if (hit) return hit;
+      try {
+        const res = await fetch(request);
+        if (res && res.status === 200) {
+          c.put(request, res.clone());
+          c.keys().then(k => { if (k.length > TILES_MAX) k.slice(0, k.length - TILES_MAX).forEach(x => c.delete(x)); });
+        }
+        return res;
+      } catch (e) { return new Response('', { status: 504 }); }
+    })());
+    return;
+  }
   if (request.mode === 'navigate') { event.respondWith(navOffline(request)); return; }
   const isHTML = request.mode === 'navigate' || request.destination === 'document';
   if (isHTML) {
