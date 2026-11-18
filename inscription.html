@@ -736,7 +736,8 @@
   (async () => {
     try {
       const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js");
-      const { getFirestore, doc, setDoc, collection, query, where, getDocs, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+      const { getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, doc, setDoc, collection, query, where, getDocs, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+      const off = await import("./offline.js").catch(function(){ return null; });
       const app = initializeApp({
         apiKey:"AIzaSyCGqoecHxVd6_Nn9KedLy68xPkp7hI8Fd0",
         authDomain:"gabon-football-connect.firebaseapp.com",
@@ -750,9 +751,10 @@
         window._appCheck = null; /* GFC : App Check désactivé */
       } catch (e) { console.warn('[AppCheck] non initialise', e); }
       _fbApp = app;
-      db = getFirestore(app);
-      _doc = doc; _setDoc = setDoc;
-      _collection = collection; _query = query; _where = where; _getDocs = getDocs;
+      try{ db = initializeFirestore(app,{ localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }) }); }catch(e){ db = getFirestore(app); }
+      if(off){ try{ off.initStatus(db); }catch(e){} }
+      _doc = doc; _setDoc = off ? off.setDoc : setDoc;
+      _collection = collection; _query = query; _where = where; _getDocs = off ? off.getDocs : getDocs;
       _serverTimestamp = serverTimestamp;
     } catch(e) { console.warn("Firestore non disponible:", e); }
     // ── Pont d'authentification Firebase (corrige "Missing or insufficient permissions") ──
