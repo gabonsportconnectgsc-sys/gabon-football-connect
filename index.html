@@ -864,8 +864,9 @@
       filter:grayscale(15%) saturate(1.15) contrast(1.05);
       transition:opacity .5s ease;
     }
-    .stat-wm.is-loaded{opacity:.22;}
-    .stat-wm[data-wm-role="niveau"].is-loaded{opacity:.42;mix-blend-mode:normal;}
+    .stat-wm.is-loaded{opacity:.55;mix-blend-mode:normal;}
+    .stat-wm[data-wm-role="niveau"].is-loaded{opacity:.6;mix-blend-mode:normal;}
+    .stat-card:has(.stat-wm.is-loaded) .stat-val,.stat-card:has(.stat-wm.is-loaded) .stat-lbl{text-shadow:0 2px 6px rgba(0,0,0,.6);}
     .stat-card .stat-val,.stat-card .stat-lbl{position:relative;z-index:2;}
 
     /* Quick-btn image icons */
