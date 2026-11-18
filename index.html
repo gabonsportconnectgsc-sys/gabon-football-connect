@@ -1223,7 +1223,7 @@ body.dark::before,body.dark-mode::before,[data-theme="dark"] body::before,html[d
 #gsc-role-row{grid-template-columns:1fr 1fr !important;gap:8px !important;padding:0 6px !important;grid-auto-rows:minmax(52px,auto) !important}
 #gsc-role-row .gsc-role-btn{border-radius:14px !important;min-height:52px !important;height:100% !important;padding:8px 10px !important;font-size:12px !important;line-height:1.25 !important;white-space:normal !important;overflow:visible !important;text-overflow:clip !important;text-align:center !important}
 #gsc-role-row .gsc-role-btn:last-child:nth-child(odd){grid-column:1/-1 !important}
-</style><style id="gfc-justify">.legal-pane>p,.legal-pane>.info,.legal-pane>ul,.legal-pane>ol,.news-excerpt,.info,.acr-info,.site-info,.login-history-info{text-align:justify !important;text-align-last:left !important;hyphens:auto !important;-webkit-hyphens:auto !important;overflow-wrap:break-word !important;word-break:normal !important;box-sizing:border-box !important}.legal-pane>ul,.legal-pane>ol{list-style-position:inside !important}.legal-pane h3,.news-title{text-align:center !important;hyphens:none !important}</style></head>
+</style><style id="gfc-justify">.legal-pane>p,.legal-pane>.info,.legal-pane>ul,.legal-pane>ol,.news-excerpt,.info,.acr-info,.site-info,.login-history-info{text-align:justify !important;text-align-last:left !important;hyphens:auto !important;-webkit-hyphens:auto !important;overflow-wrap:break-word !important;word-break:normal !important;box-sizing:border-box !important}.legal-pane>ul,.legal-pane>ol{list-style-position:inside !important}.legal-pane h3,.news-title{text-align:center !important;hyphens:none !important}</style><style id="gfc-arrows">.page-scroll-btn{width:24px!important;height:24px!important;font-size:10px!important;position:relative;left:7px}.page-scroll-btn.visible{opacity:.5!important}</style></head>
 <body>
 <!-- ═══ ÉCRAN DE DÉMARRAGE PERSONNALISÉ (après le splash natif de la PWA) ═══
      Le splash natif Android (généré depuis manifest.json) est statique et ne
@@ -3272,7 +3272,7 @@ const ROLE_LABELS = {
   entraineur:'📋 Entraîneur', visiteur:'👁️ Visiteur', independant:'🧍 Footballeur indépendant',
   organisateur:'🎪 Organisateur', supporter:'💗 Supporter',
   eleve_etudiant:'🎓 Jeune footballeur / Étudiant', gabonais_diaspora:'🇬🇦 Footballeur gabonais de l’étranger', sportif_etranger:'🌍 Footballeur étranger',
-  handisport:'🦾 Sportif handisport', ancien_sportif:'🎖️ Ancien footballeur',
+  handisport:'🦾 Footballeur handisport', ancien_sportif:'🎖️ Ancien footballeur',
   formateur:'🧑‍🏫 Formateur', ecole_universite:'🏫 École / Université'
 };
 const ROLE_ICONS = {
@@ -5155,7 +5155,7 @@ function renderActors(actors){
       const name=[a.prenom,a.nom,a.nomOrganisation].filter(Boolean).join(' ')||(ROLE_LABELS[a.role]||a.role||'Profil');
       const initial=name[0]?.toUpperCase()||'?';
       const roleKey=a.role||'joueur';
-      const roleName={joueur:'Joueur',athlete:'Athlète',arbitre:'Arbitre',entraineur:'Entraîneur',club:'Club',association:'Association',federation:'Fédération',independant:'Footballeur indépendant',organisateur:'Organisateur',eleve_etudiant:'Élève / Étudiant',gabonais_diaspora:'Gabonais de l’étranger', sportif_etranger:'Footballeur étranger',handisport:'Sportif handisport',ancien_sportif:'Ancien footballeur',formateur:'Formateur',ecole_universite:'École / Université'}[roleKey]||roleKey;
+      const roleName={joueur:'Joueur',athlete:'Athlète',arbitre:'Arbitre',entraineur:'Entraîneur',club:'Club',association:'Association',federation:'Fédération',independant:'Footballeur indépendant',organisateur:'Organisateur',eleve_etudiant:'Élève / Étudiant',gabonais_diaspora:'Gabonais de l’étranger', sportif_etranger:'Footballeur étranger',handisport:'Footballeur handisport',ancien_sportif:'Ancien footballeur',formateur:'Formateur',ecole_universite:'École / Université'}[roleKey]||roleKey;
       const badgeClass='badge-'+roleKey;
       const typeIcons={joueur:'⚽',athlete:'🏃',arbitre:'🟨',entraineur:'📋',club:'🏟️',association:'🤝',federation:'🏛️',independant:'🚴',organisateur:'🎪',eleve_etudiant:'🎓',gabonais_diaspora:'🇬🇦', sportif_etranger:'🌍',handisport:'🦾',ancien_sportif:'🎖️',formateur:'🧑‍🏫',ecole_universite:'🏫'};
       const typeDotIcon=typeIcons[roleKey]||'👤';
@@ -5383,7 +5383,7 @@ function openActorDetail(uid){
     }
     html+=`</div>`;
   }
-  // Sportif handisport — profil para-sportif complet
+  // Footballeur handisport — profil para-sportif complet
   if(a.role==='handisport'){
     const HS_CAT_LABELS={visuelle:'👁️ Déficience visuelle',auditive:'👂 Déficience auditive',motrice_amputation:'🦵 Amputation / déficience des membres',motrice_paralysie:'🧠 Paralysie cérébrale / lésion cérébrale',motrice_moelle:'🦽 Lésion médullaire',motrice_autre:'🚶 Autre déficience motrice',intellectuelle:'🧩 Déficience intellectuelle',multiple:'➕ Déficiences multiples',autre:'📋 Autre'};
     const HS_CADRE_LABELS={federation:'Fégoph / Comité Paralympique Gabonais',club_ordinaire:'Club ordinaire, section adaptée',independant:'Indépendant, hors structure fédérale',etablissement:'Établissement spécialisé / centre de rééducation'};
