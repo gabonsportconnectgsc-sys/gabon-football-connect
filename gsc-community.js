@@ -58,7 +58,7 @@
     { key: 'supporter', icon: '💗', label: 'Supporters', color: '#ec4899', colorDk: '#db2777' },
     { key: 'independant', icon: '🧍', label: 'Indépendants', color: '#0ea5e9', colorDk: '#0284c7' },
     { key: 'eleve_etudiant', icon: '🎓', label: 'Élèves/Étudiants', color: '#6366f1', colorDk: '#4338ca' },
-    { key: 'gabonais_diaspora', icon: '🇬🇦', label: 'Gabonais de l’étranger', color: '#0891b2', colorDk: '#155e75' }, { key: 'sportif_etranger', icon: '🌍', label: 'Footballeurs étrangers', color: '#ca8a04', colorDk: '#92660a' },
+    { key: 'gabonais_diaspora', icon: '🇬🇦', label: 'Footballeurs gabonais de l’étranger', color: '#0891b2', colorDk: '#155e75' }, { key: 'sportif_etranger', icon: '🌍', label: 'Footballeurs étrangers', color: '#ca8a04', colorDk: '#92660a' },
     { key: 'handisport', icon: '🦾', label: 'Footballeurs handisport', color: '#7c3aed', colorDk: '#5b21b6' },
     { key: 'ancien_sportif', icon: '🎖️', label: 'Anciens footballeurs', color: '#9f1239', colorDk: '#881337' },
     { key: 'formateur', icon: '🧑‍🏫', label: 'Formateurs', color: '#a21caf', colorDk: '#701a75' }
