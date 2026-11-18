@@ -6215,7 +6215,7 @@ let allSites=[], currentSiteType='tous';
 function initMap(){
   if(!window.L||mapInstance) return;
   mapInstance=L.map('map-canvas',{scrollWheelZoom:false}).setView([0.0,11.0],6);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(mapInstance);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{crossOrigin:true,attribution:'© OpenStreetMap',maxZoom:19}).addTo(mapInstance);
 }
 function getMyLocation(){
   if(!navigator.geolocation) return toast('Géolocalisation non disponible.','error');
@@ -7533,7 +7533,7 @@ window.switchMapsTab=switchMapsTab;
 function initOsmMap(){
   if(osmMap||!window.L) return;
   osmMap=L.map('osm-map').setView([LIBREVILLE_LAT,LIBREVILLE_LNG],12);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(osmMap);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{crossOrigin:true,attribution:'© OpenStreetMap',maxZoom:19}).addTo(osmMap);
   if(window.GeoSearch){
     const provider=new GeoSearch.OpenStreetMapProvider();
     const ctrl=new GeoSearch.GeoSearchControl({provider,style:'bar'});
