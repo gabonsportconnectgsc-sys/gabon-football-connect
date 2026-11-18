@@ -4505,6 +4505,7 @@ async function loadLoginHistory(max){
       else if(v.createdAt) dt = new Date(v.createdAt);
       rows.push({
         id: d.id,
+        uid: v.uid || '',
         nom: v.nom || 'Utilisateur',
         ville: v.ville || '',
         pays: v.pays || '',
@@ -4538,6 +4539,15 @@ function lhId(row){
   return row.id ? row.id.slice(0,6).toUpperCase() : '------';
 }
 
+function lhOpenProfile(uid){
+  if(!uid) return;
+  try{ closeMenu(); }catch(e){}
+  const m = document.getElementById('modal-login-history');
+  if(m) m.classList.remove('open');
+  if(typeof window.openMemberProfile==='function') window.openMemberProfile(uid);
+}
+window.lhOpenProfile = lhOpenProfile;
+
 // Rendu compact (5 dernières) dans le menu latéral
 async function renderLoginHistoryCompact(){
   const el = document.getElementById('side-menu-login-history');
@@ -4550,7 +4560,7 @@ async function renderLoginHistoryCompact(){
   }
   el.innerHTML = rows.map(r=>{
     const {date,heure} = lhDateLabel(r.date);
-    return `<div class="login-history-row">
+    return `<div class="login-history-row" data-uid="${esc(r.uid||'')}"${r.uid?' style="cursor:pointer"':''} onclick="lhOpenProfile(this.dataset.uid)">
       <div class="login-history-avatar">${esc(lhInitials(r.nom))}</div>
       <div class="login-history-info">
         <div class="login-history-name">${esc(r.nom)}</div>
@@ -4582,7 +4592,7 @@ async function openLoginHistoryModal(){
       html += `<div class="login-history-day-sep">${dayKey}</div>`;
       lastDay = dayKey;
     }
-    html += `<div class="login-history-full-row">
+    html += `<div class="login-history-full-row" data-uid="${esc(r.uid||'')}"${r.uid?' style="cursor:pointer"':''} onclick="lhOpenProfile(this.dataset.uid)">
       <div class="login-history-avatar">${esc(lhInitials(r.nom))}</div>
       <div class="login-history-info">
         <div class="login-history-name">${esc(r.nom)}</div>
