@@ -72,7 +72,7 @@
     federation: '🏛️ Fédération',
     association: '🤝 Association',
     organisateur: '🎪 Organisateur',
-    independant: '🚴 Indépendant',
+    independant: '🚴 Footballeur indépendant',
     supporter: '💗 Supporter',
     eleve_etudiant: '🎓 Élève / Étudiant',
     gabonais_diaspora: '🇬🇦 Footballeur gabonais de l’étranger', sportif_etranger: '🌍 Footballeur étranger',
@@ -1591,8 +1591,8 @@
   const DOC_CAT_LABELS = {
     joueur: '⚽ Joueurs', club: '🏟️ Clubs', athlete: '🏃 Athlètes', entraineur: '📋 Entraîneurs', arbitre: '🟨 Arbitres',
     federation: '🏛️ Fédérations', association: '🤝 Associations', organisateur: '🎪 Organisateurs', ecole_universite: '🏫 Écoles / Universités',
-    formateur: '🧑‍🏫 Formateurs', eleve_etudiant: '🎓 Élèves / Étudiants', ancien_sportif: '🎖️ Anciens footballeurs', handisport: '🦾 Handisport',
-    gabonais_diaspora: '🇬🇦 Gabonais de l’étranger', sportif_etranger: '🌍 Footballeurs étrangers', independant: '🚴 Indépendants', supporter: '💗 Supporters',
+    formateur: '🧑‍🏫 Formateurs', eleve_etudiant: '🎓 Élèves / Étudiants', ancien_sportif: '🎖️ Anciens footballeurs', handisport: '🦾 Footballeur handisport',
+    gabonais_diaspora: '🇬🇦 Gabonais de l’étranger', sportif_etranger: '🌍 Footballeurs étrangers', independant: '🚴 Footballeurs indépendants', supporter: '💗 Supporters',
     admin: '🛡️ Administrateurs', visiteur: '👁️ Visiteurs'
   };
 

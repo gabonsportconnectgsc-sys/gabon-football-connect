@@ -813,6 +813,8 @@ tr.is-demo-row td { opacity: .82; }
 </style><style id="gfc-admin-text">
 .dash-card p,.dash-card .info,.page-title,.dash-card-title{text-align:center !important}
 .dash-card>p{box-sizing:border-box !important;max-width:520px !important;margin:10px auto !important;padding:12px 14px !important;border:1px solid #e2e8f0 !important;border-radius:14px !important;background:#f8fafc !important}
+</style><style id="gfc-filter-wrap">
+.filter-btn,button[data-phfilter],button[class*="role-"]{white-space:normal !important;text-overflow:clip !important;overflow:visible !important;height:auto !important;min-height:40px !important;line-height:1.2 !important;text-align:center !important;display:flex !important;align-items:center !important;justify-content:center !important;gap:6px !important;box-sizing:border-box !important}
 </style></head>
 <body>
 
@@ -905,8 +907,8 @@ tr.is-demo-row td { opacity: .82; }
         <button class="nav-item" id="nav-role-supporter" onclick="window.gscGoToFiltered&&window.gscGoToFiltered({roles:'supporter',title:'Supporters'})">
           <span class="nav-icon">💗</span><span>Supporters</span><span class="nav-badge-count" id="nav-count-supporter" style="display:none;"></span>
         </button>
-        <button class="nav-item" id="nav-role-independant" onclick="window.gscGoToFiltered&&window.gscGoToFiltered({roles:'independant',title:'Indépendants'})">
-          <span class="nav-icon">🚴</span><span>Indépendants</span><span class="nav-badge-count" id="nav-count-independant" style="display:none;"></span>
+        <button class="nav-item" id="nav-role-independant" onclick="window.gscGoToFiltered&&window.gscGoToFiltered({roles:'independant',title:'Footballeurs indépendants'})">
+          <span class="nav-icon">🚴</span><span>Footballeurs indépendants</span><span class="nav-badge-count" id="nav-count-independant" style="display:none;"></span>
         </button>
         <button class="nav-item" id="nav-role-eleve_etudiant" onclick="window.gscGoToFiltered&&window.gscGoToFiltered({roles:'eleve_etudiant',title:'Élèves / Étudiants'})">
           <span class="nav-icon">🎓</span><span>Élèves / Étudiants</span><span class="nav-badge-count" id="nav-count-eleve_etudiant" style="display:none;"></span>
@@ -914,11 +916,11 @@ tr.is-demo-row td { opacity: .82; }
         <button class="nav-item" id="nav-role-sportif_etranger" onclick="window.gscGoToFiltered&&window.gscGoToFiltered({roles:'sportif_etranger',title:'Footballeurs étrangers'})">
           <span class="nav-icon">🌍</span><span>Footballeurs étrangers</span><span class="nav-badge-count" id="nav-count-sportif_etranger" style="display:none;"></span>
         </button>
-        <button class="nav-item" id="nav-role-gabonais_diaspora" onclick="window.gscGoToFiltered&&window.gscGoToFiltered({roles:'gabonais_diaspora',title:'Gabonais de l’étranger'})">
-          <span class="nav-icon">🇬🇦</span><span>Gabonais de l’étranger</span><span class="nav-badge-count" id="nav-count-gabonais_diaspora" style="display:none;"></span>
+        <button class="nav-item" id="nav-role-gabonais_diaspora" onclick="window.gscGoToFiltered&&window.gscGoToFiltered({roles:'gabonais_diaspora',title:'Footballeurs gabonais de l’étranger'})">
+          <span class="nav-icon">🇬🇦</span><span>Footballeurs gabonais de l’étranger</span><span class="nav-badge-count" id="nav-count-gabonais_diaspora" style="display:none;"></span>
         </button>
-        <button class="nav-item" id="nav-role-handisport" onclick="window.gscGoToFiltered&&window.gscGoToFiltered({roles:'handisport',title:'Handisport'})">
-          <span class="nav-icon">🦾</span><span>Handisport</span><span class="nav-badge-count" id="nav-count-handisport" style="display:none;"></span>
+        <button class="nav-item" id="nav-role-handisport" onclick="window.gscGoToFiltered&&window.gscGoToFiltered({roles:'handisport',title:'Footballeurs handisport'})">
+          <span class="nav-icon">🦾</span><span>Footballeurs handisport</span><span class="nav-badge-count" id="nav-count-handisport" style="display:none;"></span>
         </button>
         <button class="nav-item" id="nav-role-ancien_sportif" onclick="window.gscGoToFiltered&&window.gscGoToFiltered({roles:'ancien_sportif',title:'Anciens footballeurs'})">
           <span class="nav-icon">🎖️</span><span>Anciens footballeurs</span><span class="nav-badge-count" id="nav-count-ancien_sportif" style="display:none;"></span>
@@ -1163,10 +1165,10 @@ tr.is-demo-row td { opacity: .82; }
                 <div class="tile-name">Supporters</div>
               <div class="tile-catnum" style="font-size:10px;opacity:.75;margin-top:2px;">N° 015</div>
               </div>
-              <div class="role-tile clickable" style="background:linear-gradient(135deg,#64748b,#94a3b8)" onclick="window.gscGoToFiltered({roles:'independant', title:'Indépendants'})">
+              <div class="role-tile clickable" style="background:linear-gradient(135deg,#64748b,#94a3b8)" onclick="window.gscGoToFiltered({roles:'independant', title:'Footballeurs indépendants'})">
                 <div class="tile-icon">🚴</div>
                 <div class="tile-count" id="rc-independant">—</div>
-                <div class="tile-name">Indépendants</div>
+                <div class="tile-name">Footballeurs indépendants</div>
               <div class="tile-catnum" style="font-size:10px;opacity:.75;margin-top:2px;">N° 005</div>
               </div>
               <div class="role-tile clickable" style="background:linear-gradient(135deg,#6366f1,#818cf8)" onclick="window.gscGoToFiltered({roles:['eleve_etudiant','ecole_universite'], title:'Élèves / Étudiants'})">
@@ -1181,16 +1183,16 @@ tr.is-demo-row td { opacity: .82; }
                 <div class="tile-name">Footballeurs étrangers</div>
               <div class="tile-catnum" style="font-size:10px;opacity:.75;margin-top:2px;">N° 007</div>
               </div>
-              <div class="role-tile clickable" style="background:linear-gradient(135deg,#0891b2,#06b6d4)" onclick="window.gscGoToFiltered({roles:'gabonais_diaspora', title:'Gabonais de l’étranger'})">
+              <div class="role-tile clickable" style="background:linear-gradient(135deg,#0891b2,#06b6d4)" onclick="window.gscGoToFiltered({roles:'gabonais_diaspora', title:'Footballeurs gabonais de l’étranger'})">
                 <div class="tile-icon">🇬🇦</div>
                 <div class="tile-count" id="rc-gabonais-diaspora">—</div>
-                <div class="tile-name">Gabonais de l’étranger</div>
+                <div class="tile-name">Footballeurs gabonais de l’étranger</div>
               <div class="tile-catnum" style="font-size:10px;opacity:.75;margin-top:2px;">N° 091</div>
               </div>
               <div class="role-tile clickable" style="background:linear-gradient(135deg,#7c3aed,#a78bfa)" onclick="window.gscGoToFiltered({roles:'handisport', title:'Footballeurs handisport'})">
                 <div class="tile-icon">🦾</div>
                 <div class="tile-count" id="rc-handisport">—</div>
-                <div class="tile-name">Handisport</div>
+                <div class="tile-name">Footballeurs handisport</div>
               <div class="tile-catnum" style="font-size:10px;opacity:.75;margin-top:2px;">N° 008</div>
               </div>
               <div class="role-tile clickable" style="background:linear-gradient(135deg,#9f1239,#4c0519)" onclick="window.gscGoToFiltered({roles:'ancien_sportif', title:'Anciens footballeurs'})">
@@ -1238,11 +1240,11 @@ tr.is-demo-row td { opacity: .82; }
           <button class="filter-btn role-association">🤝 Associations</button>
           <button class="filter-btn role-organisateur">🎪 Organisateurs</button>
           <button class="filter-btn role-supporter">💗 Supporters</button>
-          <button class="filter-btn role-independant">🚴 Indépendants</button>
+          <button class="filter-btn role-independant">🚴 Footballeurs indépendants</button>
           <button class="filter-btn role-eleve_etudiant">🎓 Élèves/Étudiants</button>
           <button class="filter-btn role-sportif_etranger">🌍 Footballeurs étrangers</button>
-          <button class="filter-btn role-gabonais_diaspora">🇬🇦 Gabonais de l’étranger</button>
-          <button class="filter-btn role-handisport">🦾 Handisport</button>
+          <button class="filter-btn role-gabonais_diaspora">🇬🇦 Footballeurs gabonais de l’étranger</button>
+          <button class="filter-btn role-handisport">🦾 Footballeurs handisport</button>
           <button class="filter-btn role-ancien_sportif">🎖️ Anciens footballeurs</button>
           <button class="filter-btn role-formateur">🧑‍🏫 Formateurs</button>
           <!-- NOUVEAU — bascule d'affichage, câblée par wirePlayerFilters()
@@ -1304,10 +1306,10 @@ tr.is-demo-row td { opacity: .82; }
           <button class="filter-btn role-association" data-phfilter="association">🤝 Associations</button>
           <button class="filter-btn role-organisateur" data-phfilter="organisateur">🎪 Organisateurs</button>
           <button class="filter-btn role-supporter" data-phfilter="supporter">💗 Supporters</button>
-          <button class="filter-btn role-independant" data-phfilter="independant">🚴 Indépendants</button>
+          <button class="filter-btn role-independant" data-phfilter="independant">🚴 Footballeurs indépendants</button>
           <button class="filter-btn role-eleve_etudiant" data-phfilter="eleve_etudiant">🎓 Élèves/Étudiants</button>
           <button class="filter-btn role-sportif_etranger" data-phfilter="sportif_etranger">🌍 Footballeurs étrangers</button>
-          <button class="filter-btn role-gabonais_diaspora" data-phfilter="gabonais_diaspora">🇬🇦 Gabonais de l’étranger</button>
+          <button class="filter-btn role-gabonais_diaspora" data-phfilter="gabonais_diaspora">🇬🇦 Footballeurs gabonais de l’étranger</button>
           <button class="filter-btn role-ancien_sportif" data-phfilter="ancien_sportif">🎖️ Anciens footballeurs</button>
           <button class="filter-btn role-formateur" data-phfilter="formateur">🧑‍🏫 Formateurs</button>
         </div>
@@ -1868,10 +1870,10 @@ tr.is-demo-row td { opacity: .82; }
           <button class="filter-btn role-association">🤝 Associations</button>
           <button class="filter-btn role-organisateur">🎪 Organisateurs</button>
           <button class="filter-btn role-supporter">💗 Supporters</button>
-          <button class="filter-btn role-independant">🚴 Indépendants</button>
+          <button class="filter-btn role-independant">🚴 Footballeurs indépendants</button>
           <button class="filter-btn role-eleve_etudiant">🎓 Élèves/Étudiants</button>
           <button class="filter-btn role-sportif_etranger">🌍 Footballeurs étrangers</button>
-          <button class="filter-btn role-gabonais_diaspora">🇬🇦 Gabonais de l’étranger</button>
+          <button class="filter-btn role-gabonais_diaspora">🇬🇦 Footballeurs gabonais de l’étranger</button>
           <button class="filter-btn role-ancien_sportif">🎖️ Anciens footballeurs</button>
           <button class="filter-btn role-formateur">🧑‍🏫 Formateurs</button>
           <div class="search-box"><span>🔍</span><input type="text" id="doc-search-input" placeholder="Nom de l'acteur…"></div>
