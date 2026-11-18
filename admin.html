@@ -20,11 +20,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <!-- Firebase (SDK compat — requis par realtime-sync-module.js) -->
-<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-check-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-storage-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-check-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
 
 <!-- ══ SYSTÈME DE NOTIFICATIONS GSC — cloche + badge PWA (identique à index.html) ══
      gsc-notifications.js et gsc-nav-badges.js utilisent les fonctions Firestore
@@ -2251,7 +2251,7 @@ tr.is-demo-row td { opacity: .82; }
     collection, doc, setDoc, getDoc, updateDoc, addDoc, getDocs,
     query, orderBy, where, limit, onSnapshot, serverTimestamp,
     deleteDoc, deleteField, increment, collectionGroup
-  } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
   window.collection = collection; window.doc = doc; window.setDoc = setDoc;
   window.getDoc = getDoc; window.updateDoc = updateDoc; window.addDoc = addDoc;
   window.getDocs = getDocs; window.query = query; window.orderBy = orderBy;
@@ -2265,7 +2265,7 @@ tr.is-demo-row td { opacity: .82; }
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
-    navigator.serviceWorker.register('sw.js', { scope: '/' })
+    navigator.serviceWorker.register('sw.js')
       .then(function(registration) {
         console.log('[GFC Admin] Service Worker enregistré :', registration);
       })
