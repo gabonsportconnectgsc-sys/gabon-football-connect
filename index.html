@@ -4368,7 +4368,9 @@ let _loginHistoryCache = null;
 // Récupère ville/pays approximatifs via l'adresse IP publique (service gratuit ipapi.co)
 async function getApproxLocationByIP(){
   try{
-    const res = await fetch('https://ipapi.co/json/');
+    if(!navigator.onLine) return { ville:'', pays:'', ip:'' };
+    const ac = new AbortController(); const to = setTimeout(function(){ ac.abort(); }, 4000);
+    let res; try{ res = await fetch('https://ipapi.co/json/', { signal: ac.signal }); } finally { clearTimeout(to); }
     if(!res.ok) throw new Error('lookup failed');
     const data = await res.json();
     return {
@@ -4380,6 +4382,17 @@ async function getApproxLocationByIP(){
     return { ville:'', pays:'', ip:'' };
   }
 }
+/* gfc-online-refresh */
+window.addEventListener('online',function(){
+  setTimeout(function(){
+    var fs=[];
+    if(typeof loadGlobalStats==='function') fs.push(loadGlobalStats);
+    if(typeof loadActors==='function') fs.push(loadActors);
+    if(typeof loadSites==='function') fs.push(loadSites);
+    if(typeof loadNewsFromDb==='function') fs.push(loadNewsFromDb);
+    fs.forEach(function(f){ try{ Promise.resolve(f()).catch(function(){}); }catch(e){} });
+  },1500);
+});
 
 // À appeler après une connexion réussie (à brancher sur le futur flux d'auth réel,
 // ex: onAuthStateChanged → enregistrerConnexion(user)).
