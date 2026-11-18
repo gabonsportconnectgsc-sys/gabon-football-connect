@@ -15,7 +15,16 @@
       ".github/**",
       "**/*.bak*",
       "diag*.txt",
-      "migrer.html"
+      "migrer.html",
+      "storage.rules",
+      "package.json",
+      "package-lock.json",
+      ".firebaserc",
+      "**/*.sh",
+      "**/*.py",
+      "**/*.log",
+      "**/*.md",
+      "**/*.cjs"
     ],
     "rewrites": [
       {
