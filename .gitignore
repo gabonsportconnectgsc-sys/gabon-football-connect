@@ -14,3 +14,4 @@ migrer.html
 *.bak*
 *.bak-gfc
 *.bak2-gfc
+patch_*.py
