@@ -1233,7 +1233,7 @@ body.dark::before,body.dark-mode::before,[data-theme="dark"] body::before,html[d
 .stats-grid .stat-card:has(.stat-wm):not(.stat-card-1):not(:has(.stat-wm[data-wm-role="niveau"])){justify-content:flex-end !important;gap:0 !important;padding:10px 8px 9px !important}
 .stats-grid .stat-card .stat-val{font-family:'Outfit',Inter,system-ui,sans-serif !important;font-size:34px !important;font-weight:900 !important;line-height:1 !important;margin:0 !important}
 .stats-grid .stat-card .stat-lbl{font-family:'Outfit',Inter,system-ui,sans-serif !important;font-size:9.5px !important;font-weight:800 !important;letter-spacing:.9px !important;line-height:1.2 !important;margin-top:3px !important;padding:2px 8px !important;border-radius:6px !important}
-</style></head>
+</style><style id="gfc-actor-fix">.actor-card,.actor-card-header,.actor-card-body{min-width:0;max-width:100%;box-sizing:border-box}.actor-card-body{flex:1 1 0;overflow:hidden}.actor-name{white-space:normal !important;overflow-wrap:anywhere;word-break:break-word;line-height:1.25;min-width:0}.actor-card-body *{min-width:0;max-width:100%;overflow-wrap:anywhere}.actor-card{overflow:hidden}.actor-card-qr{flex:0 0 auto}</style></head>
 <body>
 <!-- ═══ ÉCRAN DE DÉMARRAGE PERSONNALISÉ (après le splash natif de la PWA) ═══
      Le splash natif Android (généré depuis manifest.json) est statique et ne
@@ -10078,19 +10078,30 @@ document.addEventListener('DOMContentLoaded', function(){
 <script src="gfc-auth-override.js"></script>
 <script id="gfc-tiles-fit">
 (function(){
+  var busy=false,timer=null;
   function fit(){
-    var g=document.getElementById('dashboard-landing-anchor'); if(!g)return;
-    var all=[].slice.call(g.querySelectorAll('.stat-card')).filter(function(e){return e.offsetParent!==null;});
-    if(!all.length)return;
-    var gw=g.clientWidth;
-    var half=all.filter(function(e){return e.offsetWidth<gw*0.7;});
-    half.forEach(function(e){e.style.minHeight='';});
-    var h=0; half.forEach(function(e){h=Math.max(h,e.offsetHeight);});
-    if(h) half.forEach(function(e){e.style.minHeight=h+'px';});
+    if(busy)return; busy=true;
+    var g=document.getElementById('dashboard-landing-anchor');
+    if(g){
+      var y=window.pageYOffset;
+      var all=[].slice.call(g.querySelectorAll('.stat-card')).filter(function(e){return e.offsetParent!==null;});
+      var gw=g.clientWidth;
+      var half=all.filter(function(e){return e.offsetWidth<gw*0.7;});
+      if(half.length){
+        half.forEach(function(e){e.style.minHeight='';});
+        var h=0; half.forEach(function(e){h=Math.max(h,e.offsetHeight);});
+        if(h) half.forEach(function(e){e.style.minHeight=h+'px';});
+      }
+      window.scrollTo(0,y);
+    }
+    setTimeout(function(){busy=false;},50);
   }
-  window.addEventListener('load',function(){fit();setTimeout(fit,600);setTimeout(fit,2000);});
-  window.addEventListener('resize',fit);
-  setInterval(fit,2500);
+  function later(){clearTimeout(timer);timer=setTimeout(fit,250);}
+  window.addEventListener('load',function(){fit();setTimeout(fit,800);setTimeout(fit,2500);});
+  window.addEventListener('resize',later);
+  window.addEventListener('orientationchange',later);
+  var g=document.getElementById('dashboard-landing-anchor');
+  if(g&&window.MutationObserver){new MutationObserver(later).observe(g,{childList:true,characterData:true,subtree:true});}
 })();
 </script>
 </body>
