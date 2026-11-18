@@ -123,12 +123,14 @@
       .map(function (r) { return r.categorie; }));
     cats = uniq((S.allCats || []).concat(cats));
     if (cats.indexOf(S.cat) < 0) S.cat = cats[0];
-    h += '<div style="margin:10px 0"><label>Saison <select data-k="saison" style="padding:6px">' +
+    h += '<div style="margin:10px 0;text-align:center"><label>Saison <select data-k="saison" style="padding:6px">' +
       saisons.map(function (s) { return '<option' + (s === S.saison ? ' selected' : '') + '>' + esc(s) + '</option>'; }).join('') +
-      '</select></label></div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">' +
-      cats.map(function (c) {
-        return '<button data-a="cat" data-c="' + esc(c) + '" style="padding:6px 12px;border-radius:16px;border:1px solid #8886;' +
-          (c === S.cat ? 'background:#009E60;color:#fff' : 'background:transparent;color:inherit') + '">' + esc(c) + ' (' + countOf(c) + ')</button>';
+      '</select></label></div><div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:12px 0">' +
+      cats.map(function (c, ci) {
+        var col = ['#009E60','#E67E22','#2980B9','#8E44AD','#C0392B','#16A085','#D4A017','#34495E','#E84393'][ci % 9];
+        var on = c === S.cat;
+        return '<button data-a="cat" data-c="' + esc(c) + '" style="min-width:84px;padding:8px 14px;border-radius:18px;font-weight:600;text-align:center;border:2px solid ' + col + ';' +
+          (on ? 'background:' + col + ';color:#fff' : 'background:' + col + '1A;color:' + col) + '">' + esc(c) + ' (' + countOf(c) + ')</button>';
       }).join('') + '</div>';
     var r = S.rosters.filter(function (x) { return x.saison === S.saison && x.categorie === S.cat; })[0];
     if (r) {

@@ -10166,5 +10166,24 @@ document.addEventListener('DOMContentLoaded', function(){
   if(g&&window.MutationObserver){new MutationObserver(later).observe(g,{childList:true,characterData:true,subtree:true});}
 })();
 </script>
+<script>
+/* gsc-collapse-scout */
+(function(){
+  var orig = window.filterActors;
+  if(typeof orig !== 'function') return;
+  window.filterActors = function(type){
+    var r = orig.apply(this, arguments);
+    try{
+      if(type && /^(club|federation|association|organisateur|supporter|formateur|arbitre|entraineur)$/.test(String(type))){
+        var b = document.getElementById('scout-filters-body');
+        var t = document.getElementById('scout-toggle-btn');
+        if(b) b.style.display = 'none';
+        if(t) t.textContent = '\u25BC Filtres';
+      }
+    }catch(e){}
+    return r;
+  };
+})();
+</script>
 </body>
 </html>
