@@ -69,14 +69,15 @@
   function uniq(arr) { return arr.filter(function (v, i) { return arr.indexOf(v) === i; }); }
 
   function rowHtml(kind, x) {
-    var linked = !!(x.gscUid && x.lienAutorise);
+    var linked = !!(x.gscUid && x.lienAutorise && (kind === 's' || x.anneeNaissance));
+    var age = (kind === 'j' && x.anneeNaissance) ? (new Date().getFullYear() - Number(x.anneeNaissance)) + ' ans' : '';
     var a = linked ? actorCache[x.gscUid] : null;
     var ph = linked ? photoOf(a) : '';
     var name = kind === 'j'
       ? [x.prenom, x.nomAffiche].filter(Boolean).join(' ')
       : [x.prenom, x.nom].filter(Boolean).join(' ');
     var sub = kind === 'j'
-      ? [x.poste, x.statut && x.statut !== 'Actif' ? x.statut : ''].filter(Boolean).join(' · ')
+      ? [age, x.poste, x.statut && x.statut !== 'Actif' ? x.statut : ''].filter(Boolean).join(' · ')
       : (x.role || '');
     var h = '<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #8883">';
     if (ph) {
@@ -102,26 +103,32 @@
     return h + '</div>';
   }
 
+  function countOf(c) {
+    var r = S.rosters.filter(function (x) { return x.saison === S.saison && x.categorie === c; })[0];
+    return r ? (r.joueurs || []).length : 0;
+  }
   function isCoach(s) { return /entra[iî]neur/i.test(s.role || ''); }
 
   function render() {
     var h = '<div style="display:flex;justify-content:space-between;align-items:center">' +
       '<b>📋 Effectifs · ' + esc(S.nom) + '</b><button data-a="close">✕</button></div>';
-    if (!S.rosters.length) {
+    if (!S.rosters.length && !(S.allCats && S.allCats.length)) {
       h += '<p style="margin-top:16px">Aucun effectif publié pour le moment.</p>';
       S.box.innerHTML = h; return;
     }
     var saisons = uniq(S.rosters.map(function (r) { return r.saison; })).sort().reverse();
+    if (!saisons.length) saisons = [String(new Date().getFullYear())];
     if (saisons.indexOf(S.saison) < 0) S.saison = saisons[0];
     var cats = uniq(S.rosters.filter(function (r) { return r.saison === S.saison; })
       .map(function (r) { return r.categorie; }));
+    cats = uniq((S.allCats || []).concat(cats));
     if (cats.indexOf(S.cat) < 0) S.cat = cats[0];
     h += '<div style="margin:10px 0"><label>Saison <select data-k="saison" style="padding:6px">' +
       saisons.map(function (s) { return '<option' + (s === S.saison ? ' selected' : '') + '>' + esc(s) + '</option>'; }).join('') +
       '</select></label></div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">' +
       cats.map(function (c) {
         return '<button data-a="cat" data-c="' + esc(c) + '" style="padding:6px 12px;border-radius:16px;border:1px solid #8886;' +
-          (c === S.cat ? 'background:#009E60;color:#fff' : 'background:transparent;color:inherit') + '">' + esc(c) + '</button>';
+          (c === S.cat ? 'background:#009E60;color:#fff' : 'background:transparent;color:inherit') + '">' + esc(c) + ' (' + countOf(c) + ')</button>';
       }).join('') + '</div>';
     var r = S.rosters.filter(function (x) { return x.saison === S.saison && x.categorie === S.cat; })[0];
     if (r) {
@@ -132,6 +139,7 @@
       if (staff.length) h += '<h4>Encadrement (' + staff.length + ')</h4>' + staff.map(function (x) { return rowHtml('s', x); }).join('');
       h += '<h4>Joueurs (' + jou.length + ')</h4>' + (jou.map(function (x) { return rowHtml('j', x); }).join('') || '<p>—</p>');
     }
+    if (!r) h += '<h4>Joueurs (0)</h4><p>—</p>';
     h += '<p style="font-size:11px;opacity:.7;margin-top:14px">Liste informative : elle ne remplace pas la licence officielle.</p>';
     S.box.innerHTML = h;
     var cv = S.box.querySelectorAll('canvas[data-qr]');
@@ -191,7 +199,10 @@
     try {
       try {
         var sn = await window.getDoc(window.doc(window.db, 'structuresSportives', structureId));
-        if (sn.exists()) S.nom = sn.data().nom || '';
+        if (sn.exists()) {
+          S.nom = sn.data().nom || '';
+          try { if (window.GSCDisciplines && window.GSCDisciplines.getCategories) S.allCats = window.GSCDisciplines.getCategories(sn.data().discipline) || []; } catch (e2) {}
+        }
       } catch (e) {}
       S.rosters = await fetchRosters(structureId);
       var uids = [];
@@ -258,6 +269,21 @@
       .then(function (r) { ensuring = null; return r; });
     return ensuring;
   }
+
+  window.gscOpenActorRoster = async function (uid) {
+    if (!uid || !window.db) { alert('Service indisponible.'); return; }
+    var a = (window.allActors || []).find(function (x) { return (x.uid || x.id) === uid; }) || null;
+    var sid = a && a.structureId;
+    if (!sid) {
+      try {
+        var snap = await window.getDocs(window.query(window.collection(window.db, 'structuresSportives'),
+          window.where('linkedUserId', '==', uid), window.limit(1)));
+        snap.forEach(function (d) { sid = d.id; });
+      } catch (e) {}
+    }
+    if (!sid) { alert('Aucun effectif publié pour ce club pour le moment.'); return; }
+    open(sid);
+  };
 
   window.gscOpenMyRosters = async function () {
     var sid = await ensureMyStructure();

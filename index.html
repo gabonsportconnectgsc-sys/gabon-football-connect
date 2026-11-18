@@ -5427,6 +5427,7 @@ function openActorDetail(uid){
     if(a.president) html+=`<div class="adm-info-row"><span class="adm-info-label">Président</span><span class="adm-info-val">${esc(a.president)}</span></div>`;
     if(a.anneeCreation) html+=`<div class="adm-info-row"><span class="adm-info-label">Fondé en</span><span class="adm-info-val">${esc(a.anneeCreation)}</span></div>`;
     if(a.effectif) html+=`<div class="adm-info-row"><span class="adm-info-label">Effectif</span><span class="adm-info-val">${esc(a.effectif)} membres</span></div>`;
+    html+=`<button type="button" class="btn" style="margin:10px 0;width:100%;padding:10px" onclick="window.gscOpenActorRoster&&window.gscOpenActorRoster('${esc(a.uid||a.id)}')">👥 Voir les effectifs</button>`;
   }
   // Élève / Étudiant — infos académiques
   if(a.role==='eleve_etudiant'){

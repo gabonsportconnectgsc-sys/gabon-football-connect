@@ -205,7 +205,8 @@
       var nm = j.nom.trim();
       var aff = mineur ? (nm ? nm.charAt(0).toUpperCase() + '.' : '') : nm;
       return { id: j.id, num: String(j.num || ''), prenom: j.prenom.trim(), nomAffiche: aff, poste: j.poste, statut: j.statut,
-        gscId: (j.gscId || '').trim().toUpperCase(), gscUid: j.gscUid || '', lienAutorise: !mineur || !!j.consent };
+        gscId: (j.gscId || '').trim().toUpperCase(), gscUid: j.gscUid || '', lienAutorise: !mineur || !!j.consent,
+        anneeNaissance: mineur ? null : (j.annee ? Number(j.annee) : null) };
     });
     var privJ = S.joueurs.map(function (j) {
       return { id: j.id, nom: j.nom.trim(), prenom: j.prenom.trim(), anneeNaissance: j.annee ? Number(j.annee) : null,
