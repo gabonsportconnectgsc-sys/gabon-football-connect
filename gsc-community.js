@@ -1476,6 +1476,7 @@
     }
   }
 
-  window.GSCCommunity = { refresh: renderFeed, ensureSubscribed, refreshComposer: renderComposer, openPost, prefillComposer };
+  window.GSCCommunity = { refresh: renderFeed, ensureSubscribed, refreshComposer: renderComposer, openPost, prefillComposer, openMemberProfile };
+  window.openMemberProfile = openMemberProfile;
 
 })(window);
