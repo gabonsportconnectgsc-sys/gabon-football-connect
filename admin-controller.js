@@ -75,7 +75,7 @@
     independant: '🚴 Indépendant',
     supporter: '💗 Supporter',
     eleve_etudiant: '🎓 Élève / Étudiant',
-    gabonais_diaspora: '🇬🇦 Gabonais sportif à l’étranger', sportif_etranger: '🌍 Footballeur étranger',
+    gabonais_diaspora: '🇬🇦 Footballeur gabonais de l’étranger', sportif_etranger: '🌍 Footballeur étranger',
     ecole_universite: '🏫 École/Université',
     handisport: '🦾 Footballeur handisport',
     ancien_sportif: '🎖️ Ancien footballeur',

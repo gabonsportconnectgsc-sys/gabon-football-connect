@@ -1207,7 +1207,13 @@ body.dark::before,body.dark-mode::before,[data-theme="dark"] body::before,html[d
 <link rel="stylesheet" href="css/timeline-competitions.css">
 <link rel="stylesheet" href="css/gabonais-diaspora.css">
 <style id="gfc-hide">.stat-card:has(#stat-total-handisport),.actor-filter-btn[data-type="handisport"],.actor-filter-btn[data-type="athlete"]{display:none!important}</style>
-<style>#sf-sport,#annuaire-sport,#srch-sport,#admin-acteurs-sport,#auth-register-sport-wrap,#complete-profile-sport-wrap,div:has(>#sf-sport)>label{display:none!important}</style></head>
+<style>#sf-sport,#annuaire-sport,#srch-sport,#admin-acteurs-sport,#auth-register-sport-wrap,#complete-profile-sport-wrap,div:has(>#sf-sport)>label{display:none!important}</style><style id="gfc-public-layout">
+.stats-grid .stat-card:has(#stat-total-formateurs),.stats-grid .stat-card:has(#stat-total-formateurs)+.stat-card{grid-column:auto !important;width:auto !important;max-width:none !important;margin:0 !important;min-height:170px !important}
+.stats-grid .stat-card:has(#stat-total-formateurs)+.stat-card+*{grid-column:1/-1 !important;width:100% !important;max-width:none !important;margin:0 !important;box-sizing:border-box !important}
+.legal-pane h3{text-align:center !important}
+.legal-pane>p,.legal-pane>.info,.legal-pane>ul,.legal-pane>ol{box-sizing:border-box !important;max-width:520px !important;margin:10px auto !important;padding:14px 16px !important;border:1px solid #e2e8f0 !important;border-radius:14px !important;background:#f8fafc !important;text-align:center !important}
+.legal-pane>ul,.legal-pane>ol{list-style-position:inside !important}
+</style></head>
 <body>
 <!-- ═══ ÉCRAN DE DÉMARRAGE PERSONNALISÉ (après le splash natif de la PWA) ═══
      Le splash natif Android (généré depuis manifest.json) est statique et ne
