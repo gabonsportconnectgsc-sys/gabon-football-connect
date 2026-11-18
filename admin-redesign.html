@@ -1160,7 +1160,7 @@ function updateSitesMap(){
   if(!sites.length){
     listEl.innerHTML='<p style="font-size:12px;color:#64748b;">Aucun site géolocalisé</p>';
   }else{
-    listEl.innerHTML=sites.map(s=>`<div style="padding:8px;border-bottom:1px solid #e2e8f0;cursor:pointer;font-size:12px;" onclick="highlightSite('${s.id}')">${s.name}</div>`).join('');
+    listEl.innerHTML=sites.map(s=>`<div style="padding:8px;border-bottom:1px solid #e2e8f0;cursor:pointer;font-size:12px;" onclick="highlightSite('${s.id}')">${String(s.name||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}</div>`).join('');
   }
 }
 
