@@ -45,6 +45,7 @@
       } catch (e) { console.warn('[AppCheck] non initialise', e); }
     }
     window.db = firebase.firestore();
+    try{ window.db.enablePersistence({synchronizeTabs:true}).catch(function(e){console.warn('[offline] cache admin indisponible',e&&e.code);}); }catch(e){console.warn('[offline] cache admin',e);}
     window.storage = (typeof firebase.storage === 'function') ? firebase.storage() : null;
     window._firebaseReady = true;
     console.log('✅ Firebase initialisé (gabon-football-connect)');

@@ -1771,7 +1771,35 @@ tr.is-demo-row td { opacity: .82; }
 </div>
 
 <!-- ══════════════════════════════════════════════════════════════════
-     CONTRÔLEUR ADMIN STRUCTURES (à ajouter avant fermeture </body>,
+     CONTRÔLEUR ADMIN STRUCTURES (à ajouter avant fermeture <script id="gfc-offline-guard">
+(function(){
+  var last=0;
+  function warn(){var n=Date.now();if(n-last>3000){last=n;alert("Hors ligne : action impossible. Reconnecte-toi puis recommence.");}}
+  function guard(proto,names){
+    names.forEach(function(k){
+      var o=proto&&proto[k]; if(typeof o!=="function")return;
+      proto[k]=function(){
+        if(navigator.onLine===false){warn();return Promise.reject(new Error("offline"));}
+        return o.apply(this,arguments);
+      };
+    });
+  }
+  try{
+    var F=window.firebase&&firebase.firestore;
+    if(F){guard(F.DocumentReference&&F.DocumentReference.prototype,["set","update","delete"]);guard(F.WriteBatch&&F.WriteBatch.prototype,["commit"]);}
+  }catch(e){}
+  window.addEventListener("load",function(){
+    ["updateDoc","deleteDoc"].forEach(function(k){
+      var o=window[k]; if(typeof o!=="function")return;
+      window[k]=function(){
+        if(navigator.onLine===false){warn();return Promise.reject(new Error("offline"));}
+        return o.apply(this,arguments);
+      };
+    });
+  });
+})();
+</script>
+</body>,
      APRÈS le chargement de structures-manager.js et des modules
      compliance/infrastructures/archiving)
      ══════════════════════════════════════════════════════════════════ -->
