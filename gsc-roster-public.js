@@ -272,6 +272,153 @@
     return ensuring;
   }
 
+  /* ===== Effectifs dépliables (bouton chromé) ===== */
+  var GSC_CAT_ORDER = ['Senior', 'U20', 'U17', 'U15', 'U13', 'U11', 'U9', 'U7', 'Vétéran'];
+  var GSC_CAT_COL = { 'U7': '#009E60', 'U9': '#E67E22', 'U11': '#2980B9', 'U13': '#8E44AD', 'U15': '#C0392B',
+    'U17': '#16A085', 'U20': '#D4A017', 'Senior': '#34495E', 'Vétéran': '#E84393' };
+
+  function injectAccCss() {
+    if (document.getElementById('gsc-acc-css')) return;
+    var st = document.createElement('style');
+    st.id = 'gsc-acc-css';
+    st.textContent =
+      '.gsc-chrome-btn{display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;' +
+      'font-weight:700;color:#1f2937;border:1px solid #6b7480;border-radius:14px;' +
+      'background:linear-gradient(160deg,#fdfdfe 0%,#d5dae1 38%,#9aa3af 52%,#e9edf2 78%,#c4cad2 100%);' +
+      'box-shadow:inset 0 1px 0 #fff,inset 0 -2px 3px rgba(0,0,0,.18),0 3px 8px rgba(0,0,0,.28);' +
+      'text-shadow:0 1px 0 rgba(255,255,255,.8)}' +
+      '.gsc-chrome-btn:active{transform:translateY(1px)}' +
+      '.gsc-chrome-btn .gsc-chev{display:inline-block;transition:transform .3s;font-size:15px}' +
+      '.gsc-chrome-btn.open .gsc-chev{transform:rotate(180deg)}' +
+      '.gsc-acc-panel{overflow:hidden;max-height:0;transition:max-height .45s ease}' +
+      '.gsc-acc-cat{display:flex;justify-content:space-between;align-items:center;width:100%;margin:6px 0 0;' +
+      'padding:11px 16px;border-radius:14px;font-weight:700;font-size:15px;cursor:pointer;text-align:left}';
+    document.head.appendChild(st);
+  }
+
+  async function resolveSidFor(btn) {
+    var sid = btn.dataset.sid;
+    if (sid) return sid;
+    var uid = btn.dataset.uid;
+    if (!uid || !window.db) return null;
+    var a = (window.allActors || []).find(function (x) { return (x.uid || x.id) === uid; }) || null;
+    sid = a && a.structureId;
+    if (!sid) {
+      try {
+        var snap = await window.getDocs(window.query(window.collection(window.db, 'structuresSportives'),
+          window.where('linkedUserId', '==', uid), window.limit(1)));
+        snap.forEach(function (d) { sid = d.id; });
+      } catch (e) {}
+    }
+    return sid || null;
+  }
+
+  window.gscToggleRosters = async function (btn) {
+    injectAccCss();
+    var panel = btn._gscPanel;
+    if (panel) {
+      var op = btn.classList.toggle('open');
+      panel.style.maxHeight = op ? '5000px' : '0';
+      return;
+    }
+    if (btn._gscBusy) return;
+    btn._gscBusy = true;
+    panel = document.createElement('div');
+    panel.className = 'gsc-acc-panel';
+    btn.insertAdjacentElement('afterend', panel);
+    btn._gscPanel = panel;
+    panel.innerHTML = '<p style="text-align:center;padding:12px;margin:0">Chargement…</p>';
+    btn.classList.add('open');
+    panel.style.maxHeight = '5000px';
+
+    var sid = await resolveSidFor(btn);
+    if (!sid) {
+      panel.innerHTML = '<p style="text-align:center;padding:12px;margin:0">Aucun effectif publié pour le moment.</p>';
+      btn._gscBusy = false; return;
+    }
+    var L = { rosters: [], saison: null, cat: null };
+    try { L.rosters = await fetchRosters(sid); } catch (e) {}
+    var saisons = uniq(L.rosters.map(function (r) { return r.saison; })).sort().reverse();
+    if (!saisons.length) saisons = [String(new Date().getFullYear())];
+    L.saison = saisons[0];
+
+    function countIn(c) {
+      var r = L.rosters.filter(function (x) { return x.saison === L.saison && x.categorie === c; })[0];
+      return r ? (r.joueurs || []).length : 0;
+    }
+    function catsList() {
+      var present = uniq(L.rosters.filter(function (r) { return r.saison === L.saison; })
+        .map(function (r) { return r.categorie; }));
+      var all = uniq(GSC_CAT_ORDER.concat(present));
+      return all.sort(function (a, b) {
+        var ia = GSC_CAT_ORDER.indexOf(a), ib = GSC_CAT_ORDER.indexOf(b);
+        return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+      });
+    }
+    function bodyOf(c) {
+      var r = L.rosters.filter(function (x) { return x.saison === L.saison && x.categorie === c; })[0];
+      if (!r) return '<h4 style="margin:10px 0 4px">Joueurs (0)</h4><p>—</p>';
+      var staff = (r.staff || []).slice().sort(function (a, b) { return (isCoach(b) ? 1 : 0) - (isCoach(a) ? 1 : 0); });
+      var jou = (r.joueurs || []).slice().sort(function (a, b) {
+        return (parseInt(a.num, 10) || 999) - (parseInt(b.num, 10) || 999);
+      });
+      var h = '';
+      if (staff.length) h += '<h4 style="margin:10px 0 4px">Encadrement (' + staff.length + ')</h4>' + staff.map(function (x) { return rowHtml('s', x); }).join('');
+      h += '<h4 style="margin:10px 0 4px">Joueurs (' + jou.length + ')</h4>' + (jou.map(function (x) { return rowHtml('j', x); }).join('') || '<p>—</p>');
+      return h;
+    }
+    function draw() {
+      var h = '';
+      if (saisons.length > 1) {
+        h += '<div style="margin:8px 0;text-align:center"><label>Saison <select data-g="season" style="padding:6px">' +
+          saisons.map(function (x) { return '<option' + (x === L.saison ? ' selected' : '') + '>' + esc(x) + '</option>'; }).join('') +
+          '</select></label></div>';
+      }
+      catsList().forEach(function (c) {
+        var col = GSC_CAT_COL[c] || '#555';
+        var on = c === L.cat;
+        h += '<button type="button" class="gsc-acc-cat" data-g="cat" data-c="' + esc(c) + '" style="border:2px solid ' + col + ';' +
+          (on ? 'background:' + col + ';color:#fff' : 'background:' + col + '1A;color:' + col) + '">' +
+          '<span>' + esc(c) + ' (' + countIn(c) + ')</span><span>' + (on ? '▲' : '▼') + '</span></button>';
+        if (on) h += '<div style="padding:4px 4px 8px">' + bodyOf(c) + '</div>';
+      });
+      h += '<p style="font-size:11px;opacity:.7;margin:12px 0 4px">Liste informative : elle ne remplace pas la licence officielle.</p>';
+      panel.innerHTML = h;
+      var cv = panel.querySelectorAll('canvas[data-qr]');
+      for (var i = 0; i < cv.length; i++) {
+        try { if (typeof window.drawQrOnCanvas === 'function') window.drawQrOnCanvas(cv[i], qrUrl(cv[i].dataset.qr), 112); } catch (e) {}
+      }
+    }
+    async function warm() {
+      var r = L.rosters.filter(function (x) { return x.saison === L.saison && x.categorie === L.cat; })[0];
+      if (!r) return;
+      var ids = (r.joueurs || []).concat(r.staff || []).map(function (x) { return x.gscUid; }).filter(Boolean);
+      try { await Promise.all(ids.map(getActor)); } catch (e) {}
+    }
+
+    panel.addEventListener('change', function (ev) {
+      var t = ev.target;
+      if (t && t.dataset && t.dataset.g === 'season') { L.saison = t.value; L.cat = null; draw(); }
+    });
+    panel.addEventListener('click', async function (ev) {
+      var el = ev.target.closest ? ev.target.closest('[data-g],[data-a]') : null;
+      if (!el) return;
+      if (el.dataset.g === 'cat') {
+        L.cat = (L.cat === el.dataset.c) ? null : el.dataset.c;
+        await warm(); draw(); return;
+      }
+      if (el.dataset.a === 'photo') { ev.preventDefault(); zoomPhoto(el.src, el.dataset.n); return; }
+      if (el.dataset.a === 'fiche') {
+        ev.preventDefault();
+        var uid = el.dataset.u;
+        if (typeof window.showView === 'function') window.showView('annuaire');
+        setTimeout(function () { if (typeof window.openActorDetail === 'function') window.openActorDetail(uid); }, 250);
+      }
+    });
+    draw();
+    btn._gscBusy = false;
+  };
+
   window.gscOpenActorRoster = async function (uid) {
     if (!uid || !window.db) { alert('Service indisponible.'); return; }
     var a = (window.allActors || []).find(function (x) { return (x.uid || x.id) === uid; }) || null;
