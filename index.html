@@ -1329,6 +1329,22 @@ body.dark::before,body.dark-mode::before,[data-theme="dark"] body::before,html[d
     setTimeout(function(){ if(!hidden && window.gscSplashHide) window.gscSplashHide(); }, 8000);
   })();
 </script>
+<script id="gfc-splash-min">
+(function(){
+  var MIN=5000, t0=Date.now(), real=0, want=false, done=false;
+  var oSet=window.gscSplashSetStep, oHide=window.gscSplashHide;
+  if(!oSet||!oHide) return;
+  window.gscSplashSetStep=function(s,tot){ real = tot>0 ? s/tot : 0; };
+  window.gscSplashHide=function(){ want=true; };
+  var iv=setInterval(function(){
+    if(done) return;
+    var el=Date.now()-t0, tf=Math.min(1, el/MIN);
+    var r=want ? 1 : real;
+    oSet(Math.min(r,tf)*100, 100);
+    if(want && el>=MIN){ done=true; clearInterval(iv); oHide(); }
+  }, 60);
+})();
+</script>
 
 <!-- ═══ DEBUG TEMPORAIRE — panneau d'erreurs visible sur téléphone, SANS dépendance externe ═══
      Activation : ajouter ?debug=1 à l'URL (ex: index.html?debug=1). Sans ce
