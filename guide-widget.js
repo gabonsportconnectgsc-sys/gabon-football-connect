@@ -1,285 +1,347 @@
-/* Module « Comment ça marche » — Gabon Football Connect
-   Fichier autonome, sans bibliothèque. Tout se règle dans CONFIG. */
+/*!
+ * guide-widget.js — Module « Comment ça marche » — version Gabon Football Connect (GFC)
+ *
+ * Ajoute à l’application :
+ *   1. une bulle éphémère au démarrage de l’accueil
+ *   2. une ligne « Comment ça marche » dans le menu latéral
+ *   3. un bouton permanent sur les pages admin
+ *   4. une fenêtre de guide avec un onglet par profil :
+ *      Visiteur, Acteur, Structure, Admin
+ *
+ * INSTALLATION : copier ce fichier à la racine du projet, puis ajouter
+ * avant </body> de chaque page concernée :
+ *     <script src="guide-widget.js" defer></script>
+ * Tout se règle dans le bloc CONFIG ci-dessous. Rien d’autre à modifier.
+ *
+ * API : GuideWidget.open()            ouvre le guide (profil par défaut)
+ *       GuideWidget.open("admin")     ouvre le guide sur un profil précis
+ *       GuideWidget.close()           ferme le guide
+ */
 (function () {
-  "use strict";
+  if (window.GuideWidget) return;
 
+  /* ============================================================
+   *  CONFIG — seul bloc à adapter
+   * ============================================================ */
   var CONFIG = {
-    homePathRegex: /(^\/$|\/index\.html$|\/gabon-football-connect\/?$)/i,
+    title: "❓ Comment ça marche",
+
+    // Reconnaissance des pages (expressions régulières sur l’adresse)
+    homePathRegex: /(\/|index\.html)$/,
     adminPathRegex: /admin/i,
-    // Le menu de GSC utilise des <button class="side-menu-item"> (pas des liens <a>)
-    menuAnchor: { selector: "button.side-menu-item, a", textRegex: /accueil\s*\/\s*tableau de bord/i }, // null = ne pas toucher au menu
-    // Menu admin : boutons <button class="nav-item"> dans .sidebar-nav → la ligne est ajoutée en dernier
-    menuAnchorAdmin: { selector: ".sidebar-nav button.nav-item", last: true },
-    menuLabel: "Comment ça marche",
-    menuIcon: "❓",
-    toast: { text: "❓ Comment ça marche", delayMs: 1500, durationMs: 15000, oncePerSession: true },
-    fab: { text: "❓ Guide", position: "bottom-right", showOnAdmin: false }, // bouton permanent désactivé partout
-    color: "#0a7d3b",
-    adminEmails: ["gabonsportconnectgsc@gmail.com"], // comptes qui voient le guide Administrateur
-    lockedMessage: "Cet espace guide est réservé à l'administrateur.",
-    defaultRole: { normal: "visiteur", admin: "admin" },
+
+    // Ligne ajoutée au menu latéral, juste sous un élément existant
+    // (lien, bouton ou ligne cliquable). null = ne pas toucher au menu.
+    menuLabel: "❓ Comment ça marche",
+    menuAnchor: { textRegex: /Rôles et accès/i, hrefContains: null },
+
+    // Bulle éphémère affichée sur la page d’accueil
+    toast: {
+      enabled: true,
+      text: "Comment ça marche ?",
+      delayMs: 1500,
+      durationMs: 7000,
+      oncePerSession: true,
+      bottomPx: 84 // à ajuster s’il y a une barre de navigation en bas
+    },
+
+    // Bouton permanent sur les pages admin
+    fab: { enabled: true, text: "❓ Comment ça marche", side: "left" }, // "left" ou "right"
+
+    color: "#009E60", // vert GFC
+    defaultRole: "visiteur", // profil ouvert sur les pages normales
+    defaultAdminRole: "admin", // profil ouvert sur les pages admin
+
+    // Profils GFC
     roles: [
       {
-        id: "visiteur", label: "Visiteur", color: "#2563eb",
-        intro: "Vous découvrez Gabon Football Connect sans compte.",
+        id: "visiteur",
+        label: "🔍 Visiteur",
+        intro: "Je consulte le football gabonais, avec ou sans compte.",
         secs: [
-          { t: "✅ Ce que je peux faire", p: ["Parcourez l'annuaire des clubs et structures sportives.", "Consultez les actualités et les publications publiques.", "Découvrez les sports pratiqués au Gabon."] },
-          { t: "⚠️ Ce que je dois faire", p: ["Créez un compte pour publier ou réagir.", "Renseignez des informations exactes à l'inscription."] },
-          { t: "🔧 Comment faire", p: ["Touchez Inscription depuis l'accueil.", "Remplissez le formulaire puis validez.", "Connectez-vous ensuite avec votre compte."] },
-          { t: "⭐ Points importants", p: ["Ne partagez jamais votre mot de passe.", "Votre compte peut être vérifié avant activation complète."] }
+          { t: "✅ Ce que je peux faire", p: [
+            "Consulter l’annuaire des acteurs sans inscription.",
+            "Voir les statistiques et la carte des terrains.",
+            "Lire les actualités et le forum.",
+            "Créer un compte simple pour publier et commenter.",
+            "Devenir supporter 💗 d’un club depuis mon profil."
+          ]},
+          { t: "⚠️ Ce que je dois faire", p: [
+            "Créer un compte pour publier, commenter ou modifier.",
+            "Indiquer mon prénom, mon nom et ma ville.",
+            "Rester respectueux dans le forum."
+          ]},
+          { t: "🔧 Comment faire", p: [
+            "Touchez ☰ pour ouvrir le menu.",
+            "Choisissez Annuaire, Carte, Forum ou Actualités.",
+            "Touchez Se connecter, puis Inscription pour créer un compte.",
+            "Touchez 📲 Installer l’application pour l’ajouter à l’écran d’accueil."
+          ]},
+          { t: "⭐ Points importants", p: [
+            "En mode visiteur, tout est en lecture seule.",
+            "Ne partagez jamais votre mot de passe.",
+            "Vous pouvez supprimer votre compte depuis le menu."
+          ]}
         ]
       },
       {
-        id: "membre", label: "Membre", color: "#0a7d3b",
-        intro: "Vous êtes inscrit : joueur, athlète ou supporter.",
+        id: "acteur",
+        label: "⚽ Acteur",
+        intro: "Je suis joueur, entraîneur, arbitre ou autre acteur du football.",
         secs: [
-          { t: "✅ Ce que je peux faire", p: ["Complétez votre profil sportif.", "Publiez, réagissez et commentez dans la communauté.", "Suivez les clubs et structures de votre choix."] },
-          { t: "⚠️ Ce que je dois faire", p: ["Complétez votre profil pour être mieux visible.", "Respectez les règles de la communauté."] },
-          { t: "🔧 Comment faire", p: ["Ouvrez votre profil depuis le menu.", "Touchez Modifier puis enregistrez.", "Ajoutez une photo nette et récente."] },
-          { t: "⭐ Points importants", p: ["Les contenus inappropriés sont modérés et supprimés.", "Ne publiez aucune donnée privée d'autrui."] }
+          { t: "✅ Ce que je peux faire", p: [
+            "Avoir ma fiche : photo, historique et palmarès.",
+            "Apparaître dans l’annuaire dès mon inscription.",
+            "Afficher mon QR code et scanner celui d’un autre acteur.",
+            "Ajouter des photos et des documents à mon profil.",
+            "Accepter ou refuser l’offre de rattachement d’un club.",
+            "Publier dans le forum et ajouter un terrain sur la carte."
+          ]},
+          { t: "⚠️ Ce que je dois faire", p: [
+            "Choisir le bon rôle dès l’inscription.",
+            "Renseigner poste, pied fort, catégorie et club actuel.",
+            "Indiquer mon statut : libre, sous contrat, amateur ou professionnel.",
+            "Garder mes informations à jour."
+          ]},
+          { t: "🔧 Comment faire", p: [
+            "Touchez Se connecter, puis Inscription.",
+            "Choisissez votre rôle et remplissez le formulaire.",
+            "Ouvrez Mon profil, puis ✏️ Modifier mon profil.",
+            "Touchez 📱 Mon QR Code pour l’afficher ou l’imprimer.",
+            "Touchez 📎 Ajouter pour joindre un document."
+          ]},
+          { t: "⭐ Points importants", p: [
+            "Après acceptation d’un club, la fiche est gérée par ce club.",
+            "Aux niveaux National et International, la fédération gère la fiche.",
+            "Une bannière indique quelle structure contacter pour modifier.",
+            "Un document marqué 🔒 sous contrat ne peut plus être supprimé."
+          ]}
         ]
       },
       {
-        id: "club", label: "Club / Structure", color: "#ea580c",
-        intro: "Vous gérez un club ou une structure sportive.",
+        id: "structure",
+        label: "🏟️ Structure",
+        intro: "Je représente un club, une association, une fédération ou un organisateur.",
         secs: [
-          { t: "✅ Ce que je peux faire", p: ["Présentez votre structure : bio, infrastructures, palmarès.", "Publiez les actualités de votre club.", "Soyez visible dans l'annuaire."] },
-          { t: "⚠️ Ce que je dois faire", p: ["Envoyez les documents demandés pour validation.", "Gardez vos informations à jour."] },
-          { t: "🔧 Comment faire", p: ["Ouvrez le formulaire de votre structure.", "Remplissez chaque rubrique puis envoyez.", "Attendez la décision de l'administration."] },
-          { t: "⭐ Points importants", p: ["Un dossier incomplet peut être refusé.", "Vérifiez vos documents avant l'envoi."] }
+          { t: "✅ Ce que je peux faire", p: [
+            "Gérer ma fiche : identité, gouvernance et infrastructures.",
+            "Créer mes effectifs par saison et par catégorie.",
+            "Déposer mes documents administratifs obligatoires.",
+            "Envoyer une offre de rattachement à un joueur.",
+            "Publier une page publique de mes effectifs.",
+            "Suivre mon badge de conformité Bronze, Argent ou Or."
+          ]},
+          { t: "⚠️ Ce que je dois faire", p: [
+            "Déposer statuts, récépissé et licence fédérale.",
+            "Attendre la validation de l’administration GFC.",
+            "Mettre à jour mes effectifs à chaque saison.",
+            "Répondre aux demandes de rattachement."
+          ]},
+          { t: "🔧 Comment faire", p: [
+            "Inscrivez-vous avec le rôle Club, Association, Fédération ou Organisateur.",
+            "Ouvrez Mon profil, puis touchez Gérer mes effectifs.",
+            "Touchez Voir la page publique pour contrôler l’affichage.",
+            "Ajoutez vos documents depuis votre fiche structure."
+          ]},
+          { t: "⭐ Points importants", p: [
+            "Votre fiche est visible aussitôt, avec la mention ⏳ en attente de validation.",
+            "Le public voit des effectifs agrégés, jamais la liste nominative.",
+            "Un joueur doit accepter lui-même votre offre de rattachement."
+          ]}
         ]
       },
       {
-        id: "admin", label: "Administrateur", color: "#7c3aed", adminOnly: true,
-        intro: "Vous gérez la plateforme et validez les demandes.",
+        id: "admin",
+        label: "🛠️ Admin",
+        intro: "Je supervise la plateforme GFC (accès réservé).",
         secs: [
-          { t: "✅ Ce que je peux faire", p: ["Validez ou refusez les clubs et structures.", "Modérez les publications et commentaires.", "Gérez les membres et les contenus."] },
-          { t: "⚠️ Ce que je dois faire", p: ["Traitez les demandes en attente régulièrement.", "Vérifiez les documents avant toute validation."] },
-          { t: "🔧 Comment faire", p: ["Ouvrez le tableau de bord administrateur.", "Choisissez la rubrique à traiter.", "Validez ou refusez, puis confirmez."] },
-          { t: "⭐ Points importants", p: ["Vérifiez bien avant de supprimer : action définitive.", "Ne communiquez jamais vos accès."] }
+          { t: "✅ Ce que je peux faire", p: [
+            "Valider les inscriptions et les structures.",
+            "Vérifier les documents administratifs.",
+            "Gérer les rattachements entre clubs, fédérations et joueurs.",
+            "Modérer le forum et traiter les signalements.",
+            "Publier des actualités et gérer les terrains.",
+            "Consulter les rapports et les statistiques."
+          ]},
+          { t: "⚠️ Ce que je dois faire", p: [
+            "Contrôler les fiches en attente de validation.",
+            "Vérifier les documents avant de valider une structure.",
+            "Traiter rapidement les signalements.",
+            "Garder l’accès admin confidentiel."
+          ]},
+          { t: "🔧 Comment faire", p: [
+            "Ouvrez Administration depuis le menu, ou la Console Admin complète.",
+            "Utilisez les onglets : Utilisateurs, Acteurs, Sites, Actualités, Rapports.",
+            "Filtrez par rôle, statut, ville ou niveau.",
+            "Utilisez les boutons d’action sur chaque ligne."
+          ]},
+          { t: "⭐ Points importants", p: [
+            "Masquez d’abord un compte douteux, supprimez ensuite.",
+            "Vérifiez deux fois avant toute suppression.",
+            "Ne changez jamais un rôle sans vérification."
+          ]}
         ]
       }
     ]
   };
 
+  /* ============================================================
+   *  Code du module — ne pas modifier
+   * ============================================================ */
   var path = location.pathname;
-  var isAdminPage = CONFIG.adminPathRegex.test(path);
-  var isHome = !isAdminPage && CONFIG.homePathRegex.test(path);
-  var C = CONFIG.color;
-  var adminByEmail = false; // renseigné par la détection asynchrone ou GuideWidget.setUser()
+  var isAdmin = CONFIG.adminPathRegex.test(path);
+  var isHome = !isAdmin && CONFIG.homePathRegex.test(path);
+  var c = CONFIG.color;
 
-  function el(tag, props, kids) {
-    var e = document.createElement(tag);
-    if (props) for (var k in props) {
-      if (k === "style") e.style.cssText = props[k];
-      else if (k === "text") e.textContent = props[k];
-      else e.setAttribute(k, props[k]);
-    }
-    (kids || []).forEach(function (c) { e.appendChild(c); });
-    return e;
-  }
-
-  /* ---------- Accès au guide Administrateur ---------- */
-  function emailMatch(e) {
-    if (!e) return false;
-    var x = String(e).toLowerCase();
-    return CONFIG.adminEmails.some(function (a) { return a.toLowerCase() === x; });
-  }
-
-  function isAdminUser() {
-    if (isAdminPage) return true; // les pages admin sont déjà protégées par l'application
-    if (adminByEmail) return true;
-    try { // session Supabase stockée par le navigateur
-      for (var i = 0; i < localStorage.length; i++) {
-        var k = localStorage.key(i);
-        if (/^sb-.*-auth-token$/.test(k)) {
-          var v = JSON.parse(localStorage.getItem(k) || "null");
-          var u = v && (v.user || (v.currentSession && v.currentSession.user));
-          if (u && emailMatch(u.email)) return true;
-        }
-      }
-    } catch (e) {}
-    try { // variables globales éventuelles de l'application
-      var g = window.currentUser || window.user || (window.GSC && window.GSC.user);
-      if (g && emailMatch(g.email)) return true;
-    } catch (e) {}
-    return false;
-  }
-
-  function detectFirebaseUser() { // session Firebase Auth (IndexedDB)
-    try {
-      var req = indexedDB.open("firebaseLocalStorageDb");
-      req.onsuccess = function () {
-        try {
-          var db = req.result;
-          if (!db.objectStoreNames.contains("firebaseLocalStorage")) { db.close(); return; }
-          var all = db.transaction("firebaseLocalStorage").objectStore("firebaseLocalStorage").getAll();
-          all.onsuccess = function () {
-            (all.result || []).forEach(function (r) { if (r && r.value && emailMatch(r.value.email)) adminByEmail = true; });
-            db.close();
-          };
-        } catch (e) {}
-      };
-    } catch (e) {}
-  }
-
-  /* ---------- Styles ---------- */
-  function injectCss() {
-    var s = el("style");
-    s.textContent =
-      ".gw-toast{position:fixed;left:0;right:0;bottom:78px;width:max-content;max-width:calc(100% - 24px);margin:0 auto;background:" + C + ";color:#fff;padding:8px 32px 8px 12px;border-radius:12px;font:13px/1.4 system-ui,sans-serif;box-shadow:0 6px 20px rgba(0,0,0,.3);z-index:99998;cursor:pointer}" +
-      ".gw-x{position:absolute;right:6px;top:3px;background:none;border:0;color:#fff;font-size:16px;cursor:pointer}" +
-      ".gw-fab{position:fixed;bottom:16px;" + (CONFIG.fab.position.indexOf("left") > -1 ? "left" : "right") + ":14px;background:" + C + ";color:#fff;border:0;border-radius:24px;padding:12px 16px;font:600 14px system-ui,sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.3);z-index:99997;cursor:pointer}" +
-      ".gw-ov{position:fixed;inset:0;background:rgba(0,0,0,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);z-index:99999;display:flex;align-items:center;justify-content:center;padding:10px}" +
-      ".gw-box{--gw-c:" + C + ";background:rgba(255,255,255,.74);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4);border:1px solid rgba(255,255,255,.55);box-shadow:0 10px 40px rgba(0,0,0,.35);color:#1b1b1b;width:100%;max-width:520px;max-height:90vh;overflow:auto;border-radius:16px;font:14px/1.45 system-ui,sans-serif}" +
-      ".gw-hd{position:sticky;top:0;z-index:1;background:var(--gw-c);background:color-mix(in srgb,var(--gw-c) 88%,transparent);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;font-weight:700}" +
-      ".gw-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px;border-bottom:1px solid rgba(0,0,0,.08)}" +
-      ".gw-tab{display:flex;align-items:center;justify-content:center;text-align:center;height:52px;width:100%;box-sizing:border-box;border:1.5px solid var(--c);background:rgba(255,255,255,.45);color:var(--c);border-radius:14px;padding:4px 8px;font:600 14px system-ui,sans-serif;cursor:pointer}" +
-      ".gw-tab.on{background:var(--c);color:#fff;box-shadow:0 3px 10px rgba(0,0,0,.2)}" +
-      ".gw-body{padding:12px 14px}.gw-body h4{margin:14px 0 4px;color:var(--gw-c)}.gw-body ul{margin:0;padding-left:18px}.gw-body li{margin:3px 0}" +
-      ".gw-lock{text-align:center;padding:28px 12px;font-size:15px}.gw-lock b{display:block;font-size:34px;margin-bottom:8px}";
-    document.head.appendChild(s);
-  }
-
-  /* ---------- Fenêtre du guide ---------- */
-  function renderBody(box, id) {
-    var role = CONFIG.roles.filter(function (r) { return r.id === id; })[0] || CONFIG.roles[0];
-    var shell = box.parentNode;
-    if (shell && shell.style) shell.style.setProperty("--gw-c", role.color || C);
-    box.innerHTML = "";
-    if (role.adminOnly && !isAdminUser()) {
-      box.appendChild(el("div", { class: "gw-lock" }, [el("b", { text: "🔒" }), el("span", { text: CONFIG.lockedMessage })]));
-      return;
-    }
-    box.appendChild(el("p", { text: role.intro, style: "margin:0 0 4px;font-style:italic" }));
-    role.secs.forEach(function (sec) {
-      box.appendChild(el("h4", { text: sec.t }));
-      var ul = el("ul");
-      sec.p.forEach(function (t) { ul.appendChild(el("li", { text: t })); });
-      box.appendChild(ul);
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (m) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m];
     });
+  }
+
+  var css =
+    ".gw-modal{position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.6);padding:16px}" +
+    ".gw-modal.on{display:flex}" +
+    ".gw-card{background:#1b2030;color:#fff;max-width:440px;width:100%;max-height:85vh;overflow:auto;border-radius:16px;padding:18px;border:1px solid " + c + ";font-family:inherit}" +
+    ".gw-card h3{margin:0 0 12px;color:#35d08a;font-size:18px}" +
+    ".gw-card h4{margin:14px 0 6px;color:#ffd24d;font-size:14px}" +
+    ".gw-card ol{margin:0;padding-left:20px;line-height:1.5;font-size:14px}" +
+    ".gw-card li{margin-bottom:5px}" +
+    ".gw-x{float:right;background:" + c + ";color:#fff;border:0;border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer}" +
+    ".gw-tabs{display:flex;gap:6px;margin:0 0 12px}" +
+    ".gw-tab{flex:1;background:#2a3147;color:#fff;border:0;border-radius:10px;padding:8px 4px;font-size:12px;cursor:pointer}" +
+    ".gw-tab.on{background:" + c + ";font-weight:700}" +
+    ".gw-intro{margin:0;color:#ccc;font-size:13px}" +
+    ".gw-toast{position:fixed;left:12px;right:12px;bottom:" + CONFIG.toast.bottomPx + "px;z-index:99998;max-width:360px;margin:auto;background:" + c + ";color:#fff;border-radius:14px;padding:12px 14px;display:flex;gap:10px;align-items:center;box-shadow:0 6px 20px rgba(0,0,0,.4);transition:opacity .4s,transform .4s;cursor:pointer;font-size:14px}" +
+    ".gw-toast.off{opacity:0;transform:translateY(10px)}" +
+    ".gw-toast b{flex:1}" +
+    ".gw-toast button{background:rgba(0,0,0,.25);color:#fff;border:0;border-radius:50%;width:26px;height:26px;cursor:pointer}" +
+    ".gw-fab{position:fixed;" + (CONFIG.fab.side === "right" ? "right" : "left") + ":12px;bottom:16px;z-index:99997;background:" + c + ";color:#fff;border:0;border-radius:999px;padding:10px 16px;font-weight:700;box-shadow:0 4px 14px rgba(0,0,0,.4);cursor:pointer}";
+
+  var modal, tabsEl, bodyEl;
+
+  function findRole(id) {
+    for (var i = 0; i < CONFIG.roles.length; i++) {
+      if (CONFIG.roles[i].id === id) return CONFIG.roles[i];
+    }
+    return CONFIG.roles[0];
+  }
+
+  function render(id) {
+    var r = findRole(id);
+    tabsEl.innerHTML = CONFIG.roles.map(function (x) {
+      return "<button class='gw-tab" + (x.id === r.id ? " on" : "") + "' data-r='" + esc(x.id) + "'>" + esc(x.label) + "</button>";
+    }).join("");
+    bodyEl.innerHTML = "<p class='gw-intro'>" + esc(r.intro) + "</p>" + r.secs.map(function (s) {
+      return "<h4>" + esc(s.t) + "</h4><ol>" + s.p.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ol>";
+    }).join("");
+    modal.querySelector(".gw-card").scrollTop = 0;
   }
 
   function open(roleId) {
-    if (document.getElementById("gw-ov")) return;
-    var admin = isAdminUser();
-    var start = roleId || (isAdminPage ? CONFIG.defaultRole.admin : CONFIG.defaultRole.normal);
-    var body = el("div", { class: "gw-body" });
-    var tabs = el("div", { class: "gw-tabs" });
-    CONFIG.roles.forEach(function (r) {
-      var locked = r.adminOnly && !admin;
-      var b = el("button", { class: "gw-tab", text: (locked ? "🔒 " : "") + r.label, type: "button", style: "--c:" + (r.color || C) });
-      b.onclick = function () {
-        Array.prototype.forEach.call(tabs.children, function (x) { x.classList.remove("on"); });
-        b.classList.add("on");
-        renderBody(body, r.id);
-      };
-      b.setAttribute("data-id", r.id);
-      tabs.appendChild(b);
-    });
-    var close = el("button", { class: "gw-x", text: "✕", type: "button", "aria-label": "Fermer" });
-    var ov = el("div", { class: "gw-ov", id: "gw-ov" }, [
-      el("div", { class: "gw-box" }, [el("div", { class: "gw-hd" }, [el("span", { text: "Comment ça marche" }), close]), tabs, body])
-    ]);
-    function shut() { ov.remove(); }
-    close.onclick = shut;
-    ov.addEventListener("click", function (e) { if (e.target === ov) shut(); });
-    document.body.appendChild(ov);
-    var first = tabs.querySelector('[data-id="' + start + '"]') || tabs.firstChild;
-    first.click();
+    if (!modal) {
+      modal = document.createElement("div");
+      modal.className = "gw-modal";
+      modal.innerHTML = "<div class='gw-card'><button class='gw-x' aria-label='Fermer'>✕</button><h3>" + esc(CONFIG.title) + "</h3><div class='gw-tabs'></div><div class='gw-body'></div></div>";
+      tabsEl = modal.querySelector(".gw-tabs");
+      bodyEl = modal.querySelector(".gw-body");
+      modal.addEventListener("click", function (e) {
+        var t = e.target;
+        if (t === modal || t.className === "gw-x") close();
+        else if (t.getAttribute && t.getAttribute("data-r")) render(t.getAttribute("data-r"));
+      });
+      document.body.appendChild(modal);
+    }
+    render(roleId || (isAdmin ? CONFIG.defaultAdminRole : CONFIG.defaultRole));
+    modal.classList.add("on");
   }
 
-  /* ---------- Ligne du menu latéral ---------- */
-  function addMenuLine() {
-    var a = isAdminPage ? CONFIG.menuAnchorAdmin : CONFIG.menuAnchor;
-    if (!a) return false;
-    var links = document.querySelectorAll(a.selector || "a");
-    var target = null;
-    for (var i = 0; i < links.length; i++) {
-      var l = links[i];
-      if (l.closest && l.closest("#gw-ov")) continue;
-      if (l.id === "gw-menu") continue;
-      var okText = a.textRegex ? a.textRegex.test(l.textContent || "") : true;
-      var okHref = a.hrefContains ? (l.getAttribute("href") || "").indexOf(a.hrefContains) > -1 : true;
-      if (okText && okHref) { target = l; if (!a.last) break; }
-    }
-    if (!target || document.getElementById("gw-menu")) return !!target;
-    var line = target.cloneNode(false);
-    line.removeAttribute("onclick");
-    line.classList.remove("active");
-    line.id = "gw-menu";
-    if (line.tagName === "A") line.href = "#";
-    var ico = target.querySelector('[class*="ico"]');
+  function close() {
+    if (modal) modal.classList.remove("on");
+  }
+
+  // Cherche l’élément de référence : lien, bouton ou ligne cliquable.
+  function addMenu() {
+    var cfg = CONFIG.menuAnchor;
+    if (!cfg || document.getElementById("gwMenuItem")) return;
+    var els = [].slice.call(document.querySelectorAll("a, button, [onclick]"));
+    var ref = els.filter(function (a) {
+      var txt = (a.textContent || "").trim();
+      if (txt.length > 60 || !cfg.textRegex.test(txt)) return false;
+      if (cfg.hrefContains) return (a.getAttribute("href") || "").indexOf(cfg.hrefContains) > -1;
+      return true;
+    })[0];
+    if (!ref) return;
+    var a = ref.cloneNode(false);
+    a.removeAttribute("onclick");
+    a.id = "gwMenuItem";
+    if (a.tagName === "A") a.setAttribute("href", "#");
+    var ico = ref.querySelector(".smi-ico");
     if (ico) {
-      var si = ico.cloneNode(false);
-      si.textContent = CONFIG.menuIcon;
-      line.appendChild(si);
-      var lab = ico.nextElementSibling ? ico.nextElementSibling.cloneNode(false) : null;
-      if (lab) { lab.textContent = CONFIG.menuLabel; line.appendChild(lab); }
-      else line.appendChild(document.createTextNode(CONFIG.menuLabel));
+      // Même structure que les autres lignes du menu GFC : icône + texte
+      var parts = CONFIG.menuLabel.split(" ");
+      var emoji = parts.shift();
+      a.innerHTML = "<span class='" + esc(ico.className) + "'>" + esc(emoji) + "</span>" + esc(parts.join(" "));
     } else {
-      line.textContent = CONFIG.menuIcon + " " + CONFIG.menuLabel;
+      a.textContent = CONFIG.menuLabel;
     }
-    line.onclick = function (e) {
+    a.addEventListener("click", function (e) {
       e.preventDefault();
       e.stopPropagation();
-      try { if (typeof window.closeMenu === "function") window.closeMenu(); } catch (x) {}
-      try { // menu latéral de la page admin (mobile)
-        var sb = document.getElementById("sidebar"); if (sb) sb.classList.remove("open");
-        var so = document.getElementById("sidebar-overlay"); if (so) so.classList.remove("open");
-      } catch (x) {}
       open();
-    };
-    var holder = target.parentNode && target.parentNode.tagName === "LI" ? target.parentNode : target;
-    var copy = holder === target ? line : holder.cloneNode(false);
-    if (holder !== target) copy.appendChild(line);
-    holder.parentNode.insertBefore(copy, holder.nextSibling);
-    return true;
+    });
+    ref.parentNode.insertBefore(a, ref.nextSibling);
   }
 
-  /* ---------- Bulle éphémère ---------- */
   function showToast() {
     var T = CONFIG.toast;
-    var key = "gw_toast_" + (isAdminPage ? "admin" : "home");
-    try { if (T.oncePerSession && sessionStorage.getItem(key)) return; sessionStorage.setItem(key, "1"); } catch (e) {}
-    setTimeout(function () {
-      var x = el("button", { class: "gw-x", text: "✕", type: "button", "aria-label": "Fermer" });
-      var t = el("div", { class: "gw-toast", text: T.text }, [x]);
-      x.onclick = function (e) { e.stopPropagation(); t.remove(); };
-      t.onclick = function () { t.remove(); open(); };
-      document.body.appendChild(t);
-      setTimeout(function () { if (t.parentNode) t.remove(); }, T.durationMs);
-    }, T.delayMs);
+    if (!T.enabled) return;
+    if (T.oncePerSession) {
+      try {
+        if (sessionStorage.getItem("gwSeen")) return;
+        sessionStorage.setItem("gwSeen", "1");
+      } catch (e) {}
+    }
+    var t = document.createElement("div");
+    t.className = "gw-toast";
+    t.innerHTML = "<span>❓</span><b>" + esc(T.text) + "</b><button aria-label='Fermer'>✕</button>";
+    function hide() {
+      t.classList.add("off");
+      setTimeout(function () { t.remove(); }, 500);
+    }
+    t.addEventListener("click", function (e) {
+      if (e.target.tagName === "BUTTON") hide();
+      else { hide(); open(); }
+    });
+    document.body.appendChild(t);
+    setTimeout(hide, T.durationMs);
   }
 
   function addFab() {
-    if (document.getElementById("gw-fab")) return;
-    var b = el("button", { class: "gw-fab", id: "gw-fab", text: CONFIG.fab.text, type: "button" });
-    b.onclick = function () { open(); };
+    if (!CONFIG.fab.enabled) return;
+    var b = document.createElement("button");
+    b.className = "gw-fab";
+    b.textContent = CONFIG.fab.text;
+    b.addEventListener("click", function () { open(); });
     document.body.appendChild(b);
   }
 
   function init() {
-    injectCss();
-    detectFirebaseUser();
-    if (isAdminPage || isHome) {
-      showToast();
-      if (isAdminPage && CONFIG.fab.showOnAdmin) addFab();
-      // menu latéral : souvent construit ou rouvert après le chargement → on surveille la page
-      addMenuLine();
-      var timer = null;
-      new MutationObserver(function () {
-        if (document.getElementById("gw-menu") || timer) return;
-        timer = setTimeout(function () { timer = null; addMenuLine(); }, 300);
-      }).observe(document.body, { childList: true, subtree: true });
-    }
+    var st = document.createElement("style");
+    st.textContent = css;
+    document.head.appendChild(st);
+    addMenu();
+    var timer;
+    new MutationObserver(function () {
+      clearTimeout(timer);
+      timer = setTimeout(addMenu, 300);
+    }).observe(document.body, { childList: true, subtree: true });
+    if (isAdmin) addFab();
+    if (isHome) setTimeout(showToast, CONFIG.toast.delayMs);
   }
 
-  window.GuideWidget = {
-    open: open,
-    // Si la détection automatique échoue, l'application peut appeler GuideWidget.setUser(email)
-    setUser: function (email) { adminByEmail = emailMatch(email); }
-  };
+  window.GuideWidget = { open: open, close: close, config: CONFIG };
+
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
   else init();
 })();
