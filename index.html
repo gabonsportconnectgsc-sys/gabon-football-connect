@@ -5892,8 +5892,7 @@ function buildEditForm(p){
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
       <div class="form-group"><label>Discipline para-sportive</label>
         <select id="edit-hs-discipline">
-          <option value="">—</option>
-          ${['Para-athlétisme','Para-natation','Basketball fauteuil','Volleyball assis','Goalball (cécité)','Cécifoot (football à 5)','Boccia','Para-judo (déficients visuels)','Para-taekwondo','Para-cyclisme','Tennis de table adapté','Football amputés','Rugby fauteuil','Para-tir sportif','Autre'].map(v=>`<option${p.disciplineParaSport===v?' selected':''}>${v}</option>`).join('')}
+          ${["Handifoot"].map(v=>`<option${p.disciplineParaSport===v?' selected':''}>${v}</option>`).join('')}
         </select>
       </div>
       <div class="form-group"><label>Niveau de pratique</label>
