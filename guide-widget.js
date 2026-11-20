@@ -336,7 +336,30 @@
       clearTimeout(timer);
       timer = setTimeout(addMenu, 300);
     }).observe(document.body, { childList: true, subtree: true });
-    if (isAdmin) addFab();
+    if (isAdmin) {
+      var gwOff = false;
+      try { gwOff = !!localStorage.getItem("gwFabOff"); } catch (e) {}
+      if (!gwOff) {
+        addFab();
+        var gwSt = document.createElement("style");
+        gwSt.textContent = ".gw-fab{bottom:80px!important;padding:8px 12px!important;font-size:13px!important}.gw-fab .gw-fab-x{margin-left:8px;padding:2px 6px;border-left:1px solid rgba(255,255,255,.5);font-weight:700}";
+        document.head.appendChild(gwSt);
+        setTimeout(function () {
+          var fb = document.querySelector(".gw-fab");
+          if (!fb || fb.querySelector(".gw-fab-x")) return;
+          var x = document.createElement("span");
+          x.className = "gw-fab-x";
+          x.textContent = "✕";
+          x.setAttribute("aria-label", "Fermer");
+          x.addEventListener("click", function (ev) {
+            ev.stopPropagation(); ev.preventDefault();
+            try { localStorage.setItem("gwFabOff", "1"); } catch (e) {}
+            fb.remove();
+          });
+          fb.appendChild(x);
+        }, 300);
+      }
+    }
     if (isHome) setTimeout(showToast, CONFIG.toast.delayMs);
   }
 
