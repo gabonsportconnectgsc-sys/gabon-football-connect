@@ -818,7 +818,15 @@ tr.is-demo-row td { opacity: .82; }
 </style><style id="gfc-blocks-admin">
 .adm-page-help-body{box-sizing:border-box !important;max-width:520px !important;margin:10px auto !important;padding:12px 14px !important;border:1px solid #e2e8f0 !important;border-radius:14px !important;background:#f8fafc !important;text-align:center !important}
 .card-title,.report-card-title{text-align:center !important}
-</style><style id="gfc-justify-admin">.adm-page-help-body{text-align:justify !important;text-align-last:left !important;hyphens:auto !important;-webkit-hyphens:auto !important;overflow-wrap:break-word !important;word-break:normal !important;box-sizing:border-box !important}</style></head>
+</style><style id="gfc-justify-admin">.adm-page-help-body{text-align:justify !important;text-align-last:left !important;hyphens:auto !important;-webkit-hyphens:auto !important;overflow-wrap:break-word !important;word-break:normal !important;box-sizing:border-box !important}</style><style id="gfc-admin-fond">
+/* gfc-admin-fond */
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:url("img/fond-stade.webp") center center/cover no-repeat;opacity:.9;filter:saturate(1.4) contrast(1.15) brightness(1.05);}
+@media (prefers-color-scheme:dark){body::before{opacity:.65;filter:saturate(1.4) contrast(1.15) brightness(1.05);}
+body.dark::before,body.dark-mode::before,[data-theme="dark"] body::before,html[data-theme="dark"] body::before{opacity:.65;filter:saturate(1.4) contrast(1.15) brightness(1.05);}
+body::before{z-index:-1!important;pointer-events:none!important}
+.main-content,#app{background:transparent!important}
+</style>
+</head>
 <body>
 
 <div id="loading-screen" style="display: none;">
