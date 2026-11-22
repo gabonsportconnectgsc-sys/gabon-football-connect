@@ -1079,7 +1079,7 @@
   }
 
   /* Liens courts Facebook : résolution via le Worker, puis publication intégrée */
-  const FB_RESOLVE = 'https://green-bread-a77fgsc-fb-resolve.gabonsportconnectgsc.workers.dev';
+  const FB_RESOLVE = 'https://gfc-fb-resolve.gabonsportconnectgsc.workers.dev';
   const _fbCache = new Map();
   function fbResolveShort(href) {
     if (_fbCache.has(href)) return _fbCache.get(href);
