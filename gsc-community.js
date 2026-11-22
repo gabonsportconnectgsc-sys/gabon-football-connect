@@ -1094,10 +1094,22 @@
     _fbCache.set(href, p);
     return p;
   }
+  /* Carte de lien Facebook (page, ou lien sans publication identifiable) */
+  function fbPageCardHTML(href, d) {
+    const t = (d.title || '').trim();
+    if (!t || /^(facebook|log in|connexion|se connecter)/i.test(t)) return '';
+    const img = d.image ? '<img src="' + esc(d.image) + '" alt="" referrerpolicy="no-referrer" loading="lazy" style="width:64px;height:64px;border-radius:12px;object-fit:cover;flex:none;">' : '';
+    const desc = d.description ? '<div style="font-size:13px;color:#4b5563;margin-top:4px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">' + esc(d.description) + '</div>' : '';
+    return '<div class="gsc-fb-embed" style="margin:10px 0;padding:14px;border:1px solid #dbe3ea;border-radius:12px;background:#f5f8fb;">'
+      + '<div style="display:flex;gap:12px;align-items:flex-start;">' + img + '<div style="min-width:0;"><div style="font-weight:700;color:#1a2b3c;">' + esc(t) + '</div>' + desc + '</div></div>'
+      + '<a href="' + esc(href) + '" target="_blank" rel="noopener" style="display:block;margin-top:12px;text-align:center;font-weight:600;color:#1877f2;text-decoration:none;">Ouvrir sur Facebook ↗</a></div>';
+  }
+
   function fbUpgradeShortLinks() {
     document.querySelectorAll('.gsc-fb-embed[data-fb-share]:not([data-fb-done])').forEach(el => {
       el.setAttribute('data-fb-done', '1');
       fbResolveShort(el.getAttribute('data-fb-share')).then(d => {
+        if (d && !d.url && el.isConnected) { const h = fbPageCardHTML(el.getAttribute('data-fb-share'), d); if (h) el.outerHTML = h; return; }
         if (!d || !d.url || !el.isConnected) return;
         const html = fbEmbedHTML(d.url);
         if (html) el.outerHTML = html;
