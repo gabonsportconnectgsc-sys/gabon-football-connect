@@ -1048,6 +1048,64 @@
     return `<div class="gsc-post-gallery gsc-post-gallery-${shown.length}">${tiles}</div>`;
   }
 
+  /* ── Publications Facebook intégrées (plugin officiel, sans API) ── */
+  function fbEmbedHTML(text) {
+    if (!text) return '';
+    const urls = String(text).match(/https?:\/\/[^\s<>"']+/g) || [];
+    for (const raw of urls) {
+      let u;
+      try { u = new URL(raw.replace(/[.,;)!?]+$/, '')); } catch (e) { continue; }
+      if (!/^((www|m|web|mbasic)\.)?facebook\.com$|^fb\.watch$|^fb\.com$/i.test(u.hostname)) continue;
+      const href = u.href;
+      if (/^\/share\//.test(u.pathname)) {
+        return `<div class="gsc-fb-embed" data-fb-share="${esc(href)}" style="margin:10px 0;padding:14px;border:1px solid #dbe3ea;border-radius:12px;background:#f5f8fb;text-align:center;">
+          <div style="font-size:13px;color:#475569;margin-bottom:8px;">Publication Facebook (lien court : aperçu indisponible)</div>
+          <a href="${esc(href)}" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:9px 16px;border-radius:999px;background:#1877f2;color:#fff;font-weight:700;text-decoration:none;">Voir la publication sur Facebook ↗</a>
+        </div>`;
+      }
+      const isVideo = /\/(videos?|reel|watch)\b|\/share\/[vr]\//i.test(u.pathname) || /^fb\.watch$/i.test(u.hostname);
+      const w = Math.min(500, Math.max(350, (window.innerWidth || 400) - 60));
+      const h = isVideo ? 500 : 600;
+      const src = `https://www.facebook.com/plugins/${isVideo ? 'video' : 'post'}.php?href=${encodeURIComponent(href)}&show_text=true&width=${w}&height=${h}`;
+      return `<div class="gsc-fb-embed" style="margin:10px 0;text-align:center;overflow:hidden;">
+        <iframe src="${esc(src)}" width="${w}" height="${h}"
+          style="border:none;overflow:hidden;max-width:100%;" scrolling="no"
+          frameborder="0" allowfullscreen="true" loading="lazy"
+          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+        <a href="${esc(href)}" target="_blank" rel="noopener noreferrer" style="display:block;margin-top:6px;font-weight:600;color:#1877f2;text-decoration:none;">Ouvrir sur Facebook ↗</a>
+      </div>`;
+    }
+    return '';
+  }
+
+  /* Liens courts Facebook : résolution via le Worker, puis publication intégrée */
+  const FB_RESOLVE = 'https://green-bread-a77fgsc-fb-resolve.gabonsportconnectgsc.workers.dev';
+  const _fbCache = new Map();
+  function fbResolveShort(href) {
+    if (_fbCache.has(href)) return _fbCache.get(href);
+    let cached = null;
+    try { cached = sessionStorage.getItem('gscfb:' + href); } catch (e) {}
+    const p = cached
+      ? Promise.resolve(JSON.parse(cached))
+      : fetch(FB_RESOLVE + '/?u=' + encodeURIComponent(href))
+          .then(r => r.ok ? r.json() : null)
+          .then(d => { try { if (d && d.url) sessionStorage.setItem('gscfb:' + href, JSON.stringify(d)); } catch (e) {} return d; })
+          .catch(() => null);
+    _fbCache.set(href, p);
+    return p;
+  }
+  function fbUpgradeShortLinks() {
+    document.querySelectorAll('.gsc-fb-embed[data-fb-share]:not([data-fb-done])').forEach(el => {
+      el.setAttribute('data-fb-done', '1');
+      fbResolveShort(el.getAttribute('data-fb-share')).then(d => {
+        if (!d || !d.url || !el.isConnected) return;
+        const html = fbEmbedHTML(d.url);
+        if (html) el.outerHTML = html;
+      });
+    });
+  }
+  try { new MutationObserver(fbUpgradeShortLinks).observe(document.documentElement, { childList: true, subtree: true }); } catch (e) {}
+
   function postCardHTML(post) {
     const { counts, mine } = reactionSummary(post);
     const isOwner = window.currentUser && post.authorId === window.currentUser.uid;
@@ -1096,6 +1154,7 @@
       ` : `
       ${post.text ? `<div class="gsc-post-text">${renderTextWithMentions(post.text)}${post.editedAt ? ' <span class="gsc-post-edited-tag">(modifié)</span>' : ''}</div>` : ''}
       `}
+      ${editing ? '' : fbEmbedHTML(post.text)}
       ${postImagesHTML(post)}
       <div class="gsc-react-row">
         ${REACTIONS.map(r => `<button class="gsc-react-btn${mine === r.key ? ' mine' : ''}" data-action="react" data-key="${r.key}" type="button">${r.icon}${counts[r.key] ? ` ${counts[r.key]}` : ''}</button>`).join('')}
