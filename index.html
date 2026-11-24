@@ -10275,6 +10275,58 @@ document.addEventListener('DOMContentLoaded', function(){
 <!-- gsc-ligue -->
 <script src="gsc-ligue-manager.js"></script>
 <script src="gsc-ligue-competitions.js"></script>
+<style id="gfc-families-css">
+#actor-type-filters.gfc-grouped{display:block!important}
+#actor-type-filters.gfc-grouped>.actor-filter-btn[data-type="tous"]{width:100%;margin-bottom:10px}
+.gfc-fam{margin:0 0 12px}
+.gfc-fam-title{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--gray-txt);margin:0 2px 6px}
+.gfc-fam-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.gfc-fam-grid>.actor-filter-btn:last-child:nth-child(odd){grid-column:1 / -1;justify-self:center;width:calc(50% - 4px)}
+</style>
+<script>/* gfc-families */
+window.GFC_FAMILIES=[
+  {id:'joueurs',label:'⚽ Joueurs',roles:['joueur','eleve_etudiant','independant','gabonais_diaspora','sportif_etranger','ancien_sportif','handisport']},
+  {id:'encadrement',label:'📋 Encadrement',roles:['entraineur','arbitre','formateur']},
+  {id:'organisations',label:'🏟️ Organisations',roles:['club','association','ligue','organisateur','ecole_universite']},
+  {id:'instance',label:'🏛️ Instance',roles:['federation']},
+  {id:'autres',label:'💗 Autres',roles:['supporter']}
+];
+window.gfcFamilyOf=function(role){
+  var f=window.GFC_FAMILIES.filter(function(x){return x.roles.indexOf(role)>=0;})[0];
+  return f?f.id:'autres';
+};
+(function(){
+  function group(){
+    try{
+      var box=document.getElementById('actor-type-filters');
+      if(!box||box.getAttribute('data-gfc-grouped')) return;
+      var btns=Array.prototype.slice.call(box.querySelectorAll('.actor-filter-btn'));
+      var by={}, used={};
+      btns.forEach(function(b){ by[b.getAttribute('data-type')]=b; });
+      var frag=document.createDocumentFragment();
+      if(by.tous){ frag.appendChild(by.tous); used.tous=1; }
+      function section(label,list){
+        var sec=document.createElement('div'); sec.className='gfc-fam';
+        var t=document.createElement('div'); t.className='gfc-fam-title'; t.textContent=label; sec.appendChild(t);
+        var g=document.createElement('div'); g.className='gfc-fam-grid';
+        list.forEach(function(r){ g.appendChild(by[r]); used[r]=1; });
+        sec.appendChild(g); frag.appendChild(sec);
+      }
+      window.GFC_FAMILIES.forEach(function(f){
+        var list=f.roles.filter(function(r){ return by[r]; });
+        if(list.length) section(f.label,list);
+      });
+      if(by.athlete){ by.athlete.style.display='none'; used.athlete=1; }
+      var rest=Object.keys(by).filter(function(r){ return !used[r]; });
+      if(rest.length) section('Divers',rest);
+      box.classList.add('gfc-grouped');
+      box.setAttribute('data-gfc-grouped','1');
+      box.appendChild(frag);
+    }catch(e){ console.warn('gfc-families',e); }
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',group); else group();
+})();
+</script>
 <script src="gsc-ligue-effectifs.js"></script>
 </body>
 </html>
