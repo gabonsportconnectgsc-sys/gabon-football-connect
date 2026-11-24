@@ -26,7 +26,7 @@
     if (!anchor) return;
     var box = document.createElement('div'); box.className = 'fg'; box.id = 'gsc-claim-box';
     box.innerHTML = '<label>🙋 Cette entité existe déjà dans l’application ?</label><select id="a-revendication-select"><option value="">— Non, c’est une nouvelle structure —</option></select>'
-      + '<div class="form-hint">Si vous dirigez une entité déjà listée, sélectionnez-la. Votre demande sera examinée par l’administration GSC : vous n’aurez aucun droit de gestion avant validation.</div>';
+      + '<div class="form-hint">Si vous dirigez une entité déjà listée, sélectionnez-la. Votre demande sera examinée par l’administration GFC : vous n’aurez aucun droit de gestion avant validation.</div>';
     anchor.parentNode.insertBefore(box, anchor);
     try {
       var list = await load(r), sel = document.getElementById('a-revendication-select');
@@ -38,7 +38,7 @@
     var o = window.pickRole;
     if (typeof o === 'function' && !o.__gc) {
       var f = function (r) { var x = o.apply(this, arguments); try { onRole(r); } catch (e) {} return x; };
-      f.__gc = 1; window.pickRole = f; clearInterval(iv);
+      f.__gc = 1; window.pickRole = f; clearInterval(iv); try { var t = document.querySelector('.role-tile.sel'); if (t) onRole(t.getAttribute('data-role')); } catch (e) {}
     } else if (++n > 60) clearInterval(iv);
   }, 500);
 })();
