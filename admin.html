@@ -1284,7 +1284,7 @@ body::before{z-index:-1!important;pointer-events:none!important}
           <button class="filter-btn role-ancien_sportif">🎖️ Anciens footballeurs</button>
           <button class="filter-btn role-formateur">🧑‍🏫 Formateurs</button>
           <!-- NOUVEAU — bascule d'affichage, câblée par wirePlayerFilters()
-               dans admin-controller.js?v=202610241726 (.display-mode-btn / data-mode).
+               dans admin-controller.js?v=202611241105 (.display-mode-btn / data-mode).
                'grid' = tableau détaillé actuel, 'compact' = liste resserrée. -->
           <button class="filter-btn display-mode-btn active" data-mode="grid" title="Affichage détaillé">📋 Standard</button>
           <button class="filter-btn display-mode-btn" data-mode="compact" title="Affichage resserré, une ligne par personne">☰ Compact</button>
@@ -2388,7 +2388,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
 <script src="seed-data.js"></script>
 <script src="realtime-sync-module.js"></script>
-<script src="admin-controller.js?v=202610241726"></script>
+<script src="admin-controller.js?v=202611241105"></script>
 
 <!-- Module Rapports — autonome, lit le cache de realtime-sync-module.js -->
 <script>
@@ -2424,7 +2424,7 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 
   /* Lit les données déjà synchronisées par realtime-sync-module.js
-     (admin-controller.js?v=202610241726 a déjà ouvert les listeners "users"/"matchs",
+     (admin-controller.js?v=202611241105 a déjà ouvert les listeners "users"/"matchs",
      ce module ne fait qu'en lire le cache — aucun listener dupliqué). */
   function getUsers() {
     const real = (window.realtimeSync && window.realtimeSync.getCache('users')) || [];
@@ -3273,7 +3273,7 @@ document.addEventListener('DOMContentLoaded', function(){
     if (!canvas || !gscIdEl || !user) return;
     const uid = user.uid || user.id;
     const role = user.role || 'joueur';
-    const gscId = user.gscId || generateGscId(uid, role);
+    const gscId = (window.gscIdFix ? window.gscIdFix(user) : user.gscId) || generateGscId(uid, role);
     gscIdEl.textContent = gscId;
     const url = buildQrUrl(uid);
     drawQrOnCanvas(canvas, url, 84);
@@ -3317,7 +3317,7 @@ document.addEventListener('DOMContentLoaded', function(){
   }
   window.gscInjectModalQr = injectModalQr;
 
-  // Patch léger : si admin-controller.js?v=202610241726 expose openPlayerModal(uid) ou équivalent,
+  // Patch léger : si admin-controller.js?v=202611241105 expose openPlayerModal(uid) ou équivalent,
   // on observe l'ouverture du modal pour y injecter automatiquement le QR, sans
   // dépendre du contenu exact de ce fichier externe (non fourni ici).
   function tryAutoInjectFromModal() {
@@ -3476,7 +3476,7 @@ document.addEventListener('DOMContentLoaded', function(){
       if (!qrScanLastUser) return;
       const uid = qrScanLastUser.uid || qrScanLastUser.id;
       // Ouvre la fiche complète dans le module Joueurs si la fonction existe déjà
-      // dans admin-controller.js?v=202610241726 (ex: openPlayerModal). Repli : section Joueurs + recherche.
+      // dans admin-controller.js?v=202611241105 (ex: openPlayerModal). Repli : section Joueurs + recherche.
       if (typeof window.AdminController_openPlayerModal === 'function') {
         const navJoueurs = document.getElementById('nav-joueurs');
         if (navJoueurs) navJoueurs.click();
@@ -3784,21 +3784,21 @@ document.addEventListener('DOMContentLoaded', function(){
   };
 
   // Fix #13 — définitions de secours pour gscGoToFiltered et gscGoToMatches.
-  // Ces fonctions doivent normalement être fournies par admin-controller.js?v=202610241726
+  // Ces fonctions doivent normalement être fournies par admin-controller.js?v=202611241105
   // Ce fallback minimal navigue vers la section Acteurs ou Matchs par son onglet de navigation,
   // évitant ainsi une erreur silencieuse si le script externe est absent ou en échec.
   if(typeof window.gscGoToFiltered !== 'function'){
     window.gscGoToFiltered = function(opts){
       const target = document.querySelector('[data-section="acteurs"],[data-nav="acteurs"],.nav-item[onclick*="acteur"]');
       if(target) target.click();
-      else console.warn('[GSC] gscGoToFiltered: admin-controller.js?v=202610241726 non chargé. Opts:', opts);
+      else console.warn('[GSC] gscGoToFiltered: admin-controller.js?v=202611241105 non chargé. Opts:', opts);
     };
   }
   if(typeof window.gscGoToMatches !== 'function'){
     window.gscGoToMatches = function(){
       const target = document.querySelector('[data-section="matchs"],[data-nav="matchs"],.nav-item[onclick*="match"]');
       if(target) target.click();
-      else console.warn('[GSC] gscGoToMatches: admin-controller.js?v=202610241726 non chargé.');
+      else console.warn('[GSC] gscGoToMatches: admin-controller.js?v=202611241105 non chargé.');
     };
   }
 

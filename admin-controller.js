@@ -689,7 +689,7 @@
     const renderRow = (u) => {
       const uid = u.uid || u.id;
       const role = u.role || 'joueur';
-      const gscId = u.gscId || (window.gscGenerateId ? window.gscGenerateId(uid, role) : ('GSC-' + (uid || '').slice(0, 6).toUpperCase()));
+      const gscId = (window.gscIdFix ? window.gscIdFix(u) : u.gscId) || (window.gscGenerateId ? window.gscGenerateId(uid, role) : ('GSC-' + (uid || '').slice(0, 6).toUpperCase()));
       const qrIdx = qrRowIdx++;
       return `
       <tr data-id="${u.id}" class="${u.isDemo ? 'is-demo-row' : ''} ${(u.status === 'pending' || u.deletionRequested) ? 'row-pending-blink' : ''}">
@@ -791,6 +791,16 @@
   }
   window.gscOnModalEtablissementChange = onModalEtablissementChange;
 
+  // GFC : un identifiant enregistre avec la categorie 000 (ligue inscrite avant le correctif 9d) est recalcule a l'affichage
+  window.gscIdFix = function (u) {
+    var g = u && u.gscId;
+    if (g && /^GSC-000-/.test(g) && window.gscGenerateId) {
+      var c = window.gscGenerateId(u.uid || u.id, u.role || 'joueur');
+      if (c) return c;
+    }
+    return g;
+  };
+
   function openPlayerModal(id) {
     const u = users.find(x => x.id === id);
     if (!u) return;
@@ -809,6 +819,7 @@
       photoTrigger.onclick = () => triggerActorPhotoUpload(u.uid || u.id);
     }
     document.getElementById('modal-email').textContent = u.email || '—';
+    try { if (window.gscInjectModalQr) window.gscInjectModalQr(u); } catch (e) { console.warn('[GFC] QR modale :', e); }
     document.getElementById('modal-phone').textContent = u.telephone || u.phone || '—';
     document.getElementById('modal-date').textContent = fmtDate(u.createdAt);
     document.getElementById('modal-status').value = u.status || 'active';
@@ -1180,7 +1191,7 @@
     }
     grid.innerHTML = list.map(u => {
       const uid = u.uid || u.id;
-      const gscId = u.gscId || (window.gscGenerateId ? window.gscGenerateId(uid, u.role || 'joueur') : '');
+      const gscId = (window.gscIdFix ? window.gscIdFix(u) : u.gscId) || (window.gscGenerateId ? window.gscGenerateId(uid, u.role || 'joueur') : '');
       const photoUrl = u.photoURL || defaultAvatars[u.role] || '';
       const isUploading = photoUploadBusyId === uid;
       const disabledAttr = u.isDemo ? 'style="cursor:not-allowed;opacity:.6" title="Fiche de démonstration — import désactivé"' : `onclick="window.AdminController_triggerActorPhotoUpload('${uid}')"`;
@@ -1709,7 +1720,7 @@
         const shut = owners.has(uid);
         const hideHead = catShut ? 'display:none;' : '';
         const hideLine = (catShut || shut) ? 'display:none;' : '';
-        const gscId = u.gscId || (window.gscGenerateId ? window.gscGenerateId(uid, u.role || 'joueur') : '');
+        const gscId = (window.gscIdFix ? window.gscIdFix(u) : u.gscId) || (window.gscGenerateId ? window.gscGenerateId(uid, u.role || 'joueur') : '');
         const head = `
         <tr class="doc-owner-row ${u.isDemo ? 'is-demo-row' : ''}" data-cat="${esc(r)}" data-owner="${esc(uid)}" style="cursor:pointer;background:var(--gray-bg);${hideHead}">
           <td colspan="4" style="padding:10px 12px;border-top:2px solid var(--gray-bd);">
