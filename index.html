@@ -4972,7 +4972,7 @@ async function loadActors(){
   // Merge: Firebase first, then seed (avoid duplicates by uid)
   const dbUids=new Set(dbActors.map(a=>a.uid||a.id));
   const seedActors=GSC_SEED_ACTORS.filter(a=>!dbUids.has(a.uid));
-  allActors=[...dbActors,...seedActors];
+  allActors=[...dbActors.filter(u=>!u.mergedInto),...seedActors];
   // Respecte le filtre et la recherche actifs
   searchAnnuaire();
   // Update global stats with merged data
@@ -9706,7 +9706,7 @@ window.lookupManualGscId = lookupManualGscId;
           const dbActors = rawUsers.filter(u=>u.status==='active'||u.status===undefined);
           const dbUids = new Set(dbActors.map(a=>a.uid||a.id));
           const seedActors = (window.GSC_SEED_ACTORS||[]).filter(a=>!dbUids.has(a.uid));
-          window.allActors = [...dbActors, ...seedActors];
+          window.allActors = [...dbActors.filter(u=>!u.mergedInto), ...seedActors];
           // Liste complète (tous statuts) : nécessaire pour le scan QR, qui doit
           // pouvoir distinguer "compte en attente de validation" d'un QR réellement
           // invalide, plutôt que de traiter les deux cas comme "non reconnu".

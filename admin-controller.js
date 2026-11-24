@@ -496,6 +496,11 @@
     document.getElementById('validation-modal')?.classList.add('open');
   }
 
+  function gfcClaimFill(cible, u) {
+    var o = {};
+    ['ville', 'province', 'anneeCreation', 'bio'].forEach(function (k) { if (cible && cible[k] && !(u && u[k])) o[k] = cible[k]; });
+    return o;
+  }
   async function gscClaim(action, id) {
     const u = users.find(x => x.id === id);
     const rv = u && u.revendication;
@@ -509,11 +514,11 @@
       if (!confirm('Attribuer « ' + fullName(cible) + ' » à ' + fullName(u) + ' ?')) return;
       try {
         await withAuth(() => syncStatusToBothLocations(window.db.collection('users').doc(cible.id), {
-          ownerUid: me, ownershipStatus: 'owner_confirmed', ownerConfirmedAt: new Date(),
+          ownerUid: me, ownershipStatus: 'owner_confirmed', ownerConfirmedAt: new Date(), mergedInto: me, mergedAt: new Date(),
           ownerRef: { clubName: fullName(u), email: '', contactName: '' }
         }));
         await withAuth(() => syncStatusToBothLocations(window.db.collection('users').doc(id), {
-          revendication: Object.assign({}, rv, { statut: 'approuvee', traiteLe: new Date().toISOString() })
+          revendication: Object.assign({}, rv, { statut: 'approuvee', traiteLe: new Date().toISOString() }), ...gfcClaimFill(cible, u)
         }));
         toast('✅ Revendication approuvée.', 'success');
         renderDashboard();
