@@ -4305,7 +4305,7 @@ function checkProfileCompletion(){
     document.getElementById('complete-profile-nom').value = userProfile.nom || '';
     const sportWrap = document.getElementById('complete-profile-sport-wrap');
     if(sportWrap) sportWrap.style.display = needsSport ? '' : 'none';
-    document.getElementById('complete-profile-sport').value = userProfile.sport || '';
+    document.getElementById('complete-profile-sport').value = userProfile.sport || '⚽ Football';
     [['poste',needsPoste,userProfile.poste],['pied',needsPied,userProfile.piedFort],['cat',needsCat,userProfile.categorie]].forEach(([k,show,v])=>{const w=document.getElementById('complete-profile-'+k+'-wrap'),i=document.getElementById('complete-profile-'+k);if(w)w.style.display=show?'':'none';if(i)i.value=v||'';});
     document.getElementById('complete-profile-error').style.display='none';
     document.getElementById('modal-complete-profile').classList.add('open');
