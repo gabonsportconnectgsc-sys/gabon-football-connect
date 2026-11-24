@@ -5603,7 +5603,7 @@ function openActorDetail(uid){
   const docs=Array.isArray(a.documents)?a.documents:[];
   const canManageDocs=isProfileOwner||isProfileEmployerOrg;
   if(canViewSensitive && (docs.length||canManageDocs)){
-    html+=`<div class="adm-section"><div class="adm-section-title">📁 Documents${canManageDocs?(' (visibles par vous et '+((typeof a!=='undefined'&&a&&a.role==='ligue')?'votre organisation':'votre club')+')'):' (accès administrateur)'}</div>`;
+    html+=`<div class="adm-section"><div class="adm-section-title">📁 Documents${canManageDocs?(' (visibles par vous et '+((typeof a!=='undefined'&&a&&a.role==='ligue')?"l'administration":'votre club')+')'):' (accès administrateur)'}</div>`;
     if(!docs.length) html+=`<p style="font-size:12px;color:var(--gray-txt);">Aucun document archivé.</p>`;
     else docs.forEach((d,i)=>{
       html+=`<div class="doc-detail-row">
