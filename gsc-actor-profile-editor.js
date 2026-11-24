@@ -17,12 +17,12 @@
 
   const ROLE_OPTIONS = [
     ['joueur', 'Joueur'], ['athlete', 'Athlète'], ['entraineur', 'Entraîneur'], ['arbitre', 'Arbitre'],
-    ['club', 'Club'], ['federation', 'Fédération'], ['association', 'Association'], ['organisateur', 'Organisateur'],
+    ['club', 'Club'], ['federation', 'Fédération'], ['ligue', 'Ligue'], ['association', 'Association'], ['organisateur', 'Organisateur'],
     ['independant', 'Indépendant'], ['supporter', 'Supporter'], ['eleve_etudiant', 'Élève/Étudiant'],
     ['gabonais_diaspora', 'Gabonais sportif à l’étranger'], ['sportif_etranger', 'Footballeur étranger'], ['handisport', 'Handisport'], ['ancien_sportif', 'Ancien footballeur'],
     ['formateur', 'Formateur']
   ];
-  const ORG_ROLES = ['club', 'federation', 'association', 'organisateur'];
+  const ORG_ROLES = ['club', 'federation', 'association', 'organisateur', 'ligue'];
 
   function esc(s) { return (s || '').toString().replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
