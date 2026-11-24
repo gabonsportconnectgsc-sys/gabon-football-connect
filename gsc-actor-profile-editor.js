@@ -211,10 +211,7 @@
         sigle: document.getElementById('pe-org-sigle').value.trim(),
         slogan: document.getElementById('pe-org-slogan').value.trim(),
         dateCreation: document.getElementById('pe-org-datecreation').value,
-        gouvernance: {
-          president: document.getElementById('pe-org-president').value.trim(),
-          
-        },
+        'gouvernance.president': document.getElementById('pe-org-president').value.trim(),
         effectifTotal: document.getElementById('pe-org-effectif').value,
         categoriesEncadrees: document.getElementById('pe-org-categories').value.trim(),
         siegeSocial: document.getElementById('pe-org-siege').value.trim(),
