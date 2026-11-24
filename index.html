@@ -5515,7 +5515,7 @@ function openActorDetail(uid){
   if(isOrg){
     if(gfcPresident(a)) html+=`<div class="adm-info-row"><span class="adm-info-label">Président</span><span class="adm-info-val">${esc(gfcPresident(a))}</span></div>`;
     if(a.anneeCreation) html+=`<div class="adm-info-row"><span class="adm-info-label">Fondé en</span><span class="adm-info-val">${esc(a.anneeCreation)}</span></div>`;
-    if(a.effectif) html+=`<div class="adm-info-row"><span class="adm-info-label">Effectif</span><span class="adm-info-val">${esc(a.effectif)} membres</span></div>`;
+    if(a.effectif) html+=`<div class="adm-info-row"><span class="adm-info-label">${(a.role==='ligue'||a.typeLigue)?'Membres du bureau':'Effectif'}</span><span class="adm-info-val">${esc(a.effectif)} membres</span></div>`;
     if(a.role==='ligue'||a.typeLigue){
       const _r=(l,v)=>v?`<div class="adm-info-row"><span class="adm-info-label">${l}</span><span class="adm-info-val">${esc(String(v))}</span></div>`:'';
       html+=_r('Type',a.typeLigue)+_r('Province',a.provinceLigue)+_r('Fédération de tutelle',a.federationTutelle)+_r('Affiliation',a.affiliationStatut)+_r('Récépissé',a.numeroRecepisse)+_r('Clubs affiliés',a.clubsAffilies)+_r('Licenciés',a.licencies)+_r('Arbitres',a.arbitres)+_r('Éducateurs',a.educateurs)+_r('Compétitions',a.competitionsOrganisees);
@@ -5757,7 +5757,7 @@ function renderProfile(){
       <div class="adm-info-row"><span class="adm-info-label">Type</span><span class="adm-info-val">${esc(p.typeOrganisation||p.typeLigue||'—')}</span></div>
       <div class="adm-info-row"><span class="adm-info-label">Président</span><span class="adm-info-val">${esc(gfcPresident(p)||'—')}</span></div>
       <div class="adm-info-row"><span class="adm-info-label">Fondé en</span><span class="adm-info-val">${esc(p.anneeCreation||'—')}</span></div>
-      <div class="adm-info-row"><span class="adm-info-label">Effectif</span><span class="adm-info-val">${esc(p.effectif||'—')}</span></div>
+      <div class="adm-info-row"><span class="adm-info-label">${(p.role==='ligue'||p.typeLigue)?'Membres du bureau':'Effectif'}</span><span class="adm-info-val">${esc(p.effectif||'—')}</span></div>
     `;
   }
 
@@ -5958,7 +5958,7 @@ function buildEditForm(p){
       <div class="form-group"><label>Année de création</label><input type="number" id="edit-annee" value="${p.anneeCreation||''}" placeholder="2010"></div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-      <div class="form-group"><label>Effectif (membres)</label><input type="number" id="edit-effectif" value="${p.effectif||0}" min="0"></div>
+      <div class="form-group"><label>${(p.role==='ligue'||p.typeLigue)?'Membres du bureau':'Effectif (membres)'}</label><input type="number" id="edit-effectif" value="${p.effectif||0}" min="0"></div>
       <div class="form-group"><label>Site web</label><input type="url" id="edit-siteweb" value="${p.siteWeb||''}" placeholder="https://…"></div>
     </div>
     <div class="form-group"><label>Adresse / Siège</label><input type="text" id="edit-adresse" value="${p.adresse||''}" placeholder="Quartier, Ville"></div>

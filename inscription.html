@@ -1807,6 +1807,22 @@ function sbError(e) {
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',group); else group();
 })();
 </script>
+<script>/* gfc-recepisse-check */
+(function(){
+  var r=document.getElementById('lg-recepisse-date'), m=document.getElementById('lg-mandat-debut');
+  if(!r||!m) return;
+  var h=document.createElement('div');
+  h.style.cssText='font-size:12px;color:#b91c1c;margin-top:4px;display:none';
+  r.parentNode.appendChild(h);
+  function chk(){
+    if(r.value&&m.value&&r.value>m.value){
+      h.textContent='La date du récépissé doit être antérieure ou égale au début du mandat.';
+      h.style.display='block'; r.value='';
+    } else h.style.display='none';
+  }
+  r.addEventListener('change',chk); m.addEventListener('change',chk);
+})();
+</script>
 <script src="gsc-revendication.js"></script>
 </body>
 </html>
