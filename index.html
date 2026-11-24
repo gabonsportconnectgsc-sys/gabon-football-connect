@@ -4878,9 +4878,9 @@ function renderDashboard(){
   // Completion bar
   let fields;
   if(GFC_ORG_ROLES.includes(p.role)){
-    fields=[p.prenom,p.telephone,p.ville,p.sport,p.bio,p.nomOrganisation,gfcPresident(p),p.anneeCreation];
+    fields=[p.prenom,p.telephone,p.ville,p.bio,p.nomOrganisation,gfcPresident(p),p.anneeCreation];
   } else {
-    fields=[p.prenom,p.nom,p.telephone,p.ville,p.sport,p.bio,p.club,p.photoURL,p.taille,p.poste];
+    fields=[p.prenom,p.nom,p.telephone,p.ville,p.bio,p.photoURL].concat((typeof window.gfcFamilyOf==='function'&&window.gfcFamilyOf(p.role)==='joueurs'&&p.role!=='ancien_sportif')?[p.club,p.taille,p.poste]:(p.role==='supporter'?[]:[p.poste]));
   }
   const filled=fields.filter(Boolean).length;
   const pct=Math.round((filled/fields.length)*100);
