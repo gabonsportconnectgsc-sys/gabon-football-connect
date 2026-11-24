@@ -12,6 +12,8 @@ function gfcName(u){
   return [u.prenom,u.nom].filter(Boolean).join(' ').trim()||org;
 }
 window.gfcName=gfcName; window.gscName=gfcName;
+function gfcPresident(u){return (u&&u.gouvernance&&u.gouvernance.president)||(u&&u.president)||'';}
+window.gfcPresident=gfcPresident;
 </script>
 
 <script>
@@ -4876,7 +4878,7 @@ function renderDashboard(){
   // Completion bar
   let fields;
   if(['club','association','federation'].includes(p.role)){
-    fields=[p.prenom,p.telephone,p.ville,p.sport,p.bio,p.nomOrganisation,(p.gouvernance&&p.gouvernance.president)||p.president,p.anneeCreation];
+    fields=[p.prenom,p.telephone,p.ville,p.sport,p.bio,p.nomOrganisation,gfcPresident(p),p.anneeCreation];
   } else {
     fields=[p.prenom,p.nom,p.telephone,p.ville,p.sport,p.bio,p.club,p.photoURL,p.taille,p.poste];
   }
@@ -5499,7 +5501,7 @@ function openActorDetail(uid){
     }
   }
   if(isOrg){
-    if((a.gouvernance&&a.gouvernance.president)||a.president) html+=`<div class="adm-info-row"><span class="adm-info-label">Président</span><span class="adm-info-val">${esc((a.gouvernance&&a.gouvernance.president)||a.president)}</span></div>`;
+    if(gfcPresident(a)) html+=`<div class="adm-info-row"><span class="adm-info-label">Président</span><span class="adm-info-val">${esc(gfcPresident(a))}</span></div>`;
     if(a.anneeCreation) html+=`<div class="adm-info-row"><span class="adm-info-label">Fondé en</span><span class="adm-info-val">${esc(a.anneeCreation)}</span></div>`;
     if(a.effectif) html+=`<div class="adm-info-row"><span class="adm-info-label">Effectif</span><span class="adm-info-val">${esc(a.effectif)} membres</span></div>`;
     if(a.role==='ligue'||a.typeLigue){
@@ -5741,7 +5743,7 @@ function renderProfile(){
     ci.innerHTML=`
       <div class="adm-info-row"><span class="adm-info-label">Organisation</span><span class="adm-info-val">${esc(p.nomOrganisation||fullname)}</span></div>
       <div class="adm-info-row"><span class="adm-info-label">Type</span><span class="adm-info-val">${esc(p.typeOrganisation||p.typeLigue||'—')}</span></div>
-      <div class="adm-info-row"><span class="adm-info-label">Président</span><span class="adm-info-val">${esc((p.gouvernance&&p.gouvernance.president)||p.president||'—')}</span></div>
+      <div class="adm-info-row"><span class="adm-info-label">Président</span><span class="adm-info-val">${esc(gfcPresident(p)||'—')}</span></div>
       <div class="adm-info-row"><span class="adm-info-label">Fondé en</span><span class="adm-info-val">${esc(p.anneeCreation||'—')}</span></div>
       <div class="adm-info-row"><span class="adm-info-label">Effectif</span><span class="adm-info-val">${esc(p.effectif||'—')}</span></div>
     `;
