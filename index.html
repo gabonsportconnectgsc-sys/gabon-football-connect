@@ -10338,7 +10338,7 @@ window.gfcFamilyOf=function(role){
 <script>/* gfc-adm-families */
 window.gfcInFamily=function(u,fid){
   if(!u) return false;
-  if(fid==='autres'&&u.isSupporter===true) return true;
+  if(fid==='autres') return u.isSupporter===true||u.role==='supporter';
   return window.gfcFamilyOf(u.role)===fid;
 };
 (function(){
@@ -10419,6 +10419,49 @@ window.gfcInFamily=function(u,fid){
       grid.parentNode.replaceChild(wrap,grid);
       layout();
     }catch(e){ console.warn('gfc-adm-families',e); }
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',group); else group();
+})();
+</script>
+<style id="gfc-home-families-css">
+.gfc-home-fam{grid-column:1 / -1;margin:0 0 6px}
+.gfc-home-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gfc-home-grid>.stat-card.gfc-solo{grid-column:1 / -1;justify-self:center;width:calc(50% - 5px)!important}
+</style>
+<script>/* gfc-home-families */
+(function(){
+  function layout(){
+    Array.prototype.forEach.call(document.querySelectorAll('.gfc-home-grid'),function(g){
+      var vis=Array.prototype.filter.call(g.children,function(b){ return getComputedStyle(b).display!=='none'; });
+      vis.forEach(function(b){ b.classList.remove('gfc-solo'); });
+      if(vis.length%2===1) vis[vis.length-1].classList.add('gfc-solo');
+    });
+  }
+  function group(){
+    try{
+      var grid=document.getElementById('dashboard-landing-anchor');
+      if(!grid||grid.querySelector('.gfc-home-fam')||!window.GFC_FAMILIES) return;
+      var by={};
+      Array.prototype.slice.call(grid.children).forEach(function(b){
+        var m=(b.getAttribute('onclick')||'').match(/filterActors\('([^']+)'\)/);
+        if(m){ by[m[1]]=b; b.style.gridColumn=''; }
+      });
+      if(!by.joueur) return;
+      var frag=document.createDocumentFragment(), used={};
+      function section(label,roles){
+        var g=document.createElement('div'); g.className='stats-grid gfc-home-grid';
+        roles.forEach(function(r){ if(by[r]){ g.appendChild(by[r]); used[r]=1; } });
+        if(!g.children.length) return;
+        var s=document.createElement('div'); s.className='gfc-home-fam';
+        var t=document.createElement('div'); t.className='gfc-fam-title'; t.textContent=label;
+        s.appendChild(t); s.appendChild(g); frag.appendChild(s);
+      }
+      window.GFC_FAMILIES.forEach(function(f){ section(f.label,f.roles); });
+      var rest=Object.keys(by).filter(function(r){ return !used[r]; });
+      if(rest.length) section('Divers',rest);
+      grid.appendChild(frag);
+      layout();
+    }catch(e){ console.warn('gfc-home-families',e); }
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',group); else group();
 })();
