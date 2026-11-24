@@ -5937,7 +5937,7 @@ function buildEditForm(p){
       </div>
       <div class="form-group"><label>Sport(s)</label>
         <select id="edit-sport">
-          ${['Football','Basketball','Handball','Volleyball','Athlétisme','Natation','Boxe','Judo','Tennis','Rugby','Multi-sports'].map(s=>`<option${s===(p.sport||p.sports?.[0])?' selected':''}>${s}</option>`).join('')}
+          ${['Football'].map(s=>`<option${s===(p.sport||p.sports?.[0])?' selected':''}>${s}</option>`).join('')}
         </select>
       </div>
     </div>
