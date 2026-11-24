@@ -5942,7 +5942,7 @@ function buildEditForm(p){
       </div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-      <div class="form-group"><label>Président</label><input type="text" id="edit-president" value="${p.president||''}" placeholder="Nom du président"></div>
+      <div class="form-group"><label>Président</label><input type="text" id="edit-president" value="${esc(gfcPresident(p))}" placeholder="Nom du président"></div>
       <div class="form-group"><label>Année de création</label><input type="number" id="edit-annee" value="${p.anneeCreation||''}" placeholder="2010"></div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
@@ -6193,7 +6193,7 @@ async function saveProfile(){
       ...gscLigueSave(typeof p!=='undefined'?p:(window.userProfile||{})),
       typeOrganisation:document.getElementById('edit-type-org')?.value||'Club de football',
       sport:(document.getElementById('edit-sport')?.value||'').replace(/^[^\w]+/,'').trim(),
-      president:document.getElementById('edit-president')?.value.trim()||'',
+      ...((p.role==='ligue'&&document.getElementById('edit-lg-box'))?{}:{'gouvernance.president':document.getElementById('edit-president')?.value.trim()||''}),
       anneeCreation:document.getElementById('edit-annee')?.value||'',
       effectif:parseInt(document.getElementById('edit-effectif')?.value)||0,
       siteWeb:document.getElementById('edit-siteweb')?.value.trim()||'',
@@ -6260,7 +6260,7 @@ async function saveProfile(){
     try{ if(window.__gscSens&&Object.keys(window.__gscSens).length){ await setDoc(doc(db,'users',currentUser.uid,'private','sensible'),{...window.__gscSens,updatedAt:serverTimestamp()},{merge:true}); } }catch(e){ console.warn('Sauvegarde private/sensible:',e); }
     try{ await setPrivateContact(currentUser.uid,{telephone:telephoneVal,updatedAt:serverTimestamp()}); }
     catch(e){ console.warn('Sauvegarde téléphone (private/contact):',e); }
-    Object.assign(userProfile,updates);
+    Object.assign(userProfile,updates); if(updates['gouvernance.president']!==undefined){ userProfile.gouvernance=Object.assign({},userProfile.gouvernance,{president:updates['gouvernance.president']}); delete userProfile['gouvernance.president']; }
     userProfile.telephone=telephoneVal;
     renderDashboard();renderProfile();
     // Reload actors so annuaire reflects changes
