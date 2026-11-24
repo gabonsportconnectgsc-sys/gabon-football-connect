@@ -6808,6 +6808,7 @@ function updateAdminActorTiles(){
     const el=document.getElementById('admin-acr-'+k);
     if(el) el.textContent=counts[k];
   });
+  if(window.gfcAdminFamilies) window.gfcAdminFamilies(allActors);
   const badge=document.getElementById('admin-acteurs-total-badge');
   if(badge) badge.textContent=`(${allActors.length})`;
 }
@@ -6825,6 +6826,7 @@ function adminSearchActors(){
   if(adminActorsType!=='tous'){
     if(adminActorsType==='club') filtered=filtered.filter(u=>['club','association'].includes(u.role));
     else if(adminActorsType==='supporter') filtered=filtered.filter(u=>u.isSupporter===true||u.role==='supporter');
+    else if(String(adminActorsType).indexOf('fam:')===0) filtered=filtered.filter(u=>window.gfcInFamily(u,String(adminActorsType).slice(4)));
     else filtered=filtered.filter(u=>u.role===adminActorsType);
   }
   if(q) filtered=filtered.filter(u=>{
@@ -10323,6 +10325,100 @@ window.gfcFamilyOf=function(role){
       box.setAttribute('data-gfc-grouped','1');
       box.appendChild(frag);
     }catch(e){ console.warn('gfc-families',e); }
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',group); else group();
+})();
+</script>
+<style id="gfc-adm-families-css">
+.gfc-adm-fam{margin:0 0 12px}
+.gfc-adm-fam .gfc-fam-title{cursor:pointer}
+.gfc-adm-grid{grid-template-columns:repeat(2,1fr)!important;gap:10px!important}
+.gfc-adm-grid>.stat-card.gfc-solo{grid-column:1 / -1;justify-self:center;width:calc(50% - 5px)}
+</style>
+<script>/* gfc-adm-families */
+window.gfcInFamily=function(u,fid){
+  if(!u) return false;
+  if(fid==='autres'&&u.isSupporter===true) return true;
+  return window.gfcFamilyOf(u.role)===fid;
+};
+(function(){
+  var EXTRA={
+    ligue:['🏆','Ligues'],
+    ecole_universite:['🏫','Écoles / Académies'],
+    handisport:['♿','Footballeurs handisport']
+  };
+  function typeOf(b){
+    var m=(b.getAttribute('onclick')||'').match(/adminFilterActorsTile\('([^']+)'\)/);
+    return m?m[1]:null;
+  }
+  function mk(r){
+    var e=EXTRA[r], b=document.createElement('button');
+    b.className='stat-card';
+    b.setAttribute('onclick',"adminFilterActorsTile('"+r+"')");
+    b.style.cssText='background:linear-gradient(135deg,#334155,#1e293b);padding:14px 10px;display:none;';
+    b.innerHTML='<span style="font-size:34px;margin-bottom:8px;display:inline-block;align-self:flex-end;">'+e[0]+'</span><div class="stat-val" id="admin-acr-'+r+'" style="font-size:22px;">—</div><div class="stat-lbl" style="color:#e2e8f0;">'+e[1]+'</div>';
+    return b;
+  }
+  function layout(){
+    Array.prototype.forEach.call(document.querySelectorAll('.gfc-adm-grid'),function(g){
+      var vis=Array.prototype.filter.call(g.children,function(b){ return b.style.display!=='none'; });
+      vis.forEach(function(b){ b.classList.remove('gfc-solo'); });
+      if(vis.length%2===1) vis[vis.length-1].classList.add('gfc-solo');
+    });
+  }
+  window.gfcAdminFamilies=function(list){
+    try{
+      if(list){
+        var cnt={};
+        window.GFC_FAMILIES.forEach(function(f){ cnt[f.id]=0; });
+        list.forEach(function(u){ window.GFC_FAMILIES.forEach(function(f){ if(window.gfcInFamily(u,f.id)) cnt[f.id]++; }); });
+        window.GFC_FAMILIES.forEach(function(f){ var el=document.getElementById('gfc-adm-fam-'+f.id); if(el) el.textContent='('+cnt[f.id]+')'; });
+        Object.keys(EXTRA).forEach(function(r){
+          var n=list.filter(function(u){ return u.role===r; }).length;
+          var v=document.getElementById('admin-acr-'+r); if(!v) return;
+          v.textContent=n;
+          var b=v.closest('.stat-card'); if(b) b.style.display=n?'':'none';
+        });
+      }
+      layout();
+    }catch(e){ console.warn('gfc-adm-families',e); }
+  };
+  function group(){
+    try{
+      var sec=document.getElementById('admin-section-acteurs');
+      if(!sec||sec.querySelector('.gfc-adm-wrap')) return;
+      var grid=sec.querySelector('.card-body .stats-grid');
+      if(!grid) return;
+      var by={};
+      Array.prototype.slice.call(grid.children).forEach(function(b){ var t=typeOf(b); if(t) by[t]=b; });
+      if(!by.tous) return;
+      var wrap=document.createElement('div'); wrap.className='gfc-adm-wrap';
+      var top=document.createElement('div'); top.className='stats-grid';
+      top.style.cssText='grid-template-columns:1fr;gap:10px;margin-bottom:12px;';
+      top.appendChild(by.tous); wrap.appendChild(top);
+      var used={tous:1};
+      function section(id,label,roles){
+        var g=document.createElement('div'); g.className='stats-grid gfc-adm-grid';
+        roles.forEach(function(r){
+          var b=by[r];
+          if(!b&&EXTRA[r]){ b=mk(r); by[r]=b; }
+          if(b){ g.appendChild(b); used[r]=1; }
+        });
+        if(!g.children.length) return;
+        var s=document.createElement('div'); s.className='gfc-adm-fam';
+        var t=document.createElement('div'); t.className='gfc-fam-title';
+        t.appendChild(document.createTextNode(label+' '));
+        var c=document.createElement('span'); c.id='gfc-adm-fam-'+id; t.appendChild(c);
+        if(id==='divers') t.style.cursor='default';
+        else t.onclick=function(){ window.adminFilterActorsTile('fam:'+id); };
+        s.appendChild(t); s.appendChild(g); wrap.appendChild(s);
+      }
+      window.GFC_FAMILIES.forEach(function(f){ section(f.id,f.label,f.roles); });
+      var rest=Object.keys(by).filter(function(r){ return !used[r]; });
+      if(rest.length) section('divers','Divers',rest);
+      grid.parentNode.replaceChild(wrap,grid);
+      layout();
+    }catch(e){ console.warn('gfc-adm-families',e); }
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',group); else group();
 })();
