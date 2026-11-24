@@ -10285,18 +10285,8 @@ document.addEventListener('DOMContentLoaded', function(){
 .gfc-fam-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .gfc-fam-grid>.actor-filter-btn:last-child:nth-child(odd){grid-column:1 / -1;justify-self:center;width:calc(50% - 4px)}
 </style>
+<script src="gfc-families.js"></script>
 <script>/* gfc-families */
-window.GFC_FAMILIES=[
-  {id:'joueurs',label:'⚽ Joueurs',roles:['joueur','eleve_etudiant','independant','gabonais_diaspora','sportif_etranger','ancien_sportif','handisport']},
-  {id:'encadrement',label:'📋 Encadrement',roles:['entraineur','arbitre','formateur']},
-  {id:'organisations',label:'🏟️ Organisations',roles:['club','association','ligue','organisateur','ecole_universite']},
-  {id:'instance',label:'🏛️ Instance',roles:['federation']},
-  {id:'autres',label:'💗 Autres',roles:['supporter']}
-];
-window.gfcFamilyOf=function(role){
-  var f=window.GFC_FAMILIES.filter(function(x){return x.roles.indexOf(role)>=0;})[0];
-  return f?f.id:'autres';
-};
 (function(){
   function group(){
     try{

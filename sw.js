@@ -15,7 +15,7 @@
    on passe en stratégie "network-first / stale-while-revalidate" pour les
    fichiers JS/CSS de l'app (voir plus bas) afin que ce problème ne se
    reproduise plus à chaque futur correctif. */
-const CACHE_NAME = 'gsc-v150';
+const CACHE_NAME = 'gsc-v151';
 // ── NOUVEAU — cache dédié au Web Share Target (POST), voir handleShareTarget()
 // et le handler 'fetch' plus bas. Séparé de CACHE_NAME pour ne jamais être
 // purgé par la logique de versioning de l'app (activate ci-dessous).
@@ -34,6 +34,7 @@ const URLS_TO_CACHE = [
   'https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js',
   './guide-widget.js',
   './gfc-football-page.js',
+  './gfc-families.js',
   './admin-football-page.js',
   './',
   './index.html',
