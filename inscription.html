@@ -216,6 +216,7 @@
           <div class="role-tile" data-role="sportif_etranger" onclick="pickRole('sportif_etranger',this)"><div class="rt-icon">🌍</div><div class="rt-label">Footballeur étranger</div><div class="rt-desc">Pratique au Gabon, nationalité étrangère</div></div>
           <div class="role-tile" data-role="gabonais_diaspora" onclick="pickRole('gabonais_diaspora',this)"><div class="rt-icon">🇬🇦</div><div class="rt-label">Gabonais footballeur à l’étranger</div><div class="rt-desc">Gabonais pratiquant hors du Gabon</div></div>
           <div class="role-tile" data-role="ancien_sportif" onclick="pickRole('ancien_sportif',this)"><div class="rt-icon">🎖️</div><div class="rt-label">Ancien footballeur</div><div class="rt-desc">Carrière terminée, palmarès et reconversion</div></div>
+          <div class="role-tile" data-role="expert" onclick="pickRole('expert',this)"><div class="rt-icon">🎯</div><div class="rt-label">Expert</div><div class="rt-desc">Spécialiste reconnu : formation, préparation, management…</div></div>
           <div class="role-tile" data-role="formateur" onclick="pickRole('formateur',this)"><div class="rt-icon">🧑‍🏫</div><div class="rt-label">Formateur</div><div class="rt-desc">Formation, certification et transmission de savoir sportif</div></div>
         </div>
         <div id="a-role-err" class="err-msg" style="margin-top:8px;"></div>
@@ -637,6 +638,23 @@
           <div class="fg"><label>Faits marquants / records</label><textarea id="a-anc-faits" placeholder="ex: Meilleur buteur du championnat 2004, record national du 100m…"></textarea></div>
           </div><!-- /section-3b-ancien -->
         </div>
+        <!-- Champs expert (specialites, parcours, disponibilite) -->
+        <div class="extra" id="ex-expert">
+          <div class="subsection">🎯 Profil expert</div>
+          <div class="fg"><label>Spécialités et domaines de compétences *</label><div id="a-exp-spec-box"></div><div class="form-hint">Cochez tout ce qui s'applique.</div></div>
+          <div class="fg" id="a-exp-autre-fg" style="display:none;"><label>Autre spécialité</label><input type="text" id="a-exp-autre" placeholder="Précisez"></div>
+          <div class="fg"><label>Titre ou fonction principale</label><input type="text" id="a-exp-titre" placeholder="ex: Entraîneur licence B CAF, préparateur physique…"></div>
+          <div class="fg"><label>Niveau d'expérience</label><select id="a-exp-niveau"><option value="">— Choisir —</option><option>Moins de 5 ans</option><option>5 à 10 ans</option><option>Plus de 10 ans</option></select></div>
+          <div class="fg"><label>Plus haut diplôme ou certification</label><select id="a-exp-diplome"><option value="">— Choisir —</option><option>Certificat ou attestation</option><option>Licence B CAF ou équivalent</option><option>Licence A CAF ou équivalent</option><option>Licence Pro CAF ou équivalent</option><option>Licence universitaire</option><option>Master</option><option>Doctorat</option><option>Autre</option></select></div>
+          <div class="fg"><label>Diplômes et certifications</label><textarea id="a-exp-diplomes" placeholder="Un par ligne : intitulé – organisme – année"></textarea></div>
+          <div class="fg"><label>Postes et fonctions (anciens ou actuels)</label><textarea id="a-exp-postes" placeholder="Un par ligne : fonction – structure – période"></textarea></div>
+          <div class="fg"><label>Programmes ou événements sportifs</label><textarea id="a-exp-particip" placeholder="Un par ligne : intitulé – rôle – année"></textarea></div>
+          <div class="fg"><label>Résumé du parcours (optionnel)</label><textarea id="a-exp-resume" placeholder="Présentez votre parcours en quelques lignes…"></textarea><div class="form-hint">Max 600 caractères</div></div>
+          <div class="fg"><label style="display:flex;align-items:center;gap:8px;"><input type="checkbox" id="a-exp-dispo"> Disponible pour d'autres formations</label></div>
+          <div class="fg" id="a-exp-zone-fg" style="display:none;"><label>Zone de disponibilité</label><div id="a-exp-zone-box"></div></div>
+          <div class="fg"><label>Lien (réseau social ou site, optionnel)</label><input type="text" id="a-exp-liens" placeholder="https://…"></div>
+          <div class="form-hint">Votre pièce d'identité, votre CV et vos diplômes sont à déposer ensuite dans vos documents. Votre fiche sera validée par l'administrateur.</div>
+        </div>
         <!-- Champs formateur (formation, certification, transmission) -->
         <div class="extra" id="ex-formateur">
           <div class="notice"><span>🧑‍🏫</span><span>Ce profil met en avant votre activité de formation : spécialité, certifications et disponibilité pour de nouvelles sessions.</span></div>
@@ -848,7 +866,7 @@
     joueur:'JOU', athlete:'ATH', arbitre:'ARB', entraineur:'ENT', club:'CLB',
     association:'ASS', federation:'FED', ligue:'LIG', independant:'IND',
     admin:'ADM', supporter:'SUP', organisateur:'ORG',
-    eleve_etudiant:'ELE', gabonais_diaspora:'DIA', sportif_etranger:'ETR', handisport:'HAN', ancien_sportif:'ASP', formateur:'FOR'
+    eleve_etudiant:'ELE', gabonais_diaspora:'DIA', sportif_etranger:'ETR', handisport:'HAN', ancien_sportif:'ASP', formateur:'FOR', expert:'EXP'
   };
   // Numéro de catégorie court (3 chiffres), identique dans index.html / admin.html / inscription.html.
   const CATEGORY_NUM = {
@@ -856,7 +874,7 @@
     joueur:'001', athlete:'002', arbitre:'003', entraineur:'004', independant:'005',
     eleve_etudiant:'006', gabonais_diaspora:'091', sportif_etranger:'007', handisport:'008', ancien_sportif:'009',
     club:'010', federation:'011', association:'012', organisateur:'013',
-    formateur:'014', supporter:'015', admin:'016'
+    formateur:'014', supporter:'015', admin:'016', expert:'018'
   };
 
   function generateGscId(uid, role) {
@@ -878,7 +896,7 @@
     association:'🤝 Association', eleve_etudiant:'🎓 Élève / Étudiant',
     handisport:'🦾 Sportif handisport', organisateur:'🎪 Organisateur',
     supporter:'💗 Supporter', gabonais_diaspora:'🇬🇦 Gabonais footballeur à l’étranger', sportif_etranger:'🌍 Footballeur étranger', ancien_sportif:'🎖️ Ancien footballeur',
-    formateur:'🧑‍🏫 Formateur'
+    formateur:'🧑‍🏫 Formateur', expert:'🎯 Expert'
   };
 
   // Disciplines séparées : sports collectifs pour les Joueurs, sports individuels pour les Athlètes.
@@ -1023,6 +1041,7 @@
     document.getElementById('ex-handisport').classList.toggle('show', selectedRole === 'handisport');
     document.getElementById('ex-ancien').classList.toggle('show', selectedRole === 'ancien_sportif');
     document.getElementById('ex-formateur').classList.toggle('show', selectedRole === 'formateur');
+    { var _ex = document.getElementById('ex-expert'); if (_ex) _ex.classList.toggle('show', selectedRole === 'expert'); }
     document.getElementById('ex-etudiant-scol').classList.toggle('show', selectedRole === 'eleve_etudiant');
     if (selectedRole === 'eleve_etudiant') {
       populateEtablissementSelect();
@@ -1491,6 +1510,7 @@ function sbError(e) {
                            errMsg('a-err','Veuillez sélectionner votre université / établissement.'); return; }
     if (isAncienSportifRole && !ancPoste) {
                            errMsg('a-err','Veuillez indiquer votre poste / spécialité durant votre carrière.'); return; }
+    if (selectedRole === 'expert' && !(window.GFC_EXPERT && window.GFC_EXPERT.data().specialites.length)) { alert('Expert : cochez au moins une spécialité.'); return; }
     if (isFormateurRole && !forSpecialite) {
                            errMsg('a-err','Veuillez indiquer votre spécialité de formation.'); return; }
     if (!cgu)            { errMsg('a-err','Vous devez accepter les conditions d\'utilisation.'); return; }
@@ -1566,6 +1586,7 @@ function sbError(e) {
             disponibiliteMentorat: ancMentorat,
             bio: ancBio, palmares: ancPalmares, faitsMarquants: ancFaits
           }),
+          ...((selectedRole === 'expert' && window.GFC_EXPERT) ? window.GFC_EXPERT.data() : {}),
           // Champs enrichis formateur (vides pour les autres rôles)
           ...(isFormateurRole && {
             specialiteFormation: forSpecialite, niveauFormateur: forNiveau,
@@ -1825,5 +1846,6 @@ function sbError(e) {
 })();
 </script>
 <script src="gsc-revendication.js"></script>
+<script src="gfc-expert.js?v=202611241313"></script>
 </body>
 </html>
