@@ -4296,7 +4296,7 @@ function checkProfileCompletion(){
   const ORG_ROLES_CPC=window.GFC_ORG_ROLES;
   const needsSport = !ORG_ROLES_CPC.includes(userProfile.role) && !userProfile.sport?.trim();
   const isJoueurCPC = ['joueur','athlete','independant','eleve_etudiant','gabonais_diaspora','sportif_etranger'].includes(userProfile.role);
-  const needsPoste = !ORG_ROLES_CPC.includes(userProfile.role) && !userProfile.poste?.trim();
+  const needsPoste = !ORG_ROLES_CPC.includes(userProfile.role) && userProfile.role!=='supporter' && !userProfile.poste?.trim();
   const needsPied = isJoueurCPC && !userProfile.piedFort;
   const needsCat = isJoueurCPC && !userProfile.categorie;
   // N'afficher le modal que si le prénom/nom ou le sport sont vraiment manquants
