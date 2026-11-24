@@ -4875,6 +4875,18 @@ function renderDashboard(){
     pendingNoticeEl.style.display=(p.status==='pending'||_orgPend)?'flex':'none';
     try{ const _sp=pendingNoticeEl.querySelector('span:last-child'); if(_sp) _sp.innerHTML=_orgPend?"Votre structure est <strong>visible dans l'annuaire avec la mention ⏳ « en attente de validation »</strong> jusqu'à la vérification par l'administration GFC.":"Votre fiche est <strong>en attente de validation</strong> par l'administrateur. Elle sera visible dans l'annuaire dès son approbation."; }catch(e){}
   }
+  // lot6b : suivi de la revendication d'une fiche existante
+  try{
+    const _rv=p.revendication, _el=document.getElementById('pending-self-notice');
+    if(_el&&_rv&&_rv.cibleId){
+      const _sp=_el.querySelector('span:last-child'), _nm=esc(_rv.cibleNom||'cette fiche');
+      let _t='';
+      if(_rv.statut==='approuvee') _t='✅ Votre demande de revendication de <strong>« '+_nm+' »</strong> a été <strong>approuvée</strong> : la fiche vous est attribuée.';
+      else if(_rv.statut==='refusee') _t='❌ Votre demande de revendication de <strong>« '+_nm+' »</strong> a été <strong>refusée</strong>'+(_rv.motif?' — motif : '+esc(_rv.motif):'')+'.';
+      else _t='🙋 Votre demande de revendication de <strong>« '+_nm+' »</strong> est <strong>en cours d’examen</strong> par l’administration GFC. Aucun droit de gestion ne vous est accordé avant son approbation.';
+      if(_sp){ _sp.innerHTML=_t; _el.style.display='flex'; }
+    }
+  }catch(e){ console.warn('gfc-revendication-bandeau',e); }
   // Completion bar
   let fields;
   if(GFC_ORG_ROLES.includes(p.role)){
