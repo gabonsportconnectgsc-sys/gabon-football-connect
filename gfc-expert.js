@@ -13,7 +13,11 @@
     '.gfc-chk{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1.5px solid #cbd5e1;border-radius:8px;font-size:14px;cursor:pointer;background:#fff;color:#0f172a}' +
     '.gfc-chk input{width:18px;height:18px;flex:none}' +
     '.role-badge.expert{background:#0e7490;color:#fff}.badge-expert{background:#cffafe;color:#155e75}.acr-badge.expert{background:#cffafe;color:#155e75}' +
-    '.actor-type-dot.expert{background:linear-gradient(135deg,#0e7490,#155e75)}';
+    '.actor-type-dot.expert{background:linear-gradient(135deg,#0e7490,#155e75)}' +
+    '.actor-filter-btn[data-type="expert"]{border-color:#0e7490;color:#155e75;background:rgba(14,116,144,.07)}' +
+    '.actor-filter-btn[data-type="expert"].active{background:linear-gradient(135deg,#0e7490,#155e75);color:#fff}' +
+    '.stats-grid .stat-card:has(.stat-wm[data-wm-role="expert"]){--bc:#22D3EE}' +
+    '.stats-grid .stat-card:has(#stat-total-experts){min-height:170px}';
   var st = d.createElement('style'); st.id = 'gfc-expert-css'; st.textContent = css; (d.head || d.documentElement).appendChild(st);
   function val(id) { var e = d.getElementById(id); return e ? String(e.value || '').trim() : ''; }
   function lines(id, max) { return val(id).split(/\n+/).map(function (s) { return s.trim(); }).filter(Boolean).slice(0, max || 15); }

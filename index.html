@@ -1992,6 +1992,15 @@ html .actor-compact-row .acr-qr{grid-column:3;grid-row:1/span 3;align-self:cente
           <div class="stat-lbl" style="color:#ffe4e6;">Anciens footballeurs</div>
         </button>
 
+        <!-- Experts -->
+        <button class="stat-card" onclick="showView('annuaire');filterActors('expert')"
+          style="background:linear-gradient(135deg,#0e7490,#155e75);padding:16px 12px;">
+          <img class="stat-wm" data-wm-role="expert" alt="" onload="this.classList.add('is-loaded')" onerror="this.classList.remove('is-loaded');this.removeAttribute('src')">
+          <span style="font-size:46px;margin-bottom:14px;display:inline-block;align-self:flex-end;position:relative;z-index:2;">🎯</span>
+          <div class="stat-val" id="stat-total-experts">—</div>
+          <div class="stat-lbl" style="color:#cffafe;">Experts</div>
+        </button>
+
         <!-- Formateurs -->
         <button class="stat-card" onclick="showView('annuaire');filterActors('formateur')"
           style="background:linear-gradient(135deg,#a21caf,#701a75);padding:16px 12px;">
@@ -2351,6 +2360,9 @@ html .actor-compact-row .acr-qr{grid-column:3;grid-row:1/span 3;align-self:cente
             </button>
             <button class="actor-filter-btn" data-type="formateur" onclick="filterActors('formateur')" style="--abtn-color:#a21caf;">
               <span style="font-size:18px;line-height:1;">🧑‍🏫</span>Formateurs
+            </button>
+            <button class="actor-filter-btn" data-type="expert" onclick="filterActors('expert')" style="--abtn-color:#0e7490;">
+              <span style="font-size:18px;line-height:1;">🎯</span>Experts
             </button>
           </div>
 
@@ -5006,6 +5018,8 @@ async function loadActors(){
   if(ancEl) ancEl.textContent=activeAll.filter(u=>u.role==='ancien_sportif').length;
   const forEl=document.getElementById('stat-total-formateurs');
   if(forEl) forEl.textContent=activeAll.filter(u=>u.role==='formateur').length;
+  const expEl=document.getElementById('stat-total-experts');
+  if(expEl) expEl.textContent=activeAll.filter(u=>u.role==='expert').length;
 }
 
 function gscLigueEditFields(p){
@@ -5079,7 +5093,7 @@ const ANNUAIRE_ADD_PHRASE = {
   organisateur:'un organisateur', independant:'un footballeur indépendant',
   association:'une association', eleve_etudiant:'un élève / étudiant',
   gabonais_diaspora:'un Gabonais de l’étranger', sportif_etranger:'un footballeur étranger', handisport:'un sportif handisport',
-  ancien_sportif:'un ancien footballeur', formateur:'un formateur', supporter:'un supporter'
+  ancien_sportif:'un ancien footballeur', formateur:'un formateur', expert:'un expert', supporter:'un supporter'
 };
 
 function updateAnnuaireAddActorCta(){
@@ -5142,6 +5156,7 @@ const SECONDARY_GROUP_CONFIG={
   handisport:{ getKey:a=>a.disciplineParaSport, label:v=>'🦾 '+v, fallback:'Discipline non précisée' },
   ancien_sportif:{ getKey:a=>a.sport, label:v=>'🎖️ '+v, fallback:'Discipline non précisée' },
   formateur:{ getKey:a=>a.specialiteFormation, label:v=>'🧑‍🏫 '+v, fallback:'Spécialité non précisée' },
+  expert:{ getKey:a=>((window.GFC_EXPERT&&a.specialites&&a.specialites[0])?window.GFC_EXPERT.label(a.specialites[0]):''), label:v=>'🎯 '+v, fallback:'Spécialité non précisée' },
   supporter:{ getKey:a=>a.club||a.ville, label:v=>'💗 '+v, fallback:'Non précisé' }
 };
 
@@ -5233,8 +5248,8 @@ function renderActors(actors){
 
     if(groupAll){
       // Regroupement intelligent par rôle, ordre professionnel : Joueurs → Encadrement → Officiels → Organisations
-      const GROUP_ORDER=['joueur','athlete','entraineur','arbitre','eleve_etudiant','ecole_universite','gabonais_diaspora', 'sportif_etranger','handisport','ancien_sportif','formateur','club','federation','association','organisateur','independant','supporter','admin'];
-      const GROUP_LABELS={joueur:'⚽ Joueurs',athlete:'🏃 Athlètes',entraineur:'📋 Entraîneurs',arbitre:'🟨 Arbitres',club:'🏟️ Clubs',federation:'🏛️ Fédérations', ligue:'🏆 Ligues',association:'🤝 Associations',organisateur:'🎪 Organisateurs',independant:'🚴 Indépendants',supporter:'💗 Supporters',admin:'⚙️ Administrateurs',eleve_etudiant:'🎓 Élèves / Étudiants',gabonais_diaspora:'🇬🇦 Footballeur gabonais de l’étranger', sportif_etranger:'🌍 Footballeurs étrangers',handisport:'🦾 Footballeurs handisport',ancien_sportif:'🎖️ Anciens footballeurs',formateur:'🧑‍🏫 Formateurs',ecole_universite:'🏫 Écoles / Universités'};
+      const GROUP_ORDER=['joueur','athlete','entraineur','arbitre','eleve_etudiant','ecole_universite','gabonais_diaspora', 'sportif_etranger','handisport','ancien_sportif','formateur','expert','club','federation','association','organisateur','independant','supporter','admin'];
+      const GROUP_LABELS={expert:'🎯 Experts',joueur:'⚽ Joueurs',athlete:'🏃 Athlètes',entraineur:'📋 Entraîneurs',arbitre:'🟨 Arbitres',club:'🏟️ Clubs',federation:'🏛️ Fédérations', ligue:'🏆 Ligues',association:'🤝 Associations',organisateur:'🎪 Organisateurs',independant:'🚴 Indépendants',supporter:'💗 Supporters',admin:'⚙️ Administrateurs',eleve_etudiant:'🎓 Élèves / Étudiants',gabonais_diaspora:'🇬🇦 Footballeur gabonais de l’étranger', sportif_etranger:'🌍 Footballeurs étrangers',handisport:'🦾 Footballeurs handisport',ancien_sportif:'🎖️ Anciens footballeurs',formateur:'🧑‍🏫 Formateurs',ecole_universite:'🏫 Écoles / Universités'};
       const buckets={};
       actors.forEach(a=>{ const r=a.role||'joueur'; (buckets[r]=buckets[r]||[]).push(a); });
       orderedActors=[];
@@ -5710,7 +5725,7 @@ function renderProfile(){
   if(becomeSuppCard) becomeSuppCard.style.display=(isPersonnel&&!isSupporter)?'':'none';
 
   // Gallery card — visible pour tous les membres inscrits (rôles acteurs du football)
-  const allActorRoles=['joueur','athlete','arbitre','entraineur','independant','eleve_etudiant','gabonais_diaspora', 'sportif_etranger','handisport','ancien_sportif','formateur','club','association','federation','organisateur','ecole_universite'];
+  const allActorRoles=['joueur','athlete','arbitre','entraineur','independant','eleve_etudiant','gabonais_diaspora', 'sportif_etranger','handisport','ancien_sportif','formateur','expert','club','association','federation','organisateur','ecole_universite'];
   const gallCard=document.getElementById('prof-gallery-card');
   if(gallCard){
     gallCard.style.display=(!isVisitor && allActorRoles.includes(p.role))?'':'none';

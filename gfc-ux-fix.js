@@ -6,7 +6,8 @@
     return i ? i.closest('.stat-card') : null;
   }
   function fixFormateurs() {
-    var f = card('formateur');
+    var f = card('formateur'), ex = card('expert');
+    if (f && ex && ex.parentNode === f.parentNode) { ['grid-column', 'justify-self', 'margin', 'max-width', 'width', 'min-height', 'height'].forEach(function (p) { f.style.removeProperty(p); }); return; }
     var ref = card('arbitre') || card('entraineur') || card('federation');
     if (!f || !ref || ref === f || ref.offsetParent === null) return;
     var r = ref.getBoundingClientRect();
