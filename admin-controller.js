@@ -69,7 +69,7 @@
     entraineur: '📋 Entraîneur',
     arbitre: '🟨 Arbitre',
     club: '🏟️ Club',
-    federation: '🏛️ Fédération',
+    federation: '🏛️ Fédération', ligue: '🏆 Ligue',
     association: '🤝 Association',
     organisateur: '🎪 Organisateur',
     independant: '🚴 Footballeur indépendant',
@@ -95,7 +95,7 @@
   // ils ont donc des critères physiques pertinents, mais pas de stats de
   // performance joueur (buts/passes décisives n'ont pas de sens pour eux).
   const PHYSIQUE_ROLES = PLAYER_ROLES.concat(['arbitre']);
-  const ORG_ROLES = ['club', 'federation', 'association', 'organisateur'];
+  const ORG_ROLES = ['club', 'federation', 'association', 'organisateur', 'ligue'];
   const ROLE_COLORS = {
     joueur: '#009E60',
     athlete: '#0891b2',
@@ -115,12 +115,12 @@
     formateur: '#0284c7'
   };
   const DASH_ROLES = [
-    'joueur', 'athlete', 'entraineur', 'arbitre', 'club', 'federation', 'association',
+    'joueur', 'athlete', 'entraineur', 'arbitre', 'club', 'federation', 'ligue', 'association',
     'organisateur', 'supporter', 'independant', 'eleve_etudiant',
     'gabonais_diaspora', 'sportif_etranger', 'ecole_universite', 'handisport', 'ancien_sportif', 'formateur'
   ];
   const GROUP_ORDER = [
-    'joueur', 'athlete', 'entraineur', 'arbitre', 'club', 'federation', 'association',
+    'joueur', 'athlete', 'entraineur', 'arbitre', 'club', 'federation', 'ligue', 'association',
     'organisateur', 'independant', 'supporter', 'eleve_etudiant',
     'gabonais_diaspora', 'sportif_etranger', 'ecole_universite', 'handisport', 'ancien_sportif', 'formateur'
   ];
@@ -193,7 +193,7 @@
   let currentPlayerId = null, currentMatchId = null;
 
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
-  function fullName(u) { return ((u.prenom || '') + ' ' + (u.nom || '')).trim() || u.nomOrganisation || u.nomEtablissement || u.name || u.nomComplet || u.fullName || u.displayName || u.pseudo || 'Sans nom'; }
+  function fullName(u) { return (/^(club|association|federation|organisateur|ligue|ecole_universite)$/.test(u.role || '') && u.nomOrganisation) || ((u.prenom || '') + ' ' + (u.nom || '')).trim() || u.nomOrganisation || u.nomEtablissement || u.name || u.nomComplet || u.fullName || u.displayName || u.pseudo || 'Sans nom'; }
 
   // Trie une liste d'acteurs en faisant systématiquement remonter les fiches
   // "en attente de validation" en tête (les plus anciennes d'abord parmi elles),
@@ -306,7 +306,7 @@
       : `${actifs.length} visible(s) sur l'app`;
 
     const total = visibles.length || 1;
-    const ORG_ROLES = ['club', 'federation', 'association'];
+    const ORG_ROLES = ['club', 'federation', 'association', 'ligue'];
     const barsHtml = DASH_ROLES.map(r => {
       const count = visibles.filter(u => u.role === r).length;
       if (count === 0) return '';
@@ -407,6 +407,7 @@
           <div style="font-weight:700;color:var(--navy);font-size:13px;">${esc(fullName(u))}</div>
           <div style="font-size:11px;color:var(--gray-txt);margin-top:2px;">${esc(ROLE_LABELS[u.role] || u.role)}${u.club || u.nomOrganisation ? ' • ' + esc(u.club || u.nomOrganisation) : ''}${ageLabel ? ' • ' + ageLabel : ''}</div>
           ${needsOwner ? `<div style="font-size:10px;color:#f97316;margin-top:4px;">🔒 En attente de revendication par : ${esc(u.ownerRef?.clubName || 'un club')}</div>` : ''}
+          ${u.revendication ? `<div style="font-size:10px;color:#2563eb;margin-top:4px;">🙋 Revendique : ${esc(u.revendication.cibleNom || '')} (${esc(u.revendication.cibleId || '')})</div>${u.revendication.statut === 'en_attente' ? `<div style="margin-top:4px;display:flex;gap:6px;"><button class="btn-sm" onclick="window.gscClaim('approve','${esc(u.id)}')">✅ Approuver</button><button class="btn-sm" onclick="window.gscClaim('reject','${esc(u.id)}')">✖ Refuser</button></div>` : `<div style="font-size:10px;color:#6b7280;">Demande : ${esc(u.revendication.statut || '')}</div>`}` : ''}
           ${autoDetected ? `<div style="font-size:10px;color:#1e40af;margin-top:4px;">🤖 Structure détectée automatiquement — à confirmer</div>` : ''}
         </div>
         <div style="display:flex;gap:6px;flex-shrink:0;">
@@ -426,6 +427,34 @@
     }));
   }
 
+  function ligueCriteria(u) {
+    const g = u.gouvernance || {};
+    const bureau = Array.isArray(g.bureau) ? g.bureau.length : 0;
+    return [
+      { ok: !!u.federationTutelle, k: 'fédération de tutelle', label: 'Fédération de tutelle' + (u.federationTutelle ? ' : ' + u.federationTutelle : '') },
+      { ok: !!u.numeroRecepisse, k: 'récépissé / agrément', label: 'Récépissé / agrément' + (u.numeroRecepisse ? ' n° ' + u.numeroRecepisse : '') },
+      { ok: !!g.president && bureau > 0, k: 'bureau exécutif', label: 'Bureau exécutif (président + ' + bureau + ' membre(s))' },
+      { ok: Number(u.clubsAffilies) > 0, k: 'clubs affiliés', label: 'Clubs affiliés : ' + (u.clubsAffilies || 0) }
+    ];
+  }
+  function ligueRejectHint(u) {
+    if (!u || u.role !== 'ligue') return '';
+    const miss = ligueCriteria(u).filter(c => !c.ok).map(c => c.k);
+    return miss.length ? 'Critères non remplis : ' + miss.join(', ') : '';
+  }
+  function renderLigueChecklist(u) {
+    document.getElementById('validation-ligue-checklist')?.remove();
+    if (!u || u.role !== 'ligue') return;
+    const box = document.createElement('div');
+    box.id = 'validation-ligue-checklist';
+    box.style.cssText = 'margin:12px 0;padding:10px 12px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:13px;';
+    box.innerHTML = '<div style="font-weight:700;margin-bottom:6px;">🏆 Critères de validation d\'une Ligue</div>' +
+      ligueCriteria(u).map(c => '<div>' + (c.ok ? '✅' : '⚠️') + ' ' + esc(c.label) + '</div>').join('');
+    const anchor = document.getElementById('validation-owner-section');
+    if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(box, anchor);
+    else document.getElementById('validation-player-role')?.parentNode?.appendChild(box);
+  }
+
   function openValidationModal(id) {
     const u = users.find(x => x.id === id);
     if (!u) return;
@@ -440,7 +469,7 @@
       if (needsAssign || needsReview) {
         ownerSection.style.display = '';
         const orgOptions = users
-          .filter(x => ['club', 'federation', 'association'].includes(x.role) && !x.isDemo)
+          .filter(x => ['club', 'federation', 'ligue', 'association'].includes(x.role) && !x.isDemo)
           .sort((a, b) => fullName(a).localeCompare(fullName(b), 'fr'));
         document.getElementById('validation-owner-select').innerHTML =
           `<option value="">— Choisir un club / fédération / association —</option>` +
@@ -463,8 +492,45 @@
       }
     }
 
+    try { renderLigueChecklist(u); } catch (e) { console.warn('checklist ligue', e); }
     document.getElementById('validation-modal')?.classList.add('open');
   }
+
+  async function gscClaim(action, id) {
+    const u = users.find(x => x.id === id);
+    const rv = u && u.revendication;
+    if (!rv || rv.statut !== 'en_attente') { toast('Aucune demande en attente.', 'error'); return; }
+    const cible = users.find(x => x.id === rv.cibleId);
+    const me = u.uid || u.id;
+    if (!cible) { toast('Fiche revendiquée introuvable.', 'error'); return; }
+    if (action === 'approve') {
+      if (cible.role !== u.role) { toast('Type différent : ' + (cible.role || '?') + ' ≠ ' + (u.role || '?') + '. Refusez la demande.', 'error'); return; }
+      if (cible.ownerUid && cible.ownerUid !== me) { toast('Cette fiche appartient déjà à un autre compte.', 'error'); return; }
+      if (!confirm('Attribuer « ' + fullName(cible) + ' » à ' + fullName(u) + ' ?')) return;
+      try {
+        await withAuth(() => syncStatusToBothLocations(window.db.collection('users').doc(cible.id), {
+          ownerUid: me, ownershipStatus: 'owner_confirmed', ownerConfirmedAt: new Date(),
+          ownerRef: { clubName: fullName(u), email: '', contactName: '' }
+        }));
+        await withAuth(() => syncStatusToBothLocations(window.db.collection('users').doc(id), {
+          revendication: Object.assign({}, rv, { statut: 'approuvee', traiteLe: new Date().toISOString() })
+        }));
+        toast('✅ Revendication approuvée.', 'success');
+        renderDashboard();
+      } catch (e) { toast('Erreur : ' + (e.message || e), 'error'); }
+    } else {
+      const motif = prompt('Motif du refus :', '');
+      if (motif === null) return;
+      try {
+        await withAuth(() => syncStatusToBothLocations(window.db.collection('users').doc(id), {
+          revendication: Object.assign({}, rv, { statut: 'refusee', motif: motif, traiteLe: new Date().toISOString() })
+        }));
+        toast('Demande refusée.', 'success');
+        renderDashboard();
+      } catch (e) { toast('Erreur : ' + (e.message || e), 'error'); }
+    }
+  }
+  window.gscClaim = gscClaim;
 
   async function validateActor(id) {
     const u = users.find(x => x.id === id);
@@ -521,7 +587,7 @@
   async function rejectActor(id) {
     const u = users.find(x => x.id === id);
     if (!u) return;
-    const reason = prompt('Motif du refus (visible par l\'équipe admin uniquement) :', '');
+    const reason = prompt('Motif du refus (visible par l\'équipe admin uniquement) :', (typeof u!=='undefined'&&u?ligueRejectHint(u):''));
     if (reason === null) return; // annulé
     try {
       const rejectUpdates = {
@@ -1587,12 +1653,12 @@
       : `<span style="color:var(--danger);font-weight:700;">⚠️ ${withoutDocs.length}/${real.length} acteur(s) réel(s) n'ont AUCUN document archivé — à vérifier avant toute réinitialisation.</span>`;
   }
 
-  const DOC_CAT_ORDER = ['joueur','club','athlete','entraineur','arbitre','federation','association','organisateur','ecole_universite','formateur','eleve_etudiant','ancien_sportif','handisport','gabonais_diaspora','sportif_etranger','independant','supporter'];
+  const DOC_CAT_ORDER = ['joueur','club','athlete','entraineur','arbitre','federation','ligue','association','organisateur','ecole_universite','formateur','eleve_etudiant','ancien_sportif','handisport','gabonais_diaspora','sportif_etranger','independant','supporter'];
   const DOC_CAT_LABELS = {
     joueur: '⚽ Joueurs', club: '🏟️ Clubs', athlete: '🏃 Athlètes', entraineur: '📋 Entraîneurs', arbitre: '🟨 Arbitres',
-    federation: '🏛️ Fédérations', association: '🤝 Associations', organisateur: '🎪 Organisateurs', ecole_universite: '🏫 Écoles / Universités',
+    federation: '🏛️ Fédérations', ligue: '🏆 Ligues', association: '🤝 Associations', organisateur: '🎪 Organisateurs', ecole_universite: '🏫 Écoles / Universités',
     formateur: '🧑‍🏫 Formateurs', eleve_etudiant: '🎓 Élèves / Étudiants', ancien_sportif: '🎖️ Anciens footballeurs', handisport: '🦾 Footballeur handisport',
-    gabonais_diaspora: '🇬🇦 Gabonais de l’étranger', sportif_etranger: '🌍 Footballeurs étrangers', independant: '🚴 Footballeurs indépendants', supporter: '💗 Supporters',
+    gabonais_diaspora: '🇬🇦 Gabonais de l’étranger', sportif_etranger: '🌍 Footballeurs étrangers', independant: '🚴 Footballeurs indépendants', supporter: '💗 Supporters', ligue: '🏆 Ligues',
     admin: '🛡️ Administrateurs', visiteur: '👁️ Visiteurs'
   };
 

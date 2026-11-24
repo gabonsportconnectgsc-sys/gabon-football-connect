@@ -210,6 +210,7 @@
           <div class="role-tile" data-role="independant" onclick="pickRole('independant',this)"><div class="rt-icon">🧍</div><div class="rt-label">Indépendant</div><div class="rt-desc">Footballeur sans structure</div></div>
           <div class="role-tile" data-role="association" onclick="pickRole('association',this)"><div class="rt-icon">🤝</div><div class="rt-label">Association</div><div class="rt-desc">Organisation de football</div></div>
           <div class="role-tile" data-role="eleve_etudiant" onclick="pickRole('eleve_etudiant',this)"><div class="rt-icon">🎓</div><div class="rt-label">Élève / Étudiant</div><div class="rt-desc">Espoir du football</div></div>
+          <div class="role-tile" data-role="ligue" onclick="pickRole('ligue',this)"><div class="rt-icon">🏆</div><div class="rt-label">Ligue</div><div class="rt-desc">Ligue provinciale, départementale ou nationale</div></div>
           <div class="role-tile" data-role="organisateur" onclick="pickRole('organisateur',this)"><div class="rt-icon">🎪</div><div class="rt-label">Organisateur</div><div class="rt-desc">Événements et compétitions de football</div></div>
           <div class="role-tile" data-role="supporter" onclick="pickRole('supporter',this)"><div class="rt-icon">💗</div><div class="rt-label">Supporter</div><div class="rt-desc">Fan d'un club de football</div></div>
           <div class="role-tile" data-role="sportif_etranger" onclick="pickRole('sportif_etranger',this)"><div class="rt-icon">🌍</div><div class="rt-label">Footballeur étranger</div><div class="rt-desc">Pratique au Gabon, nationalité étrangère</div></div>
@@ -415,6 +416,41 @@
             <div class="fg"><label>Nom du président / responsable *</label><input type="text" id="a-org-president" placeholder="Nom complet"/></div>
             <div class="fg"><label>Téléphone du président</label><input type="tel" id="a-org-president-tel" placeholder="+241 XX XX XX XX"/></div>
           </div>
+<div id="ex-ligue" style="display:none;">
+          <div class="subsection">🏆 Identité de la ligue</div>
+          <div class="form-row">
+            <div class="fg"><label>Type de ligue *</label><select id="lg-type"><option value="">— Choisir —</option><option>Ligue provinciale</option><option>Ligue départementale / locale</option><option>Ligue nationale</option><option>Ligue professionnelle</option></select></div>
+            <div class="fg"><label>Province *</label><select id="lg-province"><option value="">— Choisir —</option><option>Estuaire</option><option>Haut-Ogooué</option><option>Moyen-Ogooué</option><option>Ngounié</option><option>Nyanga</option><option>Ogooué-Ivindo</option><option>Ogooué-Lolo</option><option>Ogooué-Maritime</option><option>Woleu-Ntem</option></select></div>
+          </div>
+          <div class="fg"><label>Fédération de tutelle *</label><input type="text" id="lg-tutelle" list="lg-tutelle-list" placeholder="ex: Fédération Gabonaise de Football"/><datalist id="lg-tutelle-list"><option value="Fédération Gabonaise de Football"></option><option value="Fédération Gabonaise de Basketball"></option><option value="Fédération Gabonaise de Handball"></option><option value="Fédération Gabonaise de Volleyball"></option><option value="Fédération Gabonaise d'Athlétisme"></option><option value="Fédération Gabonaise de Boxe"></option><option value="Fédération Gabonaise de Natation"></option><option value="Fédération Gabonaise de Judo"></option><option value="Fédération Gabonaise de Taekwondo"></option></datalist></div>
+          <div class="subsection">📜 Existence légale</div>
+          <div class="form-row">
+            <div class="fg"><label>N° de récépissé / agrément</label><input type="text" id="lg-recepisse" placeholder="N° officiel"/></div>
+            <div class="fg"><label>Date du récépissé</label><input type="date" id="lg-recepisse-date"/></div>
+          </div>
+          <div class="fg"><label>Affiliation à la fédération</label><select id="lg-affil"><option value="">— Choisir —</option><option>Affiliée</option><option>En cours d'affiliation</option><option>Non affiliée</option></select></div>
+          <div class="subsection">🏛️ Bureau exécutif</div>
+          <div class="form-row">
+            <div class="fg"><label>Vice-président</label><input type="text" id="lg-vp" placeholder="Nom complet"/></div>
+            <div class="fg"><label>Secrétaire général</label><input type="text" id="lg-sg" placeholder="Nom complet"/></div>
+          </div>
+          <div class="fg"><label>Trésorier</label><input type="text" id="lg-tres" placeholder="Nom complet"/></div>
+          <div class="form-row">
+            <div class="fg"><label>Début du mandat</label><input type="date" id="lg-mandat-debut"/></div>
+            <div class="fg"><label>Fin du mandat</label><input type="date" id="lg-mandat-fin"/></div>
+          </div>
+          <div class="subsection">📊 Effectifs de la ligue</div>
+          <div class="form-row">
+            <div class="fg"><label>Clubs affiliés</label><input type="number" id="lg-clubs" min="0" placeholder="ex: 24"/></div>
+            <div class="fg"><label>Licenciés</label><input type="number" id="lg-licencies" min="0" placeholder="ex: 850"/></div>
+          </div>
+          <div class="form-row">
+            <div class="fg"><label>Arbitres</label><input type="number" id="lg-arbitres" min="0" placeholder="ex: 30"/></div>
+            <div class="fg"><label>Éducateurs / entraîneurs</label><input type="number" id="lg-educateurs" min="0" placeholder="ex: 40"/></div>
+          </div>
+          <div class="fg"><label>Compétitions organisées</label><textarea id="lg-competitions" placeholder="ex: Championnat provincial D1 et D2, Coupe de la Ligue, compétitions jeunes et féminines…"></textarea></div>
+          </div><!-- /ex-ligue -->
+
 
           <div id="section-3b-org" class="section-3b" style="display:none;">
           <div class="subsection">👥 Effectifs</div>
@@ -810,7 +846,7 @@
   // Déterministe : même uid + même role → même GSC-ID partout dans l'application.
   const ROLE_CODES_QR = {
     joueur:'JOU', athlete:'ATH', arbitre:'ARB', entraineur:'ENT', club:'CLB',
-    association:'ASS', federation:'FED', independant:'IND',
+    association:'ASS', federation:'FED', ligue:'LIG', independant:'IND',
     admin:'ADM', supporter:'SUP', organisateur:'ORG',
     eleve_etudiant:'ELE', gabonais_diaspora:'DIA', sportif_etranger:'ETR', handisport:'HAN', ancien_sportif:'ASP', formateur:'FOR'
   };
@@ -837,7 +873,7 @@
 
   const ROLE_LABELS = {
     joueur:'⚽ Joueur', athlete:'🏃 Athlète', entraineur:'📋 Entraîneur', arbitre:'🟨 Arbitre',
-    club:'🏟️ Club de football', federation:'🏛️ Fédération', independant:'🧍 Indépendant',
+    club:'🏟️ Club de football', federation:'🏛️ Fédération', ligue:'🏆 Ligue', independant:'🧍 Indépendant',
     association:'🤝 Association', eleve_etudiant:'🎓 Élève / Étudiant',
     handisport:'🦾 Sportif handisport', organisateur:'🎪 Organisateur',
     supporter:'💗 Supporter', gabonais_diaspora:'🇬🇦 Gabonais footballeur à l’étranger', sportif_etranger:'🌍 Footballeur étranger', ancien_sportif:'🎖️ Ancien footballeur',
@@ -977,10 +1013,11 @@
     }
     document.getElementById('a-title').textContent = ROLE_LABELS[selectedRole];
     document.getElementById('a-tag').textContent = '🏅 ' + ROLE_LABELS[selectedRole];
-    const isOrgRole = ['club','federation','association','organisateur'].includes(selectedRole);
+    const isOrgRole = ['club','federation','association','organisateur','ligue'].includes(selectedRole);
     document.getElementById('ex-personne').classList.toggle('show', !isOrgRole);
     document.getElementById('ex-joueur').classList.toggle('show', ['joueur','athlete','independant','eleve_etudiant','gabonais_diaspora', 'sportif_etranger'].includes(selectedRole));
     document.getElementById('ex-org').classList.toggle('show', isOrgRole);
+    { const _xl=document.getElementById('ex-ligue'); if(_xl) _xl.style.display = (selectedRole==='ligue') ? 'block' : 'none'; }
     document.getElementById('ex-off').classList.toggle('show', ['entraineur','arbitre'].includes(selectedRole));
     document.getElementById('ex-handisport').classList.toggle('show', selectedRole === 'handisport');
     document.getElementById('ex-ancien').classList.toggle('show', selectedRole === 'ancien_sportif');
@@ -1332,7 +1369,7 @@ function sbError(e) {
     const exact  = document.getElementById('a-exact').checked;
 
     // Champs spécifiques selon rôle
-    const isOrgRole = ['club','federation','association','organisateur'].includes(selectedRole);
+    const isOrgRole = ['club','federation','association','organisateur','ligue'].includes(selectedRole);
     // Sexe / date de naissance : personnes physiques uniquement, sans objet pour une structure.
     const sexe   = !isOrgRole ? (document.getElementById('a-sexe')?.value || '') : '';
     const ddn    = !isOrgRole ? (document.getElementById('a-ddn')?.value || '') : '';
@@ -1347,6 +1384,17 @@ function sbError(e) {
     const orgPresident   = isOrgRole ? (document.getElementById('a-org-president')?.value?.trim() || '') : '';
     const orgPresidentTel= isOrgRole ? (document.getElementById('a-org-president-tel')?.value?.trim() || '') : '';
     const orgEffectif    = isOrgRole ? (document.getElementById('a-org-effectif')?.value || '') : '';
+    const lgv = id => (document.getElementById(id)?.value || '').trim();
+    const ligueExtra = (selectedRole === 'ligue') ? {
+      typeLigue: lgv('lg-type'), provinceLigue: lgv('lg-province'), federationTutelle: lgv('lg-tutelle'),
+      numeroRecepisse: lgv('lg-recepisse'), dateRecepisse: lgv('lg-recepisse-date'), affiliationStatut: lgv('lg-affil'),
+      clubsAffilies: lgv('lg-clubs'), licencies: lgv('lg-licencies'), arbitres: lgv('lg-arbitres'), educateurs: lgv('lg-educateurs'),
+      competitionsOrganisees: lgv('lg-competitions')
+    } : {};
+    const ligueGouv = (selectedRole === 'ligue') ? {
+      bureau: [['Vice-président','lg-vp'],['Secrétaire général','lg-sg'],['Trésorier','lg-tres']].map(([r,id]) => ({ role: r, nom: lgv(id), telephone: '', email: '' })).filter(b => b.nom),
+      mandatDebut: lgv('lg-mandat-debut'), mandatFin: lgv('lg-mandat-fin')
+    } : {};
     const orgCategories  = isOrgRole ? (document.getElementById('a-org-categories')?.value?.trim() || '') : '';
     const orgSiege       = isOrgRole ? (document.getElementById('a-org-siege')?.value?.trim() || '') : '';
     const orgGeolocLat   = isOrgRole ? (document.getElementById('a-org-lat')?.value || '') : '';
@@ -1528,7 +1576,7 @@ function sbError(e) {
           // Champs enrichis structure — club/fédération/association/organisateur (vides pour les autres rôles)
           ...(isOrgRole && {
             sigle: orgSigle, slogan: orgSlogan, dateCreation: orgDateCreation,
-            gouvernance: { president: orgPresident }, presidentTelephone: orgPresidentTel,
+            ...ligueExtra, gouvernance: Object.assign({ president: orgPresident }, ligueGouv), presidentTelephone: orgPresidentTel,
             effectifTotal: orgEffectif, categoriesEncadrees: orgCategories,
             siegeSocial: orgSiege,
             geoloc: (orgGeolocLat && orgGeolocLng) ? { lat: Number(orgGeolocLat), lng: Number(orgGeolocLng) } : null,
@@ -1539,6 +1587,7 @@ function sbError(e) {
           club: clubActuel || '',
           status: 'active',
           ...(isOrgRole && { validationAdmin: 'pending' }),
+          ...(isOrgRole && (document.getElementById('a-revendication-select') || {}).value && { revendication: { cibleType: 'user', cibleId: document.getElementById('a-revendication-select').value, cibleNom: document.getElementById('a-revendication-select').selectedOptions[0].textContent, role: selectedRole, statut: 'en_attente' } }),
           ...(aPhotoURL && { photoURL: aPhotoURL })
         };
         try { localStorage.setItem('gsc_pending_profile_'+uid, JSON.stringify(profile)); } catch(e){}
@@ -1714,5 +1763,7 @@ function sbError(e) {
 <script src="gsc-pwd-eye.js" defer></script>
 <script src="gsc-diaspora.js"></script>
 <script src="gsc-diaspora-inscription.js"></script>
+<!-- gsc-revendication -->
+<script src="gsc-revendication.js"></script>
 </body>
 </html>
