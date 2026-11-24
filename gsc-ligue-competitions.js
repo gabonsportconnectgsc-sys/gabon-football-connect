@@ -105,8 +105,8 @@
         var s = st[0].data;
         out += '<div class="adm-section"><div class="adm-section-title">📊 Licenciés ' + h.esc(s.saison) + '</div>'
           + '<div class="adm-info-row"><span class="adm-info-label">Licenciés</span><span class="adm-info-val">' + (s.total || 0) + '</span></div>'
-          + '<div class="adm-info-row"><span class="adm-info-label">Clubs affiliés</span><span class="adm-info-val">' + (s.clubs || 0) + '</span></div>'
-          + '<div class="adm-info-row"><span class="adm-info-label">Hommes / Femmes</span><span class="adm-info-val">' + ((s.parSexe || {}).M || 0) + ' / ' + ((s.parSexe || {}).F || 0) + '</span></div></div>';
+          + (s.clubs ? '<div class="adm-info-row"><span class="adm-info-label">Clubs affiliés</span><span class="adm-info-val">' + s.clubs + '</span></div>' : '')
+          + (((s.parSexe || {}).M || (s.parSexe || {}).F) ? '<div class="adm-info-row"><span class="adm-info-label">Hommes / Femmes</span><span class="adm-info-val">' + ((s.parSexe || {}).M || 0) + ' / ' + ((s.parSexe || {}).F || 0) + '</span></div>' : '') + '</div>';
       }
     } catch (e) { /* stats non publiques : on n'affiche rien */ }
     try {

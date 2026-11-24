@@ -4877,7 +4877,7 @@ function renderDashboard(){
   }
   // Completion bar
   let fields;
-  if(['club','association','federation'].includes(p.role)){
+  if(GFC_ORG_ROLES.includes(p.role)){
     fields=[p.prenom,p.telephone,p.ville,p.sport,p.bio,p.nomOrganisation,gfcPresident(p),p.anneeCreation];
   } else {
     fields=[p.prenom,p.nom,p.telephone,p.ville,p.sport,p.bio,p.club,p.photoURL,p.taille,p.poste];
