@@ -4,7 +4,7 @@
  * SDK compat ou modulaire. API : GSCLigueManager.open() · GSCLigueManager.adminOpen() */
 (function (w) {
   'use strict';
-  var CLOUD = 'djvzc3vqp', PRESET = 'gsc_admin_uploads';
+  var CLOUD = 'djvzc3vqp', PRESET = 'gfc_uploads';
   var QR_CDN = 'https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js';
   var S = { saison: '', disc: '', cat: '', items: [], prive: {}, status: '' };
 
