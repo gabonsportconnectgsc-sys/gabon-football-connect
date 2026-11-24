@@ -9,7 +9,7 @@
   function find(uid) { var l = users(); for (var i = 0; i < l.length; i++) { if ((l[i].id || l[i].uid) === uid) return l[i]; } return null; }
   function toggle() {
     var b = document.getElementById('pe-lg-box'), r = document.getElementById('pe-role');
-    if (b && r) b.style.display = (r.value === 'ligue') ? '' : 'none';
+    if (b && r) { var lg = (r.value === 'ligue'); b.style.display = lg ? '' : 'none'; var ef = document.getElementById('pe-org-effectif'), efw = ef && ef.closest ? ef.closest('.gsc-pe-field') : null; if (efw) efw.style.display = lg ? 'none' : ''; }
   }
   function build() {
     if (document.getElementById('pe-lg-box')) return true;

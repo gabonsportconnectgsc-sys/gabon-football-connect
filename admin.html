@@ -2617,7 +2617,7 @@ document.addEventListener('DOMContentLoaded', function(){
               <tr><td style="font-weight:700">Slogan</td><td>${esc(u.slogan || '—')}</td></tr>
               <tr><td style="font-weight:700">Date de création</td><td>${esc(u.dateCreation || '—')}</td></tr>
               <tr><td style="font-weight:700">Président / responsable</td><td>${esc((u.gouvernance && u.gouvernance.president) || '—')}${(u.gouvernance && u.gouvernance.presidentTelephone) ? ' — ' + esc(u.gouvernance.presidentTelephone) : ''}</td></tr>
-              <tr><td style="font-weight:700">Effectif joueurs/athlètes</td><td>${esc(u.effectifTotal || '—')}</td></tr>
+              ${u.role === 'ligue' ? [['Clubs affiliés','clubsAffilies'],['Licenciés','licencies'],['Arbitres','arbitres'],['Éducateurs','educateurs']].map(a => '<tr><td style="font-weight:700">' + a[0] + '</td><td>' + esc(String(u[a[1]] != null && u[a[1]] !== '' ? u[a[1]] : '—')) + '</td></tr>').join('') : '<tr><td style="font-weight:700">Effectif joueurs/athlètes</td><td>' + esc(u.effectifTotal || '—') + '</td></tr>'}
               <tr><td style="font-weight:700">Catégories encadrées</td><td>${esc(u.categoriesEncadrees || '—')}</td></tr>
               <tr><td style="font-weight:700">Siège social / adresse</td><td>${esc(u.siegeSocial || '—')}</td></tr>
               <tr><td style="font-weight:700">Géolocalisation</td><td>${(u.geoloc && u.geoloc.lat != null) ? esc(`${u.geoloc.lat}, ${u.geoloc.lng}`) : '—'}</td></tr>
@@ -4845,7 +4845,7 @@ document.addEventListener('DOMContentLoaded', function(){
 <script src="gsc-fix-comptages-clubs.js" defer></script>
 <script src="gsc-sync-comptes-reels.js" defer></script>
 <script src="gsc-actor-profile-editor.js" defer></script>
-<script src="gfc-ligue-completion.js?v=202611241129" defer></script>
+<script src="gfc-ligue-completion.js?v=202611241135" defer></script>
 <script src="guide-widget.js" defer></script>
 <script src="gsc-pwd-eye.js" defer></script>
 <script src="gsc-doc-reception.js?v=202611241113" defer></script>
