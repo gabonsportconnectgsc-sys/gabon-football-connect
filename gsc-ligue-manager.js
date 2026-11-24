@@ -14,7 +14,7 @@
     var a = w.auth && w.auth.currentUser;
     if (!a && w.firebase && w.firebase.auth) { try { a = w.firebase.auth().currentUser; } catch (e) {} }
     if (!a && typeof w.getAuth === 'function') { try { a = w.getAuth().currentUser; } catch (e) {} }
-    return a ? a.uid : null;
+    return w.__gfcActLigue || (a ? a.uid : null);
   }
   function now() {
     if (compat() && w.firebase && w.firebase.firestore) return w.firebase.firestore.FieldValue.serverTimestamp();

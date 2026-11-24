@@ -13,6 +13,12 @@ service cloud.firestore {
       return exists(adminPath) || (exists(userPath) && get(userPath).data.role == 'admin');
     }
 
+    function isLigueManager(ligueUid) {
+      let p = /databases/$(database)/documents/users/$(ligueUid);
+      return request.auth.uid == ligueUid
+        || (exists(p) && request.auth.uid in get(p).data.get('coGestionnaires', []));
+    }
+
     function myRoleTag(uid) {
       let path = /databases/$(database)/documents/users/$(uid);
       return exists(path) ? ('role:' + get(path).data.role) : 'role:none';
@@ -62,13 +68,13 @@ service cloud.firestore {
         && (!('revendication' in request.resource.data) || request.resource.data.revendication.get('statut', '') == 'en_attente')
         && (!(request.resource.data.get('role', '') in ['club', 'association', 'federation', 'organisateur', 'ecole_universite', 'ligue'])
             || (request.resource.data.get('validationAdmin', '') == 'pending'
-                && !request.resource.data.keys().hasAny(['ownerUid', 'ownerConfirmedAt'])
+                && !request.resource.data.keys().hasAny(['ownerUid', 'ownerConfirmedAt', 'coGestionnaires'])
                 && !(request.resource.data.get('ownershipStatus', '') in ['owner_confirmed', 'owner_confirmed_auto'])));
 
       allow update: if request.auth != null && (
         (request.auth.uid == uid
           && !request.resource.data.diff(resource.data).affectedKeys().hasAny(
-            ['role', 'structureId', 'documentVerifie', 'editLocked', 'ownershipStatus', 'ownerRef', 'ownerUid', 'ownerConfirmedAt', 'revendication', 'gereParFederation', 'isDemo', 'validationAdmin']
+            ['role', 'structureId', 'documentVerifie', 'editLocked', 'ownershipStatus', 'ownerRef', 'ownerUid', 'ownerConfirmedAt', 'revendication', 'gereParFederation', 'isDemo', 'validationAdmin', 'coGestionnaires']
           )
           && !(request.resource.data.diff(resource.data).affectedKeys().hasAny(['status'])
                && (resource.data.get('status', 'active') == 'deleted' || resource.data.get('rejectedAt', null) != null)))
@@ -79,6 +85,9 @@ service cloud.firestore {
           && request.resource.data.structureId is string
           && exists(/databases/$(database)/documents/structuresSportives/$(request.resource.data.structureId))
           && get(/databases/$(database)/documents/structuresSportives/$(request.resource.data.structureId)).data.addedBy == request.auth.uid)
+        || (resource.data.get('role', '') == 'ligue'
+          && request.auth.uid in resource.data.get('coGestionnaires', [])
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['typeLigue', 'provinceLigue', 'affiliationStatut', 'federationTutelle', 'numeroRecepisse', 'clubsAffilies', 'licencies', 'arbitres', 'educateurs', 'competitionsOrganisees', 'updatedAt']))
         || isAdmin(request.auth.uid)
       );
       allow delete: if request.auth != null && isAdmin(request.auth.uid);
@@ -393,52 +402,52 @@ service cloud.firestore {
 
     /* ── LIGUES : licenciés et stats (lot 6a) ── */
     match /ligueLicencies/{gid} {
-      allow read: if request.auth != null && (resource.data.ligueUid == request.auth.uid || isAdmin(request.auth.uid))
+      allow read: if request.auth != null && (isLigueManager(resource.data.ligueUid) || isAdmin(request.auth.uid))
                   || resource.data.public == true;
       allow create: if request.auth != null && isActiveOrLegacy(request.auth.uid)
                     && (isAdmin(request.auth.uid) || (
-                         request.resource.data.ligueUid == request.auth.uid
-                         && gid.matches(request.auth.uid + '_.*')
+                         isLigueManager(request.resource.data.ligueUid)
+                         && gid.matches(request.resource.data.ligueUid + '_.*')
                          && request.resource.data.validation == 'pending'
                          && request.resource.data.public == false));
       allow update: if request.auth != null && isActiveOrLegacy(request.auth.uid)
                     && (isAdmin(request.auth.uid) || (
-                         resource.data.ligueUid == request.auth.uid
-                         && request.resource.data.ligueUid == request.auth.uid
+                         isLigueManager(resource.data.ligueUid)
+                         && isLigueManager(request.resource.data.ligueUid)
                          && request.resource.data.validation == 'pending'
                          && request.resource.data.public == false));
-      allow delete: if request.auth != null && (isAdmin(request.auth.uid) || resource.data.ligueUid == request.auth.uid);
+      allow delete: if request.auth != null && (isAdmin(request.auth.uid) || isLigueManager(resource.data.ligueUid));
 
       match /prive/{d} {
-        allow read, write: if request.auth != null && (isAdmin(request.auth.uid) || gid.matches(request.auth.uid + '_.*'));
+        allow read, write: if request.auth != null && (isAdmin(request.auth.uid) || isLigueManager(gid.split('_')[0]));
       }
     }
 
     /* ── LIGUES : compétitions (lot 6b) ── */
     match /ligueCompetitions/{cid} {
-      allow read: if request.auth != null && (resource.data.ligueUid == request.auth.uid || isAdmin(request.auth.uid))
+      allow read: if request.auth != null && (isLigueManager(resource.data.ligueUid) || isAdmin(request.auth.uid))
                   || resource.data.public == true;
       allow create: if request.auth != null && isActiveOrLegacy(request.auth.uid)
                     && (isAdmin(request.auth.uid) || (
-                         request.resource.data.ligueUid == request.auth.uid
+                         isLigueManager(request.resource.data.ligueUid)
                          && request.resource.data.validation == 'pending'
                          && request.resource.data.public == false));
       allow update: if request.auth != null && isActiveOrLegacy(request.auth.uid)
                     && (isAdmin(request.auth.uid) || (
-                         resource.data.ligueUid == request.auth.uid
-                         && request.resource.data.ligueUid == request.auth.uid
+                         isLigueManager(resource.data.ligueUid)
+                         && isLigueManager(request.resource.data.ligueUid)
                          && request.resource.data.validation == 'pending'
                          && request.resource.data.public == false));
-      allow delete: if request.auth != null && (isAdmin(request.auth.uid) || resource.data.ligueUid == request.auth.uid);
+      allow delete: if request.auth != null && (isAdmin(request.auth.uid) || isLigueManager(resource.data.ligueUid));
     }
 
     match /ligueStats/{sid} {
-      allow read: if request.auth != null && (resource.data.ligueUid == request.auth.uid || isAdmin(request.auth.uid))
+      allow read: if request.auth != null && (isLigueManager(resource.data.ligueUid) || isAdmin(request.auth.uid))
                   || resource.data.public == true;
       allow create, update: if request.auth != null && isActiveOrLegacy(request.auth.uid)
                             && (isAdmin(request.auth.uid) || (
-                                 request.resource.data.ligueUid == request.auth.uid
-                                 && sid.matches(request.auth.uid + '_.*')
+                                 isLigueManager(request.resource.data.ligueUid)
+                                 && sid.matches(request.resource.data.ligueUid + '_.*')
                                  && request.resource.data.public == false));
     }
 

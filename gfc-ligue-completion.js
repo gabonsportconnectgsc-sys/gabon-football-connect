@@ -77,4 +77,66 @@
     else if (++tries > 60) clearInterval(t);
   }, 500);
   setInterval(tag, 4000);
+  /* Co-gestionnaires (lot 9) : ajout et retrait reserves a l'admin */
+  function cogList(u) { return (u && Array.isArray(u.coGestionnaires)) ? u.coGestionnaires.slice() : []; }
+  function cogName(x) { return (w.gfcName ? w.gfcName(x) : [x.prenom, x.nom].filter(Boolean).join(' ')) || x.id || x.uid || ''; }
+  function cogBuild() {
+    if (document.getElementById('pe-cog-box')) return true;
+    var anchor = document.getElementById('pe-lg-box');
+    if (!anchor || !anchor.parentNode) return false;
+    var box = document.createElement('div');
+    box.id = 'pe-cog-box'; box.style.display = 'none';
+    box.innerHTML = '<div class="gsc-pe-field"><label>Co-gestionnaires de la ligue</label><div id="pe-cog-list" style="font-size:13px;margin-bottom:6px"></div>' +
+      '<input id="pe-cog-q" placeholder="Nom du compte à ajouter"><div style="margin-top:6px"><button type="button" id="pe-cog-add" class="gsc-pe-save" style="width:100%;border:none;border-radius:8px;padding:8px;font-weight:700;cursor:pointer">Ajouter</button></div>' +
+      '<div id="pe-cog-msg" style="font-size:12px;margin-top:6px"></div></div>';
+    anchor.parentNode.insertBefore(box, anchor.nextSibling);
+    document.getElementById('pe-cog-add').addEventListener('click', cogAdd);
+    var r = document.getElementById('pe-role');
+    if (r) r.addEventListener('change', cogRefresh);
+    return true;
+  }
+  function cogRefresh() {
+    if (!cur || !cogBuild()) return;
+    var r = document.getElementById('pe-role'), box = document.getElementById('pe-cog-box');
+    var lg = !!r && r.value === 'ligue';
+    box.style.display = lg ? '' : 'none';
+    if (!lg) return;
+    var ids = cogList(find(cur)), l = document.getElementById('pe-cog-list');
+    if (!ids.length) { l.textContent = 'Aucun co-gestionnaire.'; return; }
+    l.innerHTML = '';
+    ids.forEach(function (id) {
+      var row = document.createElement('div'), p = find(id);
+      row.style.cssText = 'display:flex;justify-content:space-between;align-items:center;gap:8px;padding:4px 0';
+      var s = document.createElement('span'); s.textContent = p ? cogName(p) : id;
+      var b = document.createElement('button'); b.type = 'button'; b.textContent = 'Retirer';
+      b.style.cssText = 'border:none;border-radius:6px;padding:4px 8px;background:#fee2e2;color:#991b1b;font-weight:700;cursor:pointer';
+      b.onclick = function () { cogSave(ids.filter(function (x) { return x !== id; })); };
+      row.appendChild(s); row.appendChild(b); l.appendChild(row);
+    });
+  }
+  function cogSave(list) {
+    var msg = document.getElementById('pe-cog-msg');
+    if (!w.db || !cur) return;
+    msg.style.color = '#334155'; msg.textContent = 'Enregistrement…';
+    w.db.collection('users').doc(cur).update({ coGestionnaires: list, updatedAt: new Date() }).then(function () {
+      var u = find(cur); if (u) u.coGestionnaires = list;
+      msg.style.color = '#10b981'; msg.textContent = 'Co-gestionnaires mis à jour.'; cogRefresh();
+    }).catch(function (e) { msg.style.color = '#dc2626'; msg.textContent = 'Erreur : ' + (e.message || e); });
+  }
+  function cogAdd() {
+    var q = (document.getElementById('pe-cog-q').value || '').trim().toLowerCase(), msg = document.getElementById('pe-cog-msg');
+    msg.style.color = '#dc2626';
+    if (!q) { msg.textContent = 'Saisissez un nom.'; return; }
+    var cur0 = cogList(find(cur));
+    var m = users().filter(function (x) { var id = x.id || x.uid; return id && id !== cur && cur0.indexOf(id) < 0 && (String(id).toLowerCase() === q || cogName(x).toLowerCase().indexOf(q) >= 0); });
+    if (m.length === 0) { msg.textContent = 'Aucun compte trouvé.'; return; }
+    if (m.length > 1) { msg.textContent = 'Plusieurs comptes : ' + m.slice(0, 5).map(cogName).join(' · ') + '. Précisez le nom.'; return; }
+    if (!w.confirm('Ajouter « ' + cogName(m[0]) + ' » comme co-gestionnaire de cette ligue ?')) return;
+    cogSave(cur0.concat([m[0].id || m[0].uid]));
+    document.getElementById('pe-cog-q').value = '';
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target && e.target.closest ? e.target.closest('.gsc-profile-edit-btn') : null;
+    if (b) setTimeout(cogRefresh, 60);
+  }, true);
 })(window);
