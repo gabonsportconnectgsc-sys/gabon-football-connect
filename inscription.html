@@ -1608,7 +1608,7 @@ function sbError(e) {
           gscId,
           club: clubActuel || '',
           status: 'active',
-          ...(isOrgRole && { validationAdmin: 'pending' }),
+          ...((isOrgRole || selectedRole === 'expert') && { validationAdmin: 'pending' }),
           ...(isOrgRole && (document.getElementById('a-revendication-select') || {}).value && { revendication: { cibleType: 'user', cibleId: document.getElementById('a-revendication-select').value, cibleNom: document.getElementById('a-revendication-select').selectedOptions[0].textContent, role: selectedRole, statut: 'en_attente' } }),
           ...(aPhotoURL && { photoURL: aPhotoURL })
         };
