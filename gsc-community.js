@@ -112,6 +112,7 @@
   }
   function initials(name) { return (name || '?').trim().split(/\s+/).slice(0, 2).map(w => w[0] || '').join('').toUpperCase() || '?'; }
   function authorName(profile) {
+    if (window.gfcName && profile && profile.role) { const g = window.gfcName(profile); if (g) return g; }
     return [profile?.prenom, profile?.nom].filter(Boolean).join(' ').trim()
       || profile?.nomOrganisation || profile?.email?.split('@')[0] || 'Membre GSC';
   }
@@ -171,7 +172,7 @@
     const q = (prefix || '').trim().toLowerCase();
     const list = getAllActors();
     const scored = list
-      .map(a => ({ a, name: authorName({ prenom: a.prenom, nom: a.nom, nomOrganisation: a.nomOrganisation, email: a.email }) }))
+      .map(a => ({ a, name: authorName({ prenom: a.prenom, nom: a.nom, nomOrganisation: a.nomOrganisation, role: a.role, email: a.email }) }))
       .filter(({ name }) => !q || name.toLowerCase().includes(q));
     return scored.slice(0, 6).map(({ a, name }) => ({ id: a.uid || a.id, name, role: a.role || 'joueur' }));
   }
@@ -181,7 +182,7 @@
      un tableau d'objets { id, name } dédupliqué. */
   function extractMentions(text) {
     if (!text) return [];
-    const list = getAllActors().map(a => ({ id: a.uid || a.id, name: authorName({ prenom: a.prenom, nom: a.nom, nomOrganisation: a.nomOrganisation, email: a.email }) })).filter(a => a.id && a.name);
+    const list = getAllActors().map(a => ({ id: a.uid || a.id, name: authorName({ prenom: a.prenom, nom: a.nom, nomOrganisation: a.nomOrganisation, role: a.role, email: a.email }) })).filter(a => a.id && a.name);
     /* Trier par longueur de nom décroissante pour matcher les noms composés en priorité */
     list.sort((x, y) => y.name.length - x.name.length);
     const found = new Map();

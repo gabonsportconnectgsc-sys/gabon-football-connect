@@ -1591,7 +1591,7 @@
     currentMatchId = id;
     const title = document.getElementById('match-modal-title');
     if (title) title.textContent = id ? 'Modifier Match' : 'Nouveau Match';
-    document.getElementById('match-home').value = m?.home || 'GSC';
+    document.getElementById('match-home').value = m?.home || '';
     document.getElementById('match-away').value = m?.away || '';
     document.getElementById('match-date').value = m?.date ? String(m.date).slice(0, 10) : '';
     document.getElementById('match-time').value = m?.time || '';
