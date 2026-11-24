@@ -61,7 +61,8 @@
     { key: 'gabonais_diaspora', icon: '🇬🇦', label: 'Footballeurs gabonais de l’étranger', color: '#0891b2', colorDk: '#155e75' }, { key: 'sportif_etranger', icon: '🌍', label: 'Footballeurs étrangers', color: '#ca8a04', colorDk: '#92660a' },
     { key: 'handisport', icon: '🦾', label: 'Footballeurs handisport', color: '#7c3aed', colorDk: '#5b21b6' },
     { key: 'ancien_sportif', icon: '🎖️', label: 'Anciens footballeurs', color: '#9f1239', colorDk: '#881337' },
-    { key: 'formateur', icon: '🧑‍🏫', label: 'Formateurs', color: '#a21caf', colorDk: '#701a75' }
+    { key: 'formateur', icon: '🧑‍🏫', label: 'Formateurs', color: '#a21caf', colorDk: '#701a75' },
+    { key: 'ligue', icon: '🏆', label: 'Ligues', color: '#0f766e', colorDk: '#115e59' }
   ];
 
   const REPORT_REASONS = [

@@ -1,0 +1,5 @@
+/* GFC - correctifs d'affichage (lot 9a) */
+/* Fil communautaire : nom tronque proprement et bouton menu des publications */
+.gsc-post-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%;}
+.gsc-post-menu-wrap{position:relative;z-index:3;}
+.gsc-post-menu-btn{font-size:22px;line-height:1;padding:4px 12px;min-width:44px;min-height:36px;}
