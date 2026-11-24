@@ -5592,6 +5592,26 @@ function openActorDetail(uid){
     html+=`</div>`;
   }
   // Formateur — spécialité, certifications et disponibilité de formation
+  if(a.role==='expert'){
+    const _X=window.GFC_EXPERT;
+    const _q=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+    const _arr=v=>Array.isArray(v)?v:[];
+    const _r=(l,v)=>`<div class="adm-info-row"><span class="adm-info-label">${l}</span><span class="adm-info-val">${v}</span></div>`;
+    const _li=arr=>`<ul style="margin:4px 0 0 18px;padding:0;">${arr.map(x=>`<li>${esc(String(x))}</li>`).join('')}</ul>`;
+    html+=`<div class="adm-section"><div class="adm-section-title">🎯 Profil expert</div>`;
+    if(a.titrePrincipal) html+=_r('Fonction principale',esc(a.titrePrincipal));
+    if(_arr(a.specialites).length) html+=_r('Spécialités',_arr(a.specialites).map(k=>`<span class="badge-expert" style="display:inline-block;padding:3px 9px;border-radius:12px;margin:2px 4px 2px 0;font-size:12px;font-weight:600;">${esc((k==='autre'&&a.autreSpecialite)?a.autreSpecialite:(_X?_X.label(k):k))}</span>`).join(''));
+    if(a.niveauExperience) html+=_r("Niveau d'expérience",esc(a.niveauExperience));
+    if(a.niveauDiplome) html+=_r('Niveau de diplôme',esc(a.niveauDiplome));
+    if(a.resumeParcours) html+=`<div style="margin:8px 0;font-size:13px;line-height:1.5;">${esc(a.resumeParcours)}</div>`;
+    if(_arr(a.diplomes).length) html+=_r('Diplômes et certifications',_li(_arr(a.diplomes)));
+    if(_arr(a.postes).length) html+=_r('Postes et fonctions',_li(_arr(a.postes)));
+    if(_arr(a.participations).length) html+=_r('Programmes et événements',_li(_arr(a.participations)));
+    const _z=_arr(a.zonesFormation).map(k=>{const f=_X&&_X.ZONES.find(z=>z[0]===k);return f?f[1]:k;}).join(', ');
+    html+=_r('Disponible pour formations',a.disponibleFormation?('✅ Oui'+(_z?' · '+esc(_z):'')):'—');
+    if(a.liensSociaux){ const _l=String(a.liensSociaux).trim(); html+=_r('Liens',/^https?:\/\//i.test(_l)?`<a href="${_q(sanitizeUrl(_l))}" target="_blank" rel="noopener">${esc(_l)}</a>`:esc(_l)); }
+    html+=`</div>`;
+  }
   if(a.role==='formateur'){
     html+=`<div class="adm-section"><div class="adm-section-title">🧑‍🏫 Profil formateur</div>`;
     if(a.specialiteFormation) html+=`<div class="adm-info-row"><span class="adm-info-label">Spécialité</span><span class="adm-info-val">${esc(a.specialiteFormation)}</span></div>`;
@@ -6069,6 +6089,31 @@ function buildEditForm(p){
   }
 
   // Profil Formateur — spécialité, certification, disponibilité
+  if(p.role==='expert'){
+    const _X=window.GFC_EXPERT||{SPEC:[],ZONES:[]};
+    const _q=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+    const _arr=v=>Array.isArray(v)?v:[];
+    const _sp=_arr(p.specialites), _zn=_arr(p.zonesFormation);
+    const _nivs=['Moins de 5 ans','5 à 10 ans','Plus de 10 ans'];
+    if(p.niveauExperience&&_nivs.indexOf(p.niveauExperience)<0) _nivs.push(p.niveauExperience);
+    const _ta=arr=>esc(_arr(arr).join('\n'));
+    const _cb=(name,list,sel)=>list.map(s=>`<label class="gfc-chk"><input type="checkbox" name="${name}" value="${s[0]}"${sel.indexOf(s[0])>=0?' checked':''}><span>${s[1]}</span></label>`).join('');
+    h+=`<div class="section-divider" style="border-color:#0e7490;">🎯 Profil expert</div>`;
+    h+=`<div class="form-group"><label>Fonction principale</label><input type="text" id="edit-exp-titre" value="${_q(p.titrePrincipal)}" placeholder="ex: Préparateur physique, Directeur technique…"></div>`;
+    h+=`<div class="form-group"><label>Spécialités et domaines de compétences</label><div class="gfc-chk-grid">${_cb('edit-exp-spec',_X.SPEC,_sp)}</div></div>`;
+    h+=`<div class="form-group"><label>Précision « Autre » (si coché)</label><input type="text" id="edit-exp-autre" value="${_q(p.autreSpecialite)}"></div>`;
+    h+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="form-group"><label>Niveau d'expérience</label><select id="edit-exp-niveau"><option value="">—</option>${_nivs.map(v=>`<option value="${_q(v)}"${p.niveauExperience===v?' selected':''}>${esc(v)}</option>`).join('')}</select></div>
+      <div class="form-group"><label>Niveau de diplôme</label><input type="text" id="edit-exp-diplome" value="${_q(p.niveauDiplome)}"></div>
+    </div>`;
+    h+=`<div class="form-group"><label>Résumé du parcours</label><textarea id="edit-exp-resume" maxlength="600" placeholder="Votre parcours en quelques lignes…">${esc(p.resumeParcours||'')}</textarea></div>`;
+    h+=`<div class="form-group"><label>Diplômes et certifications (un par ligne)</label><textarea id="edit-exp-diplomes" placeholder="ex: Licence CAF B – CAF – 2018">${_ta(p.diplomes)}</textarea></div>`;
+    h+=`<div class="form-group"><label>Postes et fonctions (un par ligne)</label><textarea id="edit-exp-postes" placeholder="ex: Préparateur physique – FC 105 – 2019 à 2022">${_ta(p.postes)}</textarea></div>`;
+    h+=`<div class="form-group"><label>Programmes et événements (un par ligne)</label><textarea id="edit-exp-particip" placeholder="ex: Stage DTN – Formateur – 2021">${_ta(p.participations)}</textarea></div>`;
+    h+=`<div class="form-group"><label class="cb-inline"><input type="checkbox" id="edit-exp-dispo" ${p.disponibleFormation?'checked':''}> Disponible pour d'autres formations</label></div>`;
+    h+=`<div class="form-group"><label>Zone d'intervention</label><div class="gfc-chk-grid">${_cb('edit-exp-zone',_X.ZONES,_zn)}</div></div>`;
+    h+=`<div class="form-group"><label>Réseaux sociaux ou site (facultatif)</label><input type="text" id="edit-exp-liens" value="${_q(p.liensSociaux)}"></div>`;
+  }
   if(p.role==='formateur'){
     h+=`<div class="section-divider" style="border-color:#a21caf;">🧑‍🏫 Profil formateur</div>`;
     h+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
@@ -6250,6 +6295,27 @@ async function saveProfile(){
       bio:(document.getElementById('edit-anc-bio')?.value.trim()||'').slice(0,500),
       palmares:document.getElementById('edit-anc-palmares')?.value.trim()||'',
       faitsMarquants:document.getElementById('edit-anc-faits')?.value.trim()||'',
+    });
+  }
+  if(p.role==='expert'){
+    const _g=id=>document.getElementById(id);
+    const _chk=n=>[].slice.call(document.querySelectorAll('input[name="'+n+'"]:checked')).map(e=>e.value);
+    const _ln=id=>((_g(id)&&_g(id).value)||'').split(/\n+/).map(s=>s.trim()).filter(Boolean).slice(0,15);
+    const _sp=_chk('edit-exp-spec');
+    const _dp=!!(_g('edit-exp-dispo')&&_g('edit-exp-dispo').checked);
+    Object.assign(updates,{
+      specialites:_sp.length?_sp:(Array.isArray(p.specialites)?p.specialites:[]),
+      autreSpecialite:(_sp.indexOf('autre')>=0)?((_g('edit-exp-autre')&&_g('edit-exp-autre').value.trim())||''):'',
+      niveauExperience:(_g('edit-exp-niveau')&&_g('edit-exp-niveau').value)||'',
+      niveauDiplome:(_g('edit-exp-diplome')&&_g('edit-exp-diplome').value.trim())||'',
+      titrePrincipal:(_g('edit-exp-titre')&&_g('edit-exp-titre').value.trim())||'',
+      resumeParcours:((_g('edit-exp-resume')&&_g('edit-exp-resume').value.trim())||'').slice(0,600),
+      diplomes:_ln('edit-exp-diplomes'),
+      postes:_ln('edit-exp-postes'),
+      participations:_ln('edit-exp-particip'),
+      disponibleFormation:_dp,
+      zonesFormation:_dp?_chk('edit-exp-zone'):[],
+      liensSociaux:(_g('edit-exp-liens')&&_g('edit-exp-liens').value.trim())||''
     });
   }
   if(p.role==='formateur'){
