@@ -188,7 +188,7 @@
   async function uiCreate(uid) {
     const user = _users.find(u => u.uid === uid);
     if (!user) return;
-    if (!confirm(`Créer une fiche structure pour "${user.nomOrganisation || user.email}" ?`)) return;
+    if (!confirm(`Créer une fiche structure pour "${(window.gfcName ? window.gfcName(user) : user.nomOrganisation) || user.email}" ?`)) return;
     await createStructureFromUser(user);
     await refresh();
   }

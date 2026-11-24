@@ -2251,7 +2251,7 @@ body::before{z-index:-1!important;pointer-events:none!important}
       <div class="msection">
         <div class="msection-title">⚽ Équipes</div>
         <div class="grid2">
-          <div class="field"><label>Équipe domicile</label><input type="text" id="match-home" placeholder="GSC" value="GSC"></div>
+          <div class="field"><label>Équipe domicile</label><input type="text" id="match-home" placeholder="Équipe domicile" value=""></div>
           <div class="field"><label>Équipe visiteur</label><input type="text" id="match-away" placeholder="Adversaire"></div>
         </div>
       </div>
@@ -2534,7 +2534,7 @@ document.addEventListener('DOMContentLoaded', function(){
   }
   function indivFullName(u) {
     if (typeof window.AdminController_fullName === 'function') return window.AdminController_fullName(u);
-    return ((u.prenom || '') + ' ' + (u.nom || '')).trim() || u.nomOrganisation || u.nomEtablissement || u.name || 'Sans nom';
+    return (window.gfcName ? window.gfcName(u) : ((u.prenom || '') + ' ' + (u.nom || '')).trim() || u.nomOrganisation || u.nomEtablissement) || u.name || 'Sans nom';
   }
   function indivGscId(u) {
     return u.gscId || (window.gscGenerateId ? window.gscGenerateId(u.uid || u.id, u.role || 'joueur') : '—');
@@ -4847,7 +4847,7 @@ document.addEventListener('DOMContentLoaded', function(){
 <script src="gsc-actor-profile-editor.js" defer></script>
 <script src="guide-widget.js" defer></script>
 <script src="gsc-pwd-eye.js" defer></script>
-<script src="gsc-doc-reception.js?v=202610241656" defer></script>
+<script src="gsc-doc-reception.js?v=202611241113" defer></script>
 <script src="gsc-qr-fix.js" defer></script>
 <script src="gsc-admin-role-badges.js"></script>
 <script src="timeline-competitions.js"></script>

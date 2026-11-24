@@ -185,7 +185,7 @@
   }
 
   function actorName(u, priv) {
-    return [u.prenom, u.nom].filter(Boolean).join(' ') || u.nomOrganisation || (priv && priv.email) || u.email || 'Sans nom';
+    return (window.gfcName ? window.gfcName(u) : [u.prenom, u.nom].filter(Boolean).join(' ') || u.nomOrganisation) || (priv && priv.email) || u.email || 'Sans nom';
   }
 
   let _allRows = [];

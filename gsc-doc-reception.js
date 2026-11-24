@@ -73,7 +73,7 @@
           .map(k => __str(u[k])).find(Boolean) ||
           Object.keys(u).filter(k => /^(nom|prenom|name|display|full)/i.test(k) && k !== 'nomOrganisation')
             .map(k => __str(u[k])).filter(Boolean).slice(0, 2).join(' ');
-        const name = [u.prenom, u.nom].filter(Boolean).join(' ') || __alt || u.nomOrganisation || u.email || s.id;
+        const name = (window.gfcName ? window.gfcName(u) : [u.prenom, u.nom].filter(Boolean).join(' ') || __alt || u.nomOrganisation) || u.email || s.id;
         docs.forEach(d => {
           if (!d || !d.url) return;
           const key = docKey(d.url);

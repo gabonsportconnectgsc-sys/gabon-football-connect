@@ -44,7 +44,7 @@
 
   /* ---- Lien avec un compte inscrit (ID dans l'app) ---- */
   function actorUid(a) { return a.uid || a.id; }
-  function actorName(a) { return [a.prenom, a.nom, a.nomOrganisation].filter(Boolean).join(' '); }
+  function actorName(a) { return window.gfcName ? window.gfcName(a) : [a.prenom, a.nom, a.nomOrganisation].filter(Boolean).join(' '); }
   function computedId(a) {
     try {
       return a.gscId || (typeof window.generateGscId === 'function'

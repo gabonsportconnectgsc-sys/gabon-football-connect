@@ -157,7 +157,7 @@
   function esc(s) { return (s || '').toString().replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
   function roleLabel(r) { return ROLE_LABELS[r] || r || 'Autre'; }
   function actorName(u) {
-    return [u.prenom, u.nom].filter(Boolean).join(' ') || u.nomOrganisation || (u.email ? u.email.split('@')[0] : '') || 'Sans nom';
+    return (window.gfcName ? window.gfcName(u) : [u.prenom, u.nom].filter(Boolean).join(' ') || u.nomOrganisation) || (u.email ? u.email.split('@')[0] : '') || 'Sans nom';
   }
 
   // Réutilise la normalisation déjà écrite dans structures-contact-links.js

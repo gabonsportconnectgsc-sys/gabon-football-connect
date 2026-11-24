@@ -193,7 +193,7 @@
   let currentPlayerId = null, currentMatchId = null;
 
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
-  function fullName(u) { return (/^(club|association|federation|organisateur|ligue|ecole_universite)$/.test(u.role || '') && u.nomOrganisation) || ((u.prenom || '') + ' ' + (u.nom || '')).trim() || u.nomOrganisation || u.nomEtablissement || u.name || u.nomComplet || u.fullName || u.displayName || u.pseudo || 'Sans nom'; }
+  function fullName(u) { return (window.gfcName && window.gfcName(u)) || (/^(club|association|federation|organisateur|ligue|ecole_universite)$/.test(u.role || '') && u.nomOrganisation) || ((u.prenom || '') + ' ' + (u.nom || '')).trim() || u.nomOrganisation || u.nomEtablissement || u.name || u.nomComplet || u.fullName || u.displayName || u.pseudo || 'Sans nom'; }
 
   // Trie une liste d'acteurs en faisant systématiquement remonter les fiches
   // "en attente de validation" en tête (les plus anciennes d'abord parmi elles),

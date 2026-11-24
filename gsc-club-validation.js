@@ -272,7 +272,7 @@
     try { info = JSON.parse(raw); } catch (e) { sessionStorage.removeItem(SS_KEY); return; }
 
     const p = window.userProfile || {};
-    const name = [p.prenom, p.nom].filter(Boolean).join(' ') || p.nomOrganisation || '';
+    const name = (window.gfcName ? window.gfcName(p) : [p.prenom, p.nom].filter(Boolean).join(' ') || p.nomOrganisation) || '';
     // Lien fiable structure ↔ propriétaire (fiche Firestore "live" avec un
     // addedBy connu) — permet à la structure de valider elle-même sans
     // passer par l'admin (voir règle clubValidationRequests/{uid}).
