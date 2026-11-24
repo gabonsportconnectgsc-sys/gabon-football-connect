@@ -4,6 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>GFC Admin</title>
+<script>/* gfc-name */
+const GFC_ORG_ROLES=['club','association','federation','organisateur','ligue','ecole_universite'];window.GFC_ORG_ROLES=GFC_ORG_ROLES;
+function gfcName(u){
+  if(!u) return '';
+  const r=u.role||'', org=(u.nomOrganisation||u.nomEtablissement||'').trim();
+  if(GFC_ORG_ROLES.includes(r)&&org) return org;
+  const ps=(u.pseudo||'').trim();
+  if(ps) return ps;
+  return [u.prenom,u.nom].filter(Boolean).join(' ').trim()||org;
+}
+window.gfcName=gfcName; window.gscName=gfcName;
+</script>
 
 <!-- ══ PWA — manifest + icône d'app (identique à index.html) ══
      Sans ce lien, admin.html ne peut pas être installé comme app et
@@ -35,6 +47,9 @@
 <script src="gsc-notifications.js"></script>
 <script src="gsc-nav-badges.js"></script>
 <script src="gsc-roster-admin.js"></script>
+<script src="gsc-ligue-manager.js"></script>
+<script src="gsc-ligue-competitions.js"></script>
+<script src="gsc-ligue-admin.js"></script>
 <script src="gsc-admin-hub.js"></script>
 
 <!-- Chart.js (requis par l'onglet Rapports) -->
@@ -913,6 +928,9 @@ body::before{z-index:-1!important;pointer-events:none!important}
         <button class="nav-item" id="nav-role-federation" onclick="window.gscGoToFiltered&&window.gscGoToFiltered({roles:'federation',title:'Fédérations'})">
           <span class="nav-icon">🏛️</span><span>Fédérations</span><span class="nav-badge-count" id="nav-count-federation" style="display:none;"></span>
         </button>
+        <button class="nav-item" id="nav-role-ligue" onclick="window.gscGoToFiltered&&window.gscGoToFiltered({roles:'ligue',title:'Les Ligues'})">
+          <span class="nav-icon">🏆</span><span>Les Ligues</span><span class="nav-badge-count" id="nav-count-ligue" style="display:none;"></span>
+        </button>
         <button class="nav-item" id="nav-role-organisateur" onclick="window.gscGoToFiltered&&window.gscGoToFiltered({roles:'organisateur',title:'Organisateurs'})">
           <span class="nav-icon">🎪</span><span>Organisateurs</span><span class="nav-badge-count" id="nav-count-organisateur" style="display:none;"></span>
         </button>
@@ -1159,6 +1177,12 @@ body::before{z-index:-1!important;pointer-events:none!important}
                 <div class="tile-name">Fédérations</div>
               <div class="tile-catnum" style="font-size:10px;opacity:.75;margin-top:2px;">N° 011</div>
               </div>
+<div class="role-tile clickable" style="background:linear-gradient(135deg,#0f766e,#115e59)" onclick="window.gscGoToFiltered({roles:'ligue', title:'Les Ligues'})">
+                <div class="tile-icon">🏆</div>
+                <div class="tile-count" id="rc-ligue">—</div>
+                <div class="tile-name">Les Ligues</div>
+              <div class="tile-catnum" style="font-size:10px;opacity:.75;margin-top:2px;">N° 017</div>
+              </div>
               <div class="role-tile clickable" style="background:linear-gradient(135deg,#e11d48,#fb7185)" onclick="window.gscGoToFiltered({roles:'association', title:'Associations'})">
                 <div class="tile-icon">🤝</div>
                 <div class="tile-count" id="rc-association">—</div>
@@ -1248,7 +1272,7 @@ body::before{z-index:-1!important;pointer-events:none!important}
           <button class="filter-btn role-entraineur">📋 Entraîneurs</button>
           <button class="filter-btn role-arbitre">🟨 Arbitres</button>
           <button class="filter-btn role-club">🏟️ Clubs</button>
-          <button class="filter-btn role-federation">🏛️ Fédérations</button>
+          <button class="filter-btn role-federation">🏛️ Fédérations</button><button class="filter-btn role-ligue">🏆 Les Ligues</button>
           <button class="filter-btn role-association">🤝 Associations</button>
           <button class="filter-btn role-organisateur">🎪 Organisateurs</button>
           <button class="filter-btn role-supporter">💗 Supporters</button>
@@ -1314,7 +1338,7 @@ body::before{z-index:-1!important;pointer-events:none!important}
           <button class="filter-btn role-arbitre" data-phfilter="arbitre">🟨 Arbitres</button>
           <button class="filter-btn role-entraineur" data-phfilter="entraineur">📋 Entraîneurs</button>
           <button class="filter-btn role-club" data-phfilter="club">🏟️ Clubs</button>
-          <button class="filter-btn role-federation" data-phfilter="federation">🏛️ Fédérations</button>
+          <button class="filter-btn role-federation" data-phfilter="federation">🏛️ Fédérations</button><button class="filter-btn role-ligue" data-phfilter="ligue">🏆 Les Ligues</button>
           <button class="filter-btn role-association" data-phfilter="association">🤝 Associations</button>
           <button class="filter-btn role-organisateur" data-phfilter="organisateur">🎪 Organisateurs</button>
           <button class="filter-btn role-supporter" data-phfilter="supporter">💗 Supporters</button>
@@ -1906,7 +1930,7 @@ body::before{z-index:-1!important;pointer-events:none!important}
           <button class="filter-btn role-entraineur">📋 Entraîneurs</button>
           <button class="filter-btn role-arbitre">🟨 Arbitres</button>
           <button class="filter-btn role-club">🏟️ Clubs</button>
-          <button class="filter-btn role-federation">🏛️ Fédérations</button>
+          <button class="filter-btn role-federation">🏛️ Fédérations</button><button class="filter-btn role-ligue">🏆 Les Ligues</button>
           <button class="filter-btn role-association">🤝 Associations</button>
           <button class="filter-btn role-organisateur">🎪 Organisateurs</button>
           <button class="filter-btn role-supporter">💗 Supporters</button>
@@ -2375,7 +2399,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
   const ROLE_LABELS = {
     joueur: '⚽ Joueur', athlete: '🏃 Athlète', entraineur: '📋 Entraîneur', arbitre: '🟨 Arbitre',
-    club: '🏟️ Club', federation: '🏛️ Fédération', association: '🤝 Association', admin: '⚙️ Administrateur',
+    club: '🏟️ Club', federation: '🏛️ Fédération', ligue: '🏆 Ligue', association: '🤝 Association', admin: '⚙️ Administrateur',
     organisateur: '🎪 Organisateur', supporter: '💗 Supporter', independant: '🚴 Indépendant',
     eleve_etudiant: '🎓 Élève / Étudiant', gabonais_diaspora: '🇬🇦 Footballeur gabonais de l’étranger', sportif_etranger: '🌍 Footballeur étranger', handisport: '🦾 Footballeur handisport',
     ancien_sportif: '🎖️ Ancien footballeur', ecole_universite: '🏫 École / Université', formateur: '🧑‍🏫 Formateur'
@@ -2573,7 +2597,7 @@ document.addEventListener('DOMContentLoaded', function(){
     const statusKey = u.status || 'active';
     const HS_CAT_LABELS_RPT = {visuelle:'👁️ Déficience visuelle',auditive:'👂 Déficience auditive',motrice_amputation:'🦵 Amputation / déficience des membres',motrice_paralysie:'🧠 Paralysie cérébrale / lésion cérébrale',motrice_moelle:'🦽 Lésion médullaire',motrice_autre:'🚶 Autre déficience motrice',intellectuelle:'🧩 Déficience intellectuelle',multiple:'➕ Déficiences multiples',autre:'📋 Autre'};
     const isHandisportRpt = u.role === 'handisport';
-    const isOrgRpt = ['club','federation','association','organisateur'].includes(u.role);
+    const isOrgRpt = ['club','federation','association','organisateur','ligue'].includes(u.role);
     const BALL_TEAM_SPORTS_DOSSIER = ['Football','Basketball','Handball','Volleyball','Rugby'];
     const isBallPlayerRpt = u.role === 'joueur' && BALL_TEAM_SPORTS_DOSSIER.includes(u.sport);
     body.innerHTML = `
@@ -3139,7 +3163,7 @@ document.addEventListener('DOMContentLoaded', function(){
   // public ou depuis l'admin.
   const ROLE_CODES_QR = {
     joueur: 'JOU', athlete: 'ATH', arbitre: 'ARB', entraineur: 'ENT', club: 'CLB',
-    association: 'ASS', federation: 'FED', independant: 'IND',
+    association: 'ASS', federation: 'FED', ligue: 'LIG', independant: 'IND',
     admin: 'ADM', supporter: 'SUP', organisateur: 'ORG',
     eleve_etudiant: 'ELE', gabonais_diaspora: 'DIA', sportif_etranger: 'ETR', handisport: 'HAN', ancien_sportif: 'ASP', ecole_universite: 'ECU', formateur: 'FOR'
   };
@@ -3148,12 +3172,12 @@ document.addEventListener('DOMContentLoaded', function(){
     joueur:'001', athlete:'002', arbitre:'003', entraineur:'004', independant:'005',
     eleve_etudiant:'006', gabonais_diaspora:'091', sportif_etranger:'007', handisport:'008', ancien_sportif:'009',
     club:'010', federation:'011', association:'012', organisateur:'013',
-    formateur:'014', supporter:'015', admin:'016',
+    formateur:'014', supporter:'015', admin:'016', ligue:'017',
     ecole_universite:'006' // fusionné avec Élève/Étudiant : sous-type, pas une catégorie à part
   };
   const ROLE_LABELS_QR = {
     joueur: '⚽ Joueur', athlete: '🏃 Athlète', entraineur: '📋 Entraîneur', arbitre: '🟨 Arbitre',
-    club: '🏟️ Club', federation: '🏛️ Fédération', association: '🤝 Association', admin: '⚙️ Administrateur',
+    club: '🏟️ Club', federation: '🏛️ Fédération', ligue: '🏆 Ligue', association: '🤝 Association', admin: '⚙️ Administrateur',
     organisateur: '🎪 Organisateur', supporter: '💗 Supporter', independant: '🚴 Indépendant',
     eleve_etudiant: '🎓 Élève / Étudiant', gabonais_diaspora: '🇬🇦 Footballeur gabonais de l’étranger', sportif_etranger: '🌍 Footballeur étranger', handisport: '🦾 Footballeur handisport',
     ancien_sportif: '🎖️ Ancien footballeur', ecole_universite: '🏫 École / Université', formateur: '🧑‍🏫 Formateur'
@@ -3257,7 +3281,7 @@ document.addEventListener('DOMContentLoaded', function(){
     const printBtn = document.getElementById('modal-qr-print-btn');
     const dlBtn = document.getElementById('modal-qr-download-btn');
     if (printBtn) printBtn.onclick = () => {
-      const name = [user.prenom, user.nom, user.nomOrganisation].filter(Boolean).join(' ') || uid.slice(0, 8);
+      const name = gfcName(user) || uid.slice(0, 8);
       const w = window.open('', '_blank');
       w.document.write(`<html><head><title>QR GSC — ${name}</title></head><body style="text-align:center;font-family:sans-serif;padding:40px;">
         <div style="font-size:13px;font-weight:800;letter-spacing:1px;margin-bottom:6px;">GABON FOOTBALL CONNECT</div>
@@ -3270,7 +3294,7 @@ document.addEventListener('DOMContentLoaded', function(){
       setTimeout(() => w.print(), 300);
     };
     if (dlBtn) dlBtn.onclick = async () => {
-      const name = [user.prenom, user.nom, user.nomOrganisation].filter(Boolean).join(' ').replace(/\s+/g, '_') || uid.slice(0, 8);
+      const name = (gfcName(user) || '').replace(/\s+/g, '_') || uid.slice(0, 8);
       const qrUrl = canvas.dataset.qrImgUrl;
       if (!qrUrl) return;
       try {
@@ -3321,7 +3345,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
   function showResult(user) {
     qrScanLastUser = user;
-    const name = [user.prenom, user.nom, user.nomOrganisation].filter(Boolean).join(' ') || user.email || '—';
+    const name = gfcName(user) || user.email || '—';
     const role = user.role || 'joueur';
     document.getElementById('qrscan-result-name').textContent = name;
     document.getElementById('qrscan-result-role').textContent = ROLE_LABELS_QR[role] || role;
@@ -3462,7 +3486,7 @@ document.addEventListener('DOMContentLoaded', function(){
         if (navJoueurs) navJoueurs.click();
         const search = document.getElementById('search-input');
         if (search) {
-          const name = [qrScanLastUser.prenom, qrScanLastUser.nom, qrScanLastUser.nomOrganisation].filter(Boolean).join(' ');
+          const name = GFC_ORG_ROLES.includes(qrScanLastUser.role) ? gfcName(qrScanLastUser) : [qrScanLastUser.prenom, qrScanLastUser.nom].filter(Boolean).join(' ');
           search.value = name;
           search.dispatchEvent(new Event('input', { bubbles: true }));
         }
@@ -3538,7 +3562,7 @@ document.addEventListener('DOMContentLoaded', function(){
    *  aussi pour 1, afin de ne rien perdre pendant la migration vers le
    *  nouveau module Structures.
    * ══════════════════════════════════════════════════════════════════ */
-  const ROLE_TYPE_LABELS = { club: 'Club', association: 'Association', federation: 'Fédération', organisateur: 'Organisateur' };
+  const ROLE_TYPE_LABELS = { club: 'Club', association: 'Association', federation: 'Fédération', ligue: '🏆 Ligue', organisateur: 'Organisateur' };
 
   async function computeUnifiedOrgCount(users, roles) {
     const orgUsers = users.filter(u => roles.includes(u.role));
@@ -3592,6 +3616,7 @@ document.addEventListener('DOMContentLoaded', function(){
       // Comptes harmonisés avec l'onglet Structures (voir computeUnifiedOrgCount)
       setText('rc-club', await computeUnifiedOrgCount(active, ['club']));
       setText('rc-federation', await computeUnifiedOrgCount(active, ['federation']));
+      setText('rc-ligue',countRole('ligue'));
       setText('rc-association', await computeUnifiedOrgCount(active, ['association']));
       setText('rc-organisateur', await computeUnifiedOrgCount(active, ['organisateur']));
       setText('rc-supporter',countRole('supporter'));
