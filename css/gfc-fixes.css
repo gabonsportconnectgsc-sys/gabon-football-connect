@@ -3,3 +3,9 @@
 .gsc-post-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%;}
 .gsc-post-menu-wrap{position:relative;z-index:3;}
 .gsc-post-menu-btn{font-size:22px;line-height:1;padding:4px 12px;min-width:44px;min-height:36px;}
+
+/* Bouton « Voir les effectifs » : style chrome identique a GSC, sans attendre l'injection JS */
+button.gsc-chrome-btn{display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;font-weight:700;color:#1f2937;border:1px solid #6b7480;border-radius:14px;background:linear-gradient(160deg,#fdfdfe 0%,#d5dae1 38%,#9aa3af 52%,#e9edf2 78%,#c4cad2 100%);box-shadow:inset 0 1px 0 #fff,inset 0 -2px 3px rgba(0,0,0,.18),0 3px 8px rgba(0,0,0,.28);text-shadow:0 1px 0 rgba(255,255,255,.8);}
+button.gsc-chrome-btn:active{transform:translateY(1px);}
+button.gsc-chrome-btn .gsc-chev{display:inline-block;transition:transform .3s;font-size:15px;}
+button.gsc-chrome-btn.open .gsc-chev{transform:rotate(180deg);}
