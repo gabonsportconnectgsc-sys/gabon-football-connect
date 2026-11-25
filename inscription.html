@@ -1511,6 +1511,7 @@ function sbError(e) {
     if (isAncienSportifRole && !ancPoste) {
                            errMsg('a-err','Veuillez indiquer votre poste / spécialité durant votre carrière.'); return; }
     if (selectedRole === 'expert' && !(window.GFC_EXPERT && window.GFC_EXPERT.data().specialites.length)) { alert('Expert : cochez au moins une spécialité.'); return; }
+    if (selectedRole === 'expert' && !(window.GSC_EXPERT && window.GSC_EXPERT.data().specialites.length)) { errMsg('a-err','Expert : cochez au moins une spécialité.'); return; }
     if (isFormateurRole && !forSpecialite) {
                            errMsg('a-err','Veuillez indiquer votre spécialité de formation.'); return; }
     if (!cgu)            { errMsg('a-err','Vous devez accepter les conditions d\'utilisation.'); return; }
@@ -1588,6 +1589,7 @@ function sbError(e) {
           }),
           ...((selectedRole === 'expert' && window.GFC_EXPERT) ? window.GFC_EXPERT.data() : {}),
           // Champs enrichis formateur (vides pour les autres rôles)
+          ...((selectedRole === 'expert' && window.GSC_EXPERT) ? window.GSC_EXPERT.data() : {}),
           ...(isFormateurRole && {
             specialiteFormation: forSpecialite, niveauFormateur: forNiveau,
             organismeCertificateur: forOrganisme, structureRattachement: forStructure,
@@ -1847,5 +1849,6 @@ function sbError(e) {
 </script>
 <script src="gsc-revendication.js"></script>
 <script src="gfc-expert.js?v=202611241313"></script>
+<script src="gsc-expert.js?v=1"></script>
 </body>
 </html>

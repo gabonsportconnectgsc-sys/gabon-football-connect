@@ -79,7 +79,8 @@
     ecole_universite: '🏫 École/Université',
     handisport: '🦾 Footballeur handisport',
     ancien_sportif: '🎖️ Ancien footballeur',
-    formateur: '🧑‍🏫 Formateur'
+    formateur: '🧑‍🏫 Formateur',
+    expert: '🎯 Expert'
   };
   /* ── Catégories d'acteurs pour la fiche modale (player-modal) ──────────────
      Le modal est partagé par TOUS les acteurs (personnes ET organisations).
@@ -112,17 +113,18 @@
     ecole_universite: '#059669',
     handisport: '#7c3aed',
     ancien_sportif: '#9f1239',
-    formateur: '#0284c7'
+    formateur: '#0284c7',
+    expert: '#0e7490'
   };
   const DASH_ROLES = [
     'joueur', 'athlete', 'entraineur', 'arbitre', 'club', 'federation', 'ligue', 'association',
     'organisateur', 'supporter', 'independant', 'eleve_etudiant',
-    'gabonais_diaspora', 'sportif_etranger', 'ecole_universite', 'handisport', 'ancien_sportif', 'formateur'
+    'gabonais_diaspora', 'sportif_etranger', 'ecole_universite', 'handisport', 'ancien_sportif', 'formateur', 'expert'
   ];
   const GROUP_ORDER = [
     'joueur', 'athlete', 'entraineur', 'arbitre', 'club', 'federation', 'ligue', 'association',
     'organisateur', 'independant', 'supporter', 'eleve_etudiant',
-    'gabonais_diaspora', 'sportif_etranger', 'ecole_universite', 'handisport', 'ancien_sportif', 'formateur'
+    'gabonais_diaspora', 'sportif_etranger', 'ecole_universite', 'handisport', 'ancien_sportif', 'formateur', 'expert'
   ];
   const NIVEAU_ORDER = ['International', 'National', 'Regional', 'Amateur'];
   const SECONDARY_GROUP_CONFIG = {
@@ -140,7 +142,8 @@
     handisport: { getKey: a => a.disciplineParaSport, label: v => '🦾 ' + v, fallback: 'Discipline non précisée' },
     ancien_sportif: { getKey: a => a.sport, label: v => '🎖️ ' + v, fallback: 'Discipline non précisée' },
     supporter: { getKey: a => a.club || a.ville, label: v => '💗 ' + v, fallback: 'Non précisé' },
-    formateur: { getKey: a => a.specialite || a.discipline, label: v => '🧑‍🏫 ' + v, fallback: 'Spécialité non précisée' }
+    formateur: { getKey: a => a.specialite || a.discipline, label: v => '🧑‍🏫 ' + v, fallback: 'Spécialité non précisée' },
+    expert: { getKey: a => (a.specialites || [])[0] || a.titrePrincipal, label: v => '🎯 ' + (window.GSC_EXPERT ? window.GSC_EXPERT.label(v) : v), fallback: 'Spécialité non précisée' }
   };
 
   function buildSecondaryGroups(list, role) {
@@ -1669,11 +1672,12 @@
       : `<span style="color:var(--danger);font-weight:700;">⚠️ ${withoutDocs.length}/${real.length} acteur(s) réel(s) n'ont AUCUN document archivé — à vérifier avant toute réinitialisation.</span>`;
   }
 
-  const DOC_CAT_ORDER = ['joueur','club','athlete','entraineur','arbitre','federation','ligue','association','organisateur','ecole_universite','formateur','eleve_etudiant','ancien_sportif','handisport','gabonais_diaspora','sportif_etranger','independant','supporter'];
+  const DOC_CAT_ORDER = ['joueur','club','athlete','entraineur','arbitre','federation','ligue','association','organisateur','ecole_universite','formateur', 'expert','eleve_etudiant','ancien_sportif','handisport','gabonais_diaspora','sportif_etranger','independant','supporter'];
   const DOC_CAT_LABELS = {
     joueur: '⚽ Joueurs', club: '🏟️ Clubs', athlete: '🏃 Athlètes', entraineur: '📋 Entraîneurs', arbitre: '🟨 Arbitres',
     federation: '🏛️ Fédérations', ligue: '🏆 Ligues', association: '🤝 Associations', organisateur: '🎪 Organisateurs', ecole_universite: '🏫 Écoles / Universités',
-    formateur: '🧑‍🏫 Formateurs', eleve_etudiant: '🎓 Élèves / Étudiants', ancien_sportif: '🎖️ Anciens footballeurs', handisport: '🦾 Footballeur handisport',
+    formateur: '🧑‍🏫 Formateurs',
+    expert: '🎯 Experts', eleve_etudiant: '🎓 Élèves / Étudiants', ancien_sportif: '🎖️ Anciens footballeurs', handisport: '🦾 Footballeur handisport',
     gabonais_diaspora: '🇬🇦 Gabonais de l’étranger', sportif_etranger: '🌍 Footballeurs étrangers', independant: '🚴 Footballeurs indépendants', supporter: '💗 Supporters', ligue: '🏆 Ligues',
     admin: '🛡️ Administrateurs', visiteur: '👁️ Visiteurs'
   };

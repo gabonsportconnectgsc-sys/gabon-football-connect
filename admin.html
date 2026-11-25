@@ -961,6 +961,9 @@ body::before{z-index:-1!important;pointer-events:none!important}
         <button class="nav-item" id="nav-role-formateur" onclick="window.gscGoToFiltered&&window.gscGoToFiltered({roles:'formateur',title:'Formateurs'})">
           <span class="nav-icon">🧑‍🏫</span><span>Formateurs</span><span class="nav-badge-count" id="nav-count-formateur" style="display:none;"></span>
         </button>
+<button class="nav-item" id="nav-role-expert" onclick="window.gscGoToFiltered&&window.gscGoToFiltered({roles:'expert',title:'Experts'})">
+          <span class="nav-icon">🎯</span><span>Experts</span><span class="nav-badge-count" id="nav-count-expert" style="display:none;"></span>
+        </button>
         <button class="nav-item" id="nav-photos">
           <span class="nav-icon">📸</span><span>Photos &amp; Logos</span>
         </button>
@@ -1243,6 +1246,12 @@ body::before{z-index:-1!important;pointer-events:none!important}
                 <div class="tile-name">Formateurs</div>
               <div class="tile-catnum" style="font-size:10px;opacity:.75;margin-top:2px;">N° 014</div>
               </div>
+<div class="role-tile clickable" style="background:linear-gradient(135deg,#0e7490,#155e75)" onclick="window.gscGoToFiltered({roles:'expert', title:'Experts'})">
+                <div class="tile-icon">🎯</div>
+                <div class="tile-count" id="rc-expert">—</div>
+                <div class="tile-name">Experts</div>
+              <div class="tile-catnum" style="font-size:10px;opacity:.75;margin-top:2px;">N° 018</div>
+              </div>
             </div>
           </div>
         </div>
@@ -1283,6 +1292,7 @@ body::before{z-index:-1!important;pointer-events:none!important}
           <button class="filter-btn role-handisport">🦾 Footballeurs handisport</button>
           <button class="filter-btn role-ancien_sportif">🎖️ Anciens footballeurs</button>
           <button class="filter-btn role-formateur">🧑‍🏫 Formateurs</button>
+<button class="filter-btn role-expert">🎯 Experts</button>
           <!-- NOUVEAU — bascule d'affichage, câblée par wirePlayerFilters()
                dans admin-controller.js?v=202611241115 (.display-mode-btn / data-mode).
                'grid' = tableau détaillé actuel, 'compact' = liste resserrée. -->
@@ -1348,6 +1358,7 @@ body::before{z-index:-1!important;pointer-events:none!important}
           <button class="filter-btn role-gabonais_diaspora" data-phfilter="gabonais_diaspora">🇬🇦 Footballeurs gabonais de l’étranger</button>
           <button class="filter-btn role-ancien_sportif" data-phfilter="ancien_sportif">🎖️ Anciens footballeurs</button>
           <button class="filter-btn role-formateur" data-phfilter="formateur">🧑‍🏫 Formateurs</button>
+<button class="filter-btn role-expert" data-phfilter="expert">🎯 Experts</button>
         </div>
         <p style="font-size:12px;color:var(--gray-txt);margin:-6px 0 14px;">
           Cliquez sur le cadre photo d'un acteur pour importer une image depuis le stockage du téléphone (admin). L'acteur pourra bientôt le faire lui-même depuis son profil.
@@ -1940,6 +1951,7 @@ body::before{z-index:-1!important;pointer-events:none!important}
           <button class="filter-btn role-gabonais_diaspora">🇬🇦 Footballeurs gabonais de l’étranger</button>
           <button class="filter-btn role-ancien_sportif">🎖️ Anciens footballeurs</button>
           <button class="filter-btn role-formateur">🧑‍🏫 Formateurs</button>
+<button class="filter-btn role-expert">🎯 Experts</button>
           <div class="search-box"><span>🔍</span><input type="text" id="doc-search-input" placeholder="Nom de l'acteur…"></div>
         </div>
         <div class="users-table-wrap">
@@ -3627,6 +3639,7 @@ document.addEventListener('DOMContentLoaded', function(){
       setText('rc-handisport',countRole('handisport'));
       setText('rc-ancien-sportif',countRole('ancien_sportif'));
       setText('rc-formateur',countRole('formateur'));
+      setText('rc-expert',countRole('expert'));
       // Tuile acteurs réels (non-démo)
       const reelEl=document.getElementById('rc-reels');
       if(reelEl) reelEl.textContent=snap.docs.filter(d=>!d.data().isDemo).length;
@@ -4883,5 +4896,6 @@ document.addEventListener('DOMContentLoaded', function(){
 </script>
 <script src="gsc-diaspora.js"></script>
 <script src="gfc-auth-override.js"></script>
+<script src="gsc-expert.js?v=1"></script>
 </body>
 </html>
