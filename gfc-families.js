@@ -2,7 +2,7 @@
 window.GFC_FAMILIES=[
   {id:'joueurs',label:'⚽ Joueurs',roles:['joueur','eleve_etudiant','independant','gabonais_diaspora','sportif_etranger','ancien_sportif','handisport']},
   {id:'encadrement',label:'📋 Encadrement',roles:['entraineur','arbitre','formateur','expert']},
-  {id:'organisations',label:'🏟️ Organisations',roles:['club','association','ligue','organisateur','ecole_universite']},
+  {id:'organisations',label:'🏟️ Organisations',roles:['club','association','ligue','organisateur','journaliste','ecole_universite']},
   {id:'instance',label:'🏛️ Instance',roles:['federation']},
   {id:'autres',label:'💗 Autres',roles:['supporter']}
 ];
