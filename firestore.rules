@@ -1,6 +1,11 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    match /gscBridge/{id} {
+      allow read: if true;
+      allow create, update, delete: if request.auth != null && isAdmin(request.auth.uid);
+    }
+
 
     function isActiveOrLegacy(uid) {
       let path = /databases/$(database)/documents/users/$(uid)/private/contact;
