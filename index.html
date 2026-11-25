@@ -10554,5 +10554,25 @@ window.gfcInFamily=function(u,fid){
 })();
 </script>
 <script src="gsc-ligue-effectifs.js"></script>
+<!-- gfc-scroll-liste -->
+<script>
+(function () {
+  function go() {
+    var v = document.getElementById('view-annuaire');
+    var g = document.getElementById('actors-grid');
+    if (!g || !v || !v.classList.contains('active')) return;
+    g.style.scrollMarginTop = '80px';
+    g.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  document.addEventListener('click', function (e) {
+    var c = e.target.closest && e.target.closest('.stat-card');
+    if (!c) return;
+    var oc = c.getAttribute('onclick') || '';
+    if (oc.indexOf("showView('annuaire')") < 0 || oc.indexOf('filterActors(') < 0) return;
+    setTimeout(go, 400);
+    setTimeout(go, 1200);
+  }, true);
+})();
+</script>
 </body>
 </html>
