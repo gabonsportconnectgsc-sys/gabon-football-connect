@@ -25,7 +25,10 @@
       "**/*.log",
       "**/*.md",
       "**/*.cjs",
-      "_archive/**"
+      "_archive/**",
+      "_archive_code_mort/**",
+      "_bak-effectifs2/**",
+      "*.log"
     ],
     "rewrites": [
       {

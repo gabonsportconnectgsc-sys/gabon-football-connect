@@ -465,6 +465,23 @@
           <div class="fg"><label>Palmarès / Certifications</label><textarea id="a-for-palmares" placeholder="ex: Certifié CAF B, formateur DTN depuis 2015…"></textarea></div>
           </div><!-- /section-3b-formateur -->
         </div>
+        <!-- Champs expert (specialites, parcours, disponibilite) -->
+        <div class="extra" id="ex-expert">
+          <div class="subsection">🎯 Profil expert</div>
+          <div class="fg"><label>Spécialités et domaines de compétences *</label><div id="a-exp-spec-box"></div><div class="form-hint">Cochez tout ce qui s'applique.</div></div>
+          <div class="fg" id="a-exp-autre-fg" style="display:none;"><label>Autre spécialité</label><input type="text" id="a-exp-autre" placeholder="Précisez"></div>
+          <div class="fg"><label>Titre ou fonction principale</label><input type="text" id="a-exp-titre" placeholder="ex: Entraîneur licence B CAF, préparateur physique…"></div>
+          <div class="fg"><label>Niveau d'expérience</label><select id="a-exp-niveau"><option value="">— Choisir —</option><option>Moins de 5 ans</option><option>5 à 10 ans</option><option>Plus de 10 ans</option></select></div>
+          <div class="fg"><label>Plus haut diplôme ou certification</label><select id="a-exp-diplome"><option value="">— Choisir —</option><option>Certificat ou attestation</option><option>Licence B CAF ou équivalent</option><option>Licence A CAF ou équivalent</option><option>Licence Pro CAF ou équivalent</option><option>Licence universitaire</option><option>Master</option><option>Doctorat</option><option>Autre</option></select></div>
+          <div class="fg"><label>Diplômes et certifications</label><textarea id="a-exp-diplomes" placeholder="Un par ligne : intitulé – organisme – année"></textarea></div>
+          <div class="fg"><label>Postes et fonctions (anciens ou actuels)</label><textarea id="a-exp-postes" placeholder="Un par ligne : fonction – structure – période"></textarea></div>
+          <div class="fg"><label>Programmes ou événements sportifs</label><textarea id="a-exp-particip" placeholder="Un par ligne : intitulé – rôle – année"></textarea></div>
+          <div class="fg"><label>Résumé du parcours (optionnel)</label><textarea id="a-exp-resume" placeholder="Présentez votre parcours en quelques lignes…"></textarea><div class="form-hint">Max 600 caractères</div></div>
+          <div class="fg"><label style="display:flex;align-items:center;gap:8px;"><input type="checkbox" id="a-exp-dispo"> Disponible pour d'autres formations</label></div>
+          <div class="fg" id="a-exp-zone-fg" style="display:none;"><label>Zone de disponibilité</label><div id="a-exp-zone-box"></div></div>
+          <div class="fg"><label>Lien (réseau social ou site, optionnel)</label><input type="text" id="a-exp-liens" placeholder="https://…"></div>
+          <div class="form-hint">Votre pièce d'identité, votre CV et vos diplômes sont à déposer ensuite dans vos documents. Votre fiche sera validée par l'administrateur.</div>
+        </div>
         <div id="a-err" class="err-msg"></div>
         <button class="btn-p" id="a-btn" onclick="saveProfileEdits()">💾 Enregistrer mes modifications</button>
       </div>
@@ -565,7 +582,7 @@
     association:'🤝 Association', eleve_etudiant:'🎓 Élève / Étudiant',
     handisport:'🦾 Sportif handisport', organisateur:'🎪 Organisateur',
     supporter:'💗 Supporter', gabonais_diaspora:'🇬🇦 Footballeur gabonais de l’étranger', sportif_etranger:'🌍 Footballeur étranger', ancien_sportif:'🎖️ Ancien footballeur',
-    formateur:'🧑‍🏫 Formateur'
+    formateur:'🧑‍🏫 Formateur', expert:'🎯 Expert'
   };
 
   const SPORTS_COLLECTIFS = ['Football'];
@@ -1050,6 +1067,7 @@
     toggleShow('ex-handisport', isHandisportRole);
     toggleShow('ex-ancien', isAncienSportifRole);
     toggleShow('ex-formateur', isFormateurRole);
+    toggleShow('ex-expert', role === 'expert');
     toggleShow('ex-etudiant-scol', isEtudiantRole);
 
     updateSportOptions(role);
@@ -1144,6 +1162,7 @@
       setVal('a-anc-faits', data.faitsMarquants);
     }
 
+    if ((typeof role !== 'undefined' && role === 'expert') || (typeof data !== 'undefined' && data && data.role === 'expert')) { try { gscExpertFill(data); } catch (e) { console.warn(e); } }
     if (isFormateurRole) {
       setVal('a-for-specialite', data.specialiteFormation);
       setVal('a-for-niveau', data.niveauFormateur);
@@ -1178,6 +1197,29 @@
     }
 
     show('s2a');
+  }
+
+  /*EXPERT-FILL*/
+  function gscExpertFill(d){
+    d = d || {};
+    var set=function(id,v){var e=document.getElementById(id); if(e) e.value=(v==null?'':v);};
+    var lst=function(a){return Array.isArray(a)?a.join('\n'):'';};
+    var tries=0;
+    (function go(){
+      var box=document.getElementById('a-exp-spec-box');
+      if(box && !box.firstChild && tries++<20){ setTimeout(go,250); return; }
+      set('a-exp-titre',d.titrePrincipal); set('a-exp-niveau',d.niveauExperience); set('a-exp-diplome',d.niveauDiplome);
+      set('a-exp-resume',d.resumeParcours); set('a-exp-diplomes',lst(d.diplomes)); set('a-exp-postes',lst(d.postes));
+      set('a-exp-particip',lst(d.participations)); set('a-exp-nbpart',d.nbParticipations); set('a-exp-pratique',d.pratiquant);
+      set('a-exp-liens',d.liensSociaux); set('a-exp-autre',d.autreSpecialite);
+      var sp=Array.isArray(d.specialites)?d.specialites:[];
+      [].forEach.call(document.querySelectorAll('#a-exp-spec-box input[type=checkbox]'),function(c){c.checked=sp.indexOf(c.value)>=0;});
+      var dp=document.getElementById('a-exp-dispo'); if(dp) dp.checked=!!d.disponibleFormation;
+      var zs=Array.isArray(d.zonesFormation)?d.zonesFormation:[];
+      [].forEach.call(document.querySelectorAll('#a-exp-zone-box input[type=checkbox]'),function(c){c.checked=zs.indexOf(c.value)>=0;});
+      var af=document.getElementById('a-exp-autre-fg'); if(af) af.style.display=sp.indexOf('autre')>=0?'':'none';
+      var zf=document.getElementById('a-exp-zone-fg'); if(zf) zf.style.display=(dp&&dp.checked)?'':'none';
+    })();
   }
 
   async function loadProfile() {
@@ -1359,6 +1401,7 @@
     if (isHandisportRole && !hsCategorie) { errMsg('a-err','Veuillez sélectionner votre type de déficience.'); return; }
     if (isEtudiantRole && !etablissement) { errMsg('a-err','Veuillez sélectionner votre université / établissement.'); return; }
     if (isAncienSportifRole && !ancPoste) { errMsg('a-err','Veuillez indiquer votre poste / spécialité durant votre carrière.'); return; }
+    if (role === 'expert' && !(window.GFC_EXPERT && window.GFC_EXPERT.data().specialites.length)) { errMsg('a-err','Expert : cochez au moins une spécialité.'); return; }
     if (isFormateurRole && !forSpecialite) { errMsg('a-err','Veuillez indiquer votre spécialité de formation.'); return; }
     if (!db || !_getDocs || !_query || !_collection || !_where) { errMsg('a-err','Service indisponible. Réessayez plus tard.'); return; }
 
@@ -1416,6 +1459,7 @@
           disponibiliteMentorat: ancMentorat,
           bio: ancBio, palmares: ancPalmares, faitsMarquants: ancFaits
         }),
+        ...((role === 'expert' && window.GFC_EXPERT) ? window.GFC_EXPERT.data() : {}),
         ...(isFormateurRole && {
           specialiteFormation: forSpecialite, niveauFormateur: forNiveau,
           organismeCertificateur: forOrganisme, structureRattachement: forStructure,
@@ -1449,6 +1493,7 @@
 
   loadProfile();
 </script>
+<script src="gfc-expert.js?v=202611241313"></script>
 <script src="gsc-diaspora.js"></script>
 </body>
 </html>
