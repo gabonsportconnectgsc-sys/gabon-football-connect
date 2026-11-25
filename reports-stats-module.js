@@ -237,7 +237,7 @@ window.reportsModule = (function () {
     chartInstances.resultsChart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ['Victoires GSC', 'Défaites', 'Matchs nuls'],
+        labels: ['Victoires GFC', 'Défaites', 'Matchs nuls'],
         datasets: [{
           label: 'Résultats',
           data: [stats.homeWins, stats.awayWins, stats.draws],
@@ -376,7 +376,7 @@ window.reportsModule = (function () {
   }
 
   function generateCSVContent(users, matches, stats) {
-    let csv = 'RAPPORT GSC — Export CSV\n';
+    let csv = 'RAPPORT GFC — Export CSV\n';
     csv += `Généré le: ${new Date().toLocaleString('fr-FR')}\n\n`;
 
     // Section Statistiques

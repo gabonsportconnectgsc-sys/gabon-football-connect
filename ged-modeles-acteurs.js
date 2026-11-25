@@ -10,7 +10,7 @@
     ['independant', '🚴 Footballeur indépendant'], ['supporter', '💗 Supporter']
   ];
   var ACCEPT = 'image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx';
-  var EMET = { organisation: 'Organisation', federation: 'Fédération', administration: 'Administration GSC' };
+  var EMET = { organisation: 'Organisation', federation: 'Fédération', administration: 'Administration GFC' };
   var all = [];
   var role = ROLES[0][0];
   var busy = false;

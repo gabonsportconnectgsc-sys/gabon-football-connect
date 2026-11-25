@@ -304,7 +304,7 @@
     const lat = document.getElementById('infra-lat')?.value;
     const lng = document.getElementById('infra-lng')?.value;
     if (!lat || !lng) { setInfraGeoHint('⚠️ Renseignez d\'abord la latitude/longitude (ou utilisez le GPS).', true); return; }
-    const nom = document.getElementById('infra-nom')?.value?.trim() || 'Infrastructure GSC';
+    const nom = document.getElementById('infra-nom')?.value?.trim() || 'Infrastructure GFC';
     const mapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
     const text = encodeURIComponent(`📍 ${nom} — Localisation : ${mapsUrl}`);
     window.open(`https://wa.me/?text=${text}`, '_blank');

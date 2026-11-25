@@ -5362,7 +5362,7 @@ function renderActors(actors){
               <div class="actor-type-dot ${roleKey}" title="${esc(roleName)}">${typeDotIcon}</div>
             </div>
             <div class="actor-name">${esc(name)}${demoTag}</div>
-            <div class="actor-gscid-pill" title="Identifiant GSC">${esc(gscId)}</div>
+            <div class="actor-gscid-pill" title="Identifiant GFC">${esc(gscId)}</div>
           </div>
           <div class="actor-card-body">
             <div style="margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
@@ -6793,8 +6793,8 @@ async function publishNews(){
   if(!title) return toast('Veuillez entrer un titre.','error');
   try{
     await ensureFirebaseAuthViaSupabase();
-    const ref=await addDoc(collection(db,'actualites'),{cat,title,excerpt,tag,date:'Aujourd\'hui',createdAt:serverTimestamp(),publishedBy:currentUser.uid,source:'GSC Admin'});
-    const newItem={id:ref.id,cat,title,excerpt,tag,date:'Aujourd\'hui',source:'GSC Admin'};
+    const ref=await addDoc(collection(db,'actualites'),{cat,title,excerpt,tag,date:'Aujourd\'hui',createdAt:serverTimestamp(),publishedBy:currentUser.uid,source:'GFC Admin'});
+    const newItem={id:ref.id,cat,title,excerpt,tag,date:'Aujourd\'hui',source:'GFC Admin'};
     newsDb.unshift(newItem);
     allNewsItems.unshift(newItem);
     renderNewsFiltered();
@@ -9085,7 +9085,7 @@ window.resetScoutFilters = resetScoutFilters;
       <div class="qr-scanner-frame"></div>
     </div>
     <canvas id="qr-scanner-canvas" style="display:none;"></canvas>
-    <div class="qr-scanner-status" id="qr-scanner-status">Pointez la caméra vers un QR Code GSC…</div>
+    <div class="qr-scanner-status" id="qr-scanner-status">Pointez la caméra vers un QR Code GFC…</div>
     <div class="qr-scanner-result" id="qr-scanner-result">
       <div class="qr-scanner-result-photo-wrap" id="qr-scanner-result-photo-wrap" onclick="openScanPhotoZoom()" title="Agrandir la photo pour vérification">
         <img id="qr-scanner-result-photo" alt="" style="display:none;">
@@ -9172,7 +9172,7 @@ function drawQrOnCanvas(canvas, text, size){
     ctx.fillStyle = '#fff'; ctx.fillRect(0,0,size,size);
     ctx.fillStyle = '#009E60'; ctx.font = `bold ${Math.floor(size*.09)}px monospace`;
     ctx.textAlign = 'center';
-    ctx.fillText('QR GSC', size/2, size/2 - 6);
+    ctx.fillText('QR GFC', size/2, size/2 - 6);
   };
   canvas.dataset.qrText = text; // dispo pour téléchargement/impression (voir downloadProfileQr)
   try{
@@ -9667,7 +9667,7 @@ async function openQrScanner(){
     const video = document.getElementById('qr-scanner-video');
     video.srcObject = _qrScannerStream;
     await video.play();
-    statusEl.textContent = 'Pointez la caméra vers un QR Code GSC…';
+    statusEl.textContent = 'Pointez la caméra vers un QR Code GFC…';
     _qrScannerScanning = true;
     _qrScannerRAF = requestAnimationFrame(qrScannerTick);
   }catch(e){
@@ -10092,7 +10092,7 @@ document.addEventListener('DOMContentLoaded', function(){
 </script>
 <script src="gsc-community.js"></script>
 
-<!-- ══ PWA INSTALL — Boutons "Installer GSC" (accueil + menu latéral + FAB flottant) ══ -->
+<!-- ══ PWA INSTALL — Boutons "Installer GFC" (accueil + menu latéral + FAB flottant) ══ -->
 <script>
 (function(){
   let deferredPrompt = null;

@@ -779,7 +779,7 @@
           Pour les contacts sans compte utilisateur (presse, support, partenaires…). Numéro au format
           local (ex : 077123456) ou international — l'indicatif Gabon (241) est ajouté automatiquement.
         </p>
-        <div class="gsc-wa-field"><label>Nom du contact</label><input type="text" id="gsc-wa-f-nom" placeholder="Ex: Presse GSC"></div>
+        <div class="gsc-wa-field"><label>Nom du contact</label><input type="text" id="gsc-wa-f-nom" placeholder="Ex: Presse GFC"></div>
         <div class="gsc-wa-field-row">
           <div class="gsc-wa-field"><label>Catégorie</label>
             <select id="gsc-wa-f-cat">${CATEGORIES.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join('')}</select>

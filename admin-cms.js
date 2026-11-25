@@ -283,7 +283,7 @@
         <div class="dash-card-title">👁️ Aperçu en direct</div>
         <p style="font-size:11px;color:#94a3b8;margin:-4px 0 12px;">Reproduction miniature — se met à jour pendant que vous changez les polices et tailles ci-dessus.</p>
         <div style="border:1px solid #e2e8f0;border-radius:14px;padding:18px;max-width:360px;background:#fff;">
-          <div id="cms-prev-h1" style="font-weight:800;color:#0A1628;margin-bottom:6px;">Bienvenue sur GSC</div>
+          <div id="cms-prev-h1" style="font-weight:800;color:#0A1628;margin-bottom:6px;">Bienvenue sur GFC</div>
           <div id="cms-prev-h2" style="font-weight:700;color:#0A1628;margin-bottom:8px;">Section Joueurs</div>
           <div id="cms-prev-body-text" style="color:#475569;margin-bottom:6px;">Voici un exemple de paragraphe affiché sur l'application, dans la police et la taille du corps de texte choisies.</div>
           <div id="cms-prev-small-text" style="color:#94a3b8;margin-bottom:10px;">Petite mention en bas de carte</div>
@@ -513,7 +513,7 @@
   // de l'app où chaque zone de texte est utilisée. Le texte ${''} est rempli en direct.
   const ZONE_TEXT_PREVIEWS = {
     'topnav-logo-text': function(t){ return `<div style="background:#0A1628;color:#fff;padding:8px 12px;border-radius:8px;font-size:11px;font-weight:800;display:inline-block;">🦅 ${t||'Gabon Football Connect'}</div>`; },
-    'hero-title': function(t){ return `<div style="background:linear-gradient(135deg,#0A1628,#1a2d4a);color:#fff;padding:14px;border-radius:10px;"><div style="font-size:16px;font-weight:800;">${t||'Bienvenue sur GSC'}</div></div>`; },
+    'hero-title': function(t){ return `<div style="background:linear-gradient(135deg,#0A1628,#1a2d4a);color:#fff;padding:14px;border-radius:10px;"><div style="font-size:16px;font-weight:800;">${t||'Bienvenue sur GFC'}</div></div>`; },
     'hero-subtitle': function(t){ return `<div style="background:linear-gradient(135deg,#0A1628,#1a2d4a);color:#cbd5e1;padding:14px;border-radius:10px;font-size:12px;">${t||'La plateforme du sport gabonais'}</div>`; },
     'dashboard-heading': function(t){ return `<div style="font-size:13px;font-weight:800;color:#0A1628;border-bottom:2px solid #009E60;display:inline-block;padding-bottom:4px;">${t||'Tableau de bord'}</div>`; },
     'card-titles': function(t){ return `<div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:10px;font-size:12px;font-weight:700;color:#0A1628;">${t||'Titre de la carte'}</div>`; },

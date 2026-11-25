@@ -116,7 +116,7 @@
   function authorName(profile) {
     if (window.gfcName && profile && profile.role) { const g = window.gfcName(profile); if (g) return g; }
     return [profile?.prenom, profile?.nom].filter(Boolean).join(' ').trim()
-      || profile?.nomOrganisation || profile?.email?.split('@')[0] || 'Membre GSC';
+      || profile?.nomOrganisation || profile?.email?.split('@')[0] || 'Membre GFC';
   }
 
   /* ── Accès à l'annuaire réel des acteurs (alimenté par index.html) ── */
@@ -1140,7 +1140,7 @@
       <div class="gsc-post-head">
         <div class="gsc-avatar${hasProfile ? ' clickable' : ''}" data-action="${post.authorPhoto ? 'view-photo' : 'view-profile'}" data-uid="${esc(post.authorId || '')}" data-photo="${esc(post.authorPhoto || '')}">${post.authorPhoto ? `<img src="${esc(post.authorPhoto)}" alt="">` : esc(initials(post.authorName))}</div>
         <div class="gsc-post-meta">
-          <div class="gsc-post-name${hasProfile ? ' clickable' : ''}" data-action="view-profile" data-uid="${esc(post.authorId || '')}">${esc(post.authorName || 'Membre GSC')}</div>
+          <div class="gsc-post-name${hasProfile ? ' clickable' : ''}" data-action="view-profile" data-uid="${esc(post.authorId || '')}">${esc(post.authorName || 'Membre GFC')}</div>
           <div class="gsc-post-sub">
             <span>🕐 ${timeAgo(post.createdAt)}</span>
             ${catInfo ? `<span class="gsc-post-cat-tag">${catInfo.icon} ${esc(catInfo.label)}</span>` : ''}
@@ -1197,7 +1197,7 @@
           <div class="gsc-comment" data-comment-id="${c.id}">
             <div class="gsc-avatar sm${cHasProfile ? ' clickable' : ''}" data-action="${c.authorPhoto ? 'view-photo' : 'view-profile'}" data-uid="${esc(c.authorId || '')}" data-photo="${esc(c.authorPhoto || '')}">${c.authorPhoto ? `<img src="${esc(c.authorPhoto)}" alt="">` : esc(initials(c.authorName))}</div>
             <div class="gsc-comment-body">
-              <div class="gsc-comment-name${cHasProfile ? ' clickable' : ''}" data-action="view-profile" data-uid="${esc(c.authorId || '')}">${esc(c.authorName || 'Membre GSC')}</div>
+              <div class="gsc-comment-name${cHasProfile ? ' clickable' : ''}" data-action="view-profile" data-uid="${esc(c.authorId || '')}">${esc(c.authorName || 'Membre GFC')}</div>
               <div class="gsc-comment-text">${renderTextWithMentions(c.text || '')}</div>
               <div class="gsc-comment-time">${timeAgo(c.createdAt)}</div>
             </div>
