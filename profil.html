@@ -482,6 +482,8 @@
           <div class="fg"><label>Lien (réseau social ou site, optionnel)</label><input type="text" id="a-exp-liens" placeholder="https://…"></div>
           <div class="form-hint">Votre pièce d'identité, votre CV et vos diplômes sont à déposer ensuite dans vos documents. Votre fiche sera validée par l'administrateur.</div>
         </div>
+<!-- Champs journaliste sportif -->
+<div class="extra" id="ex-journaliste"><div id="a-jou-root"></div></div>
         <div id="a-err" class="err-msg"></div>
         <button class="btn-p" id="a-btn" onclick="saveProfileEdits()">💾 Enregistrer mes modifications</button>
       </div>
@@ -582,7 +584,7 @@
     association:'🤝 Association', eleve_etudiant:'🎓 Élève / Étudiant',
     handisport:'🦾 Sportif handisport', organisateur:'🎪 Organisateur',
     supporter:'💗 Supporter', gabonais_diaspora:'🇬🇦 Footballeur gabonais de l’étranger', sportif_etranger:'🌍 Footballeur étranger', ancien_sportif:'🎖️ Ancien footballeur',
-    formateur:'🧑‍🏫 Formateur', expert:'🎯 Expert'
+    formateur:'🧑‍🏫 Formateur', expert:'🎯 Expert', journaliste:'📰 Journaliste sportif'
   };
 
   const SPORTS_COLLECTIFS = ['Football'];
@@ -1068,6 +1070,7 @@
     toggleShow('ex-ancien', isAncienSportifRole);
     toggleShow('ex-formateur', isFormateurRole);
     toggleShow('ex-expert', role === 'expert');
+    toggleShow('ex-journaliste', role === 'journaliste');
     toggleShow('ex-etudiant-scol', isEtudiantRole);
 
     updateSportOptions(role);
@@ -1163,6 +1166,7 @@
     }
 
     if ((typeof role !== 'undefined' && role === 'expert') || (typeof data !== 'undefined' && data && data.role === 'expert')) { try { gscExpertFill(data); } catch (e) { console.warn(e); } }
+    if ((typeof role !== 'undefined' && role === 'journaliste') || (typeof data !== 'undefined' && data && data.role === 'journaliste')) { try { window.JOURNALISTE && window.JOURNALISTE.fill(data); } catch (e) { console.warn(e); } }
     if (isFormateurRole) {
       setVal('a-for-specialite', data.specialiteFormation);
       setVal('a-for-niveau', data.niveauFormateur);
@@ -1402,6 +1406,7 @@
     if (isEtudiantRole && !etablissement) { errMsg('a-err','Veuillez sélectionner votre université / établissement.'); return; }
     if (isAncienSportifRole && !ancPoste) { errMsg('a-err','Veuillez indiquer votre poste / spécialité durant votre carrière.'); return; }
     if (role === 'expert' && !(window.GFC_EXPERT && window.GFC_EXPERT.data().specialites.length)) { errMsg('a-err','Expert : cochez au moins une spécialité.'); return; }
+    if (role === 'journaliste' && !(window.JOURNALISTE && window.JOURNALISTE.data().typesPresse.length)) { errMsg('a-err','Journaliste : cochez au moins un type de média.'); return; }
     if (isFormateurRole && !forSpecialite) { errMsg('a-err','Veuillez indiquer votre spécialité de formation.'); return; }
     if (!db || !_getDocs || !_query || !_collection || !_where) { errMsg('a-err','Service indisponible. Réessayez plus tard.'); return; }
 
@@ -1460,6 +1465,7 @@
           bio: ancBio, palmares: ancPalmares, faitsMarquants: ancFaits
         }),
         ...((role === 'expert' && window.GFC_EXPERT) ? window.GFC_EXPERT.data() : {}),
+        ...((role === 'journaliste' && window.JOURNALISTE) ? window.JOURNALISTE.data() : {}),
         ...(isFormateurRole && {
           specialiteFormation: forSpecialite, niveauFormateur: forNiveau,
           organismeCertificateur: forOrganisme, structureRattachement: forStructure,
@@ -1495,5 +1501,6 @@
 </script>
 <script src="gfc-expert.js?v=202611241313"></script>
 <script src="gsc-diaspora.js"></script>
+<script src="gfc-journaliste.js?v=1"></script>
 </body>
 </html>

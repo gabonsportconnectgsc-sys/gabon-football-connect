@@ -1687,7 +1687,7 @@ html .actor-compact-row .acr-qr{grid-column:3;grid-row:1/span 3;align-self:cente
             <option value="gabonais_diaspora">🇬🇦 Footballeur gabonais de l’étranger</option>
 <option value="sportif_etranger">🌍 Footballeur étranger</option>
             <option value="ancien_sportif">🎖️ Ancien footballeur</option>
-                        <option value="formateur">🧑‍🏫 Formateur</option><option value="expert">🎯 Expert</option>
+                        <option value="formateur">🧑‍🏫 Formateur</option><option value="expert">🎯 Expert</option><option value="journaliste">📰 Journaliste sportif</option>
           </select>
         </div>
         <div class="form-group" id="auth-register-sport-wrap">
@@ -1964,6 +1964,14 @@ html .actor-compact-row .acr-qr{grid-column:3;grid-row:1/span 3;align-self:cente
           <span style="font-size:46px;margin-bottom:14px;display:inline-block;align-self:flex-end;position:relative;z-index:2;">🎓</span>
           <div class="stat-val" id="stat-total-etudiants">—</div>
           <div class="stat-lbl" style="color:#e0e7ff;">Élèves / Étudiants</div>
+        </button>
+        <!-- Journalistes sportifs -->
+        <button class="stat-card" onclick="showView('annuaire');filterActors('journaliste')"
+          style="background:linear-gradient(135deg,#475569,#1e293b);padding:16px 12px;">
+          <img class="stat-wm" data-wm-role="journaliste" alt="" onload="this.classList.add('is-loaded')" onerror="this.classList.remove('is-loaded');this.removeAttribute('src')">
+          <span style="font-size:46px;margin-bottom:14px;display:inline-block;align-self:flex-end;position:relative;z-index:2;">📰</span>
+          <div class="stat-val" id="stat-total-journalistes">—</div>
+          <div class="stat-lbl" style="color:#e2e8f0;">Journalistes sportifs</div>
         </button>
 
         <!-- Footballeurs étrangers -->
@@ -2365,6 +2373,9 @@ html .actor-compact-row .acr-qr{grid-column:3;grid-row:1/span 3;align-self:cente
             <button class="actor-filter-btn" data-type="expert" onclick="filterActors('expert')" style="--abtn-color:#0e7490;">
               <span style="font-size:18px;line-height:1;">🎯</span>Experts
             </button>
+<button class="actor-filter-btn" data-type="journaliste" onclick="filterActors('journaliste')" style="--abtn-color:#475569;">
+              <span style="font-size:18px;line-height:1;">📰</span>Journalistes sportifs
+            </button>
           </div>
 
           <!-- CTA contextuel : "Ajouter un acteur dans cette catégorie" — visible pour les visiteurs
@@ -2689,7 +2700,7 @@ html .actor-compact-row .acr-qr{grid-column:3;grid-row:1/span 3;align-self:cente
               <option value="gabonais_diaspora">Footballeurs gabonais de l’étranger</option>
 <option value="sportif_etranger">Footballeur étranger</option>
               <option value="ancien_sportif">Ancien footballeur</option>
-                            <option value="formateur">Formateur</option><option value="expert">Expert</option>
+                            <option value="formateur">Formateur</option><option value="expert">Expert</option><option value="journaliste">Journaliste sportif</option>
               <option value="admin">Admin</option>
               <option value="supporter">💗 Supporters</option>
             </select>
@@ -3285,7 +3296,7 @@ html .actor-compact-row .acr-qr{grid-column:3;grid-row:1/span 3;align-self:cente
         <option value="gabonais_diaspora">🇬🇦 Footballeur gabonais de l’étranger</option>
 <option value="sportif_etranger">🌍 Footballeur étranger</option>
                 <option value="ancien_sportif">🎖️ Ancien footballeur</option>
-        <option value="formateur">🧑‍🏫 Formateur</option><option value="expert">🎯 Expert</option>
+        <option value="formateur">🧑‍🏫 Formateur</option><option value="expert">🎯 Expert</option><option value="journaliste">📰 Journaliste sportif</option>
         <option value="ecole_universite">🏫 École / Université</option>
         <option value="admin">⚙️ Admin</option>
       </select>
@@ -3370,13 +3381,13 @@ const ROLE_LABELS = {
   organisateur:'🎪 Organisateur', supporter:'💗 Supporter',
   eleve_etudiant:'🎓 Jeune footballeur / Étudiant', gabonais_diaspora:'🇬🇦 Footballeur gabonais de l’étranger', sportif_etranger:'🌍 Footballeur étranger',
   handisport:'🦾 Footballeur handisport', ancien_sportif:'🎖️ Ancien footballeur',
-  formateur:'🧑‍🏫 Formateur', expert:'🎯 Expert', ecole_universite:'🏫 École / Université'
+  formateur:'🧑‍🏫 Formateur', expert:'🎯 Expert', journaliste:'📰 Journaliste sportif', ecole_universite:'🏫 École / Université'
 };
 const ROLE_ICONS = {
   admin:'⚙️', federation:'🏛️', ligue:'🏆', club:'🏟️', association:'🤝',
   joueur:'⚽', arbitre:'🟨', entraineur:'📋', visiteur:'👁️', independant:'🧍',
   organisateur:'🎪', supporter:'💗', eleve_etudiant:'🎓', gabonais_diaspora:'🇬🇦', sportif_etranger:'🌍',
-  handisport:'🦾', ancien_sportif:'🎖️', formateur:'🧑‍🏫', expert:'🎯', ecole_universite:'🏫'
+  handisport:'🦾', ancien_sportif:'🎖️', formateur:'🧑‍🏫', expert:'🎯', journaliste:'📰', ecole_universite:'🏫'
 };
 
 // Établissements scolaires & universitaires reconnus (Gabon + structure d'accueil international)
@@ -4265,7 +4276,7 @@ async function onSupabaseSignedIn(user, extra){
       if(wasLoadError){ delete userProfile.status; delete userProfile.validationAdmin; }
       else{
         userProfile.status='active';
-        if(['club','association','federation','organisateur','ecole_universite','ligue','expert'].includes(userProfile.role)) userProfile.validationAdmin='pending';
+        if(['club','association','federation','organisateur','ecole_universite','ligue','expert','journaliste'].includes(userProfile.role)) userProfile.validationAdmin='pending';
         else delete userProfile.validationAdmin;
       }
     }catch(e){}
@@ -5021,6 +5032,8 @@ async function loadActors(){
   if(forEl) forEl.textContent=activeAll.filter(u=>u.role==='formateur').length;
   const expEl=document.getElementById('stat-total-experts');
   if(expEl) expEl.textContent=activeAll.filter(u=>u.role==='expert').length;
+  const jouEl=document.getElementById('stat-total-journalistes');
+  if(jouEl) jouEl.textContent=activeAll.filter(u=>u.role==='journaliste').length;
 }
 
 function gscLigueEditFields(p){
@@ -5094,7 +5107,7 @@ const ANNUAIRE_ADD_PHRASE = {
   organisateur:'un organisateur', independant:'un footballeur indépendant',
   association:'une association', eleve_etudiant:'un élève / étudiant',
   gabonais_diaspora:'un Gabonais de l’étranger', sportif_etranger:'un footballeur étranger', handisport:'un sportif handisport',
-  ancien_sportif:'un ancien footballeur', formateur:'un formateur', expert:'un expert', supporter:'un supporter'
+  ancien_sportif:'un ancien footballeur', formateur:'un formateur', expert:'un expert', journaliste:'un journaliste sportif', supporter:'un supporter'
 };
 
 function updateAnnuaireAddActorCta(){
@@ -5157,7 +5170,7 @@ const SECONDARY_GROUP_CONFIG={
   handisport:{ getKey:a=>a.disciplineParaSport, label:v=>'🦾 '+v, fallback:'Discipline non précisée' },
   ancien_sportif:{ getKey:a=>a.sport, label:v=>'🎖️ '+v, fallback:'Discipline non précisée' },
   formateur:{ getKey:a=>a.specialiteFormation, label:v=>'🧑‍🏫 '+v, fallback:'Spécialité non précisée' },
-  expert:{ getKey:a=>((window.GFC_EXPERT&&a.specialites&&a.specialites[0])?window.GFC_EXPERT.label(a.specialites[0]):''), label:v=>'🎯 '+v, fallback:'Spécialité non précisée' },
+  expert:{ getKey:a=>((window.GFC_EXPERT&&a.specialites&&a.specialites[0])?window.GFC_EXPERT.label(a.specialites[0]):''), label:v=>'🎯 '+v, fallback:'Spécialité non précisée' }, journaliste:{ getKey:a=>(a.typesPresse||[])[0]||a.mediaActuel, label:v=>'📰 '+(window.JOURNALISTE?window.JOURNALISTE.labelType(v):v), fallback:'Média non précisé' },
   supporter:{ getKey:a=>a.club||a.ville, label:v=>'💗 '+v, fallback:'Non précisé' }
 };
 
@@ -5212,8 +5225,8 @@ function renderActors(actors){
 
   if(isListMode){
     // ── MODE LISTE COMPACT ──
-    const ROLE_ICONS_MAP={joueur:'⚽',athlete:'🏃',arbitre:'🟨',entraineur:'📋',club:'🏟️',association:'🤝',federation:'🏛️', ligue:'🏆',independant:'🚴',organisateur:'🎪',admin:'⚙️',supporter:'💗',eleve_etudiant:'🎓',gabonais_diaspora:'🇬🇦', sportif_etranger:'🌍',handisport:'🦾',ancien_sportif:'🎖️',formateur:'🧑‍🏫', expert:'🎯',ecole_universite:'🏫'};
-    const ROLE_SHORT={joueur:'Joueur',athlete:'Athlète',arbitre:'Arbitre',entraineur:'Coach',club:'Club',association:'Asso.',federation:'Fédération', ligue:'🏆 Ligue',independant:'Indép.',organisateur:'Org.',supporter:'Supporter',admin:'Admin',eleve_etudiant:'Élève/Étud.',gabonais_diaspora:'Diaspora', sportif_etranger:'Étranger',handisport:'Handisport',ancien_sportif:'Ancien footballeur',formateur:'Formateur', expert:'Expert',ecole_universite:'École/Univ.'};
+    const ROLE_ICONS_MAP={joueur:'⚽',athlete:'🏃',arbitre:'🟨',entraineur:'📋',club:'🏟️',association:'🤝',federation:'🏛️', ligue:'🏆',independant:'🚴',organisateur:'🎪',admin:'⚙️',supporter:'💗',eleve_etudiant:'🎓',gabonais_diaspora:'🇬🇦', sportif_etranger:'🌍',handisport:'🦾',ancien_sportif:'🎖️',formateur:'🧑‍🏫', expert:'🎯', journaliste:'📰',ecole_universite:'🏫'};
+    const ROLE_SHORT={joueur:'Joueur',athlete:'Athlète',arbitre:'Arbitre',entraineur:'Coach',club:'Club',association:'Asso.',federation:'Fédération', ligue:'🏆 Ligue',independant:'Indép.',organisateur:'Org.',supporter:'Supporter',admin:'Admin',eleve_etudiant:'Élève/Étud.',gabonais_diaspora:'Diaspora', sportif_etranger:'Étranger',handisport:'Handisport',ancien_sportif:'Ancien footballeur',formateur:'Formateur', expert:'Expert', journaliste:'Journaliste',ecole_universite:'École/Univ.'};
 
     const renderRow=(a,idx)=>{
       const id=a.uid||a.id;
@@ -5249,8 +5262,8 @@ function renderActors(actors){
 
     if(groupAll){
       // Regroupement intelligent par rôle, ordre professionnel : Joueurs → Encadrement → Officiels → Organisations
-      const GROUP_ORDER=['joueur','athlete','entraineur','arbitre','eleve_etudiant','ecole_universite','gabonais_diaspora', 'sportif_etranger','handisport','ancien_sportif','formateur','expert','club','federation','association','organisateur','independant','supporter','admin'];
-      const GROUP_LABELS={expert:'🎯 Experts',joueur:'⚽ Joueurs',athlete:'🏃 Athlètes',entraineur:'📋 Entraîneurs',arbitre:'🟨 Arbitres',club:'🏟️ Clubs',federation:'🏛️ Fédérations', ligue:'🏆 Ligues',association:'🤝 Associations',organisateur:'🎪 Organisateurs',independant:'🚴 Indépendants',supporter:'💗 Supporters',admin:'⚙️ Administrateurs',eleve_etudiant:'🎓 Élèves / Étudiants',gabonais_diaspora:'🇬🇦 Footballeur gabonais de l’étranger', sportif_etranger:'🌍 Footballeurs étrangers',handisport:'🦾 Footballeurs handisport',ancien_sportif:'🎖️ Anciens footballeurs',formateur:'🧑‍🏫 Formateurs',ecole_universite:'🏫 Écoles / Universités'};
+      const GROUP_ORDER=['joueur','athlete','entraineur','arbitre','eleve_etudiant','ecole_universite','gabonais_diaspora', 'sportif_etranger','handisport','ancien_sportif','formateur','expert','journaliste','club','federation','association','organisateur','independant','supporter','admin'];
+      const GROUP_LABELS={expert:'🎯 Experts', journaliste:'📰 Journalistes sportifs',joueur:'⚽ Joueurs',athlete:'🏃 Athlètes',entraineur:'📋 Entraîneurs',arbitre:'🟨 Arbitres',club:'🏟️ Clubs',federation:'🏛️ Fédérations', ligue:'🏆 Ligues',association:'🤝 Associations',organisateur:'🎪 Organisateurs',independant:'🚴 Indépendants',supporter:'💗 Supporters',admin:'⚙️ Administrateurs',eleve_etudiant:'🎓 Élèves / Étudiants',gabonais_diaspora:'🇬🇦 Footballeur gabonais de l’étranger', sportif_etranger:'🌍 Footballeurs étrangers',handisport:'🦾 Footballeurs handisport',ancien_sportif:'🎖️ Anciens footballeurs',formateur:'🧑‍🏫 Formateurs',ecole_universite:'🏫 Écoles / Universités'};
       const buckets={};
       actors.forEach(a=>{ const r=a.role||'joueur'; (buckets[r]=buckets[r]||[]).push(a); });
       orderedActors=[];
@@ -5332,9 +5345,9 @@ function renderActors(actors){
       const name=gfcName(a)||(ROLE_LABELS[a.role]||a.role||'Profil');
       const initial=name[0]?.toUpperCase()||'?';
       const roleKey=a.role||'joueur';
-      const roleName={joueur:'Joueur',athlete:'Athlète',arbitre:'Arbitre',entraineur:'Entraîneur',club:'Club',association:'Association',federation:'Fédération', ligue:'🏆 Ligue',independant:'Footballeur indépendant',organisateur:'Organisateur',eleve_etudiant:'Élève / Étudiant',gabonais_diaspora:'Gabonais de l’étranger', sportif_etranger:'Footballeur étranger',handisport:'Footballeur handisport',ancien_sportif:'Ancien footballeur',formateur:'Formateur', expert:'Expert',ecole_universite:'École / Université'}[roleKey]||roleKey;
+      const roleName={joueur:'Joueur',athlete:'Athlète',arbitre:'Arbitre',entraineur:'Entraîneur',club:'Club',association:'Association',federation:'Fédération', ligue:'🏆 Ligue',independant:'Footballeur indépendant',organisateur:'Organisateur',eleve_etudiant:'Élève / Étudiant',gabonais_diaspora:'Gabonais de l’étranger', sportif_etranger:'Footballeur étranger',handisport:'Footballeur handisport',ancien_sportif:'Ancien footballeur',formateur:'Formateur', expert:'Expert', journaliste:'Journaliste',ecole_universite:'École / Université'}[roleKey]||roleKey;
       const badgeClass='badge-'+roleKey;
-      const typeIcons={joueur:'⚽',athlete:'🏃',arbitre:'🟨',entraineur:'📋',club:'🏟️',association:'🤝',federation:'🏛️', ligue:'🏆',independant:'🚴',organisateur:'🎪',eleve_etudiant:'🎓',gabonais_diaspora:'🇬🇦', sportif_etranger:'🌍',handisport:'🦾',ancien_sportif:'🎖️',formateur:'🧑‍🏫', expert:'🎯',ecole_universite:'🏫'};
+      const typeIcons={joueur:'⚽',athlete:'🏃',arbitre:'🟨',entraineur:'📋',club:'🏟️',association:'🤝',federation:'🏛️', ligue:'🏆',independant:'🚴',organisateur:'🎪',eleve_etudiant:'🎓',gabonais_diaspora:'🇬🇦', sportif_etranger:'🌍',handisport:'🦾',ancien_sportif:'🎖️',formateur:'🧑‍🏫', expert:'🎯', journaliste:'📰',ecole_universite:'🏫'};
       const typeDotIcon=typeIcons[roleKey]||'👤';
       const photoSrc=a.photoURL||(a.photo&&a.photo.startsWith('data:')?a.photo:null)||(localPhotos[id]||null)||(window.GSC_DEFAULT_AVATARS&&window.GSC_DEFAULT_AVATARS[roleKey])||null;
       const demoTag=a.isDemo?`<span title="Fiche de démonstration" style="font-size:9px;font-weight:800;color:#94a3b8;background:#f1f5f9;border-radius:8px;padding:1px 6px;margin-left:6px;letter-spacing:.3px;vertical-align:middle;">DÉMO</span>`:'';
@@ -5608,6 +5621,7 @@ function openActorDetail(uid){
     html+=`</div>`;
   }
   // Formateur — spécialité, certifications et disponibilité de formation
+  if(a.role==='journaliste'&&window.JOURNALISTE){ const _me=(typeof userProfile!=='undefined'&&userProfile)||{}; const _priv=!!_me.role&&(_me.role==='admin'||(!!_me.uid&&(_me.uid===a.uid||_me.uid===a.id))||(!!_me.id&&(_me.id===a.id||_me.id===a.uid))); html+=window.JOURNALISTE.ficheHtml(a,esc,_priv); }
   if(a.role==='expert'){
     const _X=window.GFC_EXPERT;
     const _q=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
@@ -5726,7 +5740,7 @@ function renderProfile(){
   if(becomeSuppCard) becomeSuppCard.style.display=(isPersonnel&&!isSupporter)?'':'none';
 
   // Gallery card — visible pour tous les membres inscrits (rôles acteurs du football)
-  const allActorRoles=['joueur','athlete','arbitre','entraineur','independant','eleve_etudiant','gabonais_diaspora', 'sportif_etranger','handisport','ancien_sportif','formateur','expert','club','association','federation','organisateur','ecole_universite'];
+  const allActorRoles=['joueur','athlete','arbitre','entraineur','independant','eleve_etudiant','gabonais_diaspora', 'sportif_etranger','handisport','ancien_sportif','formateur','expert','journaliste','club','association','federation','organisateur','ecole_universite'];
   const gallCard=document.getElementById('prof-gallery-card');
   if(gallCard){
     gallCard.style.display=(!isVisitor && allActorRoles.includes(p.role))?'':'none';
@@ -6105,6 +6119,7 @@ function buildEditForm(p){
   }
 
   // Profil Formateur — spécialité, certification, disponibilité
+  if(p.role==='journaliste'&&window.JOURNALISTE){ h+=window.JOURNALISTE.editHtml(p,esc); }
   if(p.role==='expert'){
     const _X=window.GFC_EXPERT||{SPEC:[],ZONES:[]};
     const _q=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
@@ -6313,6 +6328,7 @@ async function saveProfile(){
       faitsMarquants:document.getElementById('edit-anc-faits')?.value.trim()||'',
     });
   }
+  if(p.role==='journaliste'&&window.JOURNALISTE){ Object.assign(updates,window.JOURNALISTE.editRead()); }
   if(p.role==='expert'){
     const _g=id=>document.getElementById(id);
     const _chk=n=>[].slice.call(document.querySelectorAll('input[name="'+n+'"]:checked')).map(e=>e.value);
@@ -6892,7 +6908,7 @@ window.loadAdminActorsTab=loadAdminActorsTab;
 
 function updateAdminActorTiles(){
   const counts={tous:allActors.length, joueur:0, club:0, arbitre:0, entraineur:0, federation:0,
-    organisateur:0, independant:0, eleve_etudiant:0, gabonais_diaspora:0, sportif_etranger:0, ancien_sportif:0, formateur:0, expert:0, supporter:0};
+    organisateur:0, independant:0, eleve_etudiant:0, gabonais_diaspora:0, sportif_etranger:0, ancien_sportif:0, formateur:0, expert:0, journaliste:0, supporter:0};
   allActors.forEach(a=>{
     const r=a.role;
     if(r==='club'||r==='association') counts.club++;
@@ -6955,8 +6971,8 @@ function renderActorsAdmin(actors){
   let localPhotos={};
   try{const s=localStorage.getItem('gsc_profile_photos');if(s){const d=JSON.parse(s);localPhotos=d.photos||{};}}catch(e){}
 
-  const ROLE_ICONS_MAP={joueur:'⚽',athlete:'🏃',arbitre:'🟨',entraineur:'📋',club:'🏟️',association:'🤝',federation:'🏛️', ligue:'🏆',independant:'🚴',organisateur:'🎪',admin:'⚙️',supporter:'💗',eleve_etudiant:'🎓',gabonais_diaspora:'🇬🇦', sportif_etranger:'🌍',handisport:'🦾',ancien_sportif:'🎖️',formateur:'🧑‍🏫', expert:'🎯',ecole_universite:'🏫'};
-  const ROLE_SHORT={joueur:'Joueur',athlete:'Athlète',arbitre:'Arbitre',entraineur:'Coach',club:'Club',association:'Asso.',federation:'Fédération', ligue:'🏆 Ligue',independant:'Indép.',organisateur:'Org.',supporter:'Supporter',admin:'Admin',eleve_etudiant:'Élève/Étud.',gabonais_diaspora:'Diaspora', sportif_etranger:'Étranger',handisport:'Handisport',ancien_sportif:'Ancien footballeur',formateur:'Formateur', expert:'Expert',ecole_universite:'École/Univ.'};
+  const ROLE_ICONS_MAP={joueur:'⚽',athlete:'🏃',arbitre:'🟨',entraineur:'📋',club:'🏟️',association:'🤝',federation:'🏛️', ligue:'🏆',independant:'🚴',organisateur:'🎪',admin:'⚙️',supporter:'💗',eleve_etudiant:'🎓',gabonais_diaspora:'🇬🇦', sportif_etranger:'🌍',handisport:'🦾',ancien_sportif:'🎖️',formateur:'🧑‍🏫', expert:'🎯', journaliste:'📰',ecole_universite:'🏫'};
+  const ROLE_SHORT={joueur:'Joueur',athlete:'Athlète',arbitre:'Arbitre',entraineur:'Coach',club:'Club',association:'Asso.',federation:'Fédération', ligue:'🏆 Ligue',independant:'Indép.',organisateur:'Org.',supporter:'Supporter',admin:'Admin',eleve_etudiant:'Élève/Étud.',gabonais_diaspora:'Diaspora', sportif_etranger:'Étranger',handisport:'Handisport',ancien_sportif:'Ancien footballeur',formateur:'Formateur', expert:'Expert', journaliste:'Journaliste',ecole_universite:'École/Univ.'};
 
   const renderRow=(a,idx)=>{
     const id=a.uid||a.id;
@@ -10602,5 +10618,6 @@ content:'';flex:1;height:2px;border-radius:2px;background:linear-gradient(90deg,
 #view-dashboard .gfc-home-grid{margin-bottom:8px!important;row-gap:10px!important}
 #view-dashboard .gfc-home-fam .gfc-fam-title{margin:26px 0 12px!important}
 </style>
+<script src="gfc-journaliste.js?v=1"></script>
 </body>
 </html>

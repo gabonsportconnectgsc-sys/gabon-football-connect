@@ -5,7 +5,7 @@
   var ROLES = [
     ['joueur', '⚽ Joueur'], ['athlete', '🏃 Athlète'], ['entraineur', '📋 Entraîneur'], ['arbitre', '🟨 Arbitre'],
     ['club', '🏟️ Club'], ['association', '🤝 Association'], ['federation', '🏛️ Fédération'], ['organisateur', '🎪 Organisateur'],
-    ['ecole_universite', '🏫 École / Université'], ['formateur', '🧑‍🏫 Formateur'], ['expert', '🎯 Expert'], ['eleve_etudiant', '🎓 Élève / Étudiant'],
+    ['ecole_universite', '🏫 École / Université'], ['formateur', '🧑‍🏫 Formateur'], ['expert', '🎯 Expert'], ['journaliste', '📰 Journaliste sportif'], ['eleve_etudiant', '🎓 Élève / Étudiant'],
     ['ancien_sportif', '🎖️ Ancien footballeur'], ['handisport', '🦾 Footballeur handisport'], ['gabonais_diaspora', '🇬🇦 Footballeur gabonais de l’étranger'], ['sportif_etranger', '🌍 Footballeur étranger'],
     ['independant', '🚴 Footballeur indépendant'], ['supporter', '💗 Supporter']
   ];

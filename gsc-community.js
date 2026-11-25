@@ -63,6 +63,7 @@
     { key: 'ancien_sportif', icon: '🎖️', label: 'Anciens footballeurs', color: '#9f1239', colorDk: '#881337' },
     { key: 'formateur', icon: '🧑‍🏫', label: 'Formateurs', color: '#a21caf', colorDk: '#701a75' },
     { key: 'expert', icon: '🎯', label: 'Experts', color: '#0e7490', colorDk: '#155e75' },
+    { key: 'journaliste', icon: '📰', label: 'Journalistes sportifs', color: '#475569', colorDk: '#1e293b' },
     { key: 'ligue', icon: '🏆', label: 'Ligues', color: '#0f766e', colorDk: '#115e59' }
   ];
 

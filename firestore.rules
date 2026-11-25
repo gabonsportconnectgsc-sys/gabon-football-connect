@@ -66,7 +66,7 @@ service cloud.firestore {
         && (!('role' in request.resource.data) || request.resource.data.role != 'admin')
         && request.resource.data.get('validationAdmin', '') != 'validated'
         && (!('revendication' in request.resource.data) || request.resource.data.revendication.get('statut', '') == 'en_attente')
-        && (!(request.resource.data.get('role', '') in ['club', 'association', 'federation', 'organisateur', 'ecole_universite', 'ligue', 'expert'])
+        && (!(request.resource.data.get('role', '') in ['club', 'association', 'federation', 'organisateur', 'ecole_universite', 'ligue', 'expert', 'journaliste'])
             || (request.resource.data.get('validationAdmin', '') == 'pending'
                 && !request.resource.data.keys().hasAny(['ownerUid', 'ownerConfirmedAt', 'coGestionnaires'])
                 && !(request.resource.data.get('ownershipStatus', '') in ['owner_confirmed', 'owner_confirmed_auto'])));

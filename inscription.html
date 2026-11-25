@@ -217,6 +217,7 @@
           <div class="role-tile" data-role="gabonais_diaspora" onclick="pickRole('gabonais_diaspora',this)"><div class="rt-icon">🇬🇦</div><div class="rt-label">Gabonais footballeur à l’étranger</div><div class="rt-desc">Gabonais pratiquant hors du Gabon</div></div>
           <div class="role-tile" data-role="ancien_sportif" onclick="pickRole('ancien_sportif',this)"><div class="rt-icon">🎖️</div><div class="rt-label">Ancien footballeur</div><div class="rt-desc">Carrière terminée, palmarès et reconversion</div></div>
           <div class="role-tile" data-role="expert" onclick="pickRole('expert',this)"><div class="rt-icon">🎯</div><div class="rt-label">Expert</div><div class="rt-desc">Spécialiste reconnu : formation, préparation, management…</div></div>
+          <div class="role-tile" data-role="journaliste" onclick="pickRole('journaliste',this)"><div class="rt-icon">📰</div><div class="rt-label">Journaliste sportif</div><div class="rt-desc">Reporter, rédacteur, commentateur, photographe : presse sportive</div></div>
           <div class="role-tile" data-role="formateur" onclick="pickRole('formateur',this)"><div class="rt-icon">🧑‍🏫</div><div class="rt-label">Formateur</div><div class="rt-desc">Formation, certification et transmission de savoir sportif</div></div>
         </div>
         <div id="a-role-err" class="err-msg" style="margin-top:8px;"></div>
@@ -655,6 +656,8 @@
           <div class="fg"><label>Lien (réseau social ou site, optionnel)</label><input type="text" id="a-exp-liens" placeholder="https://…"></div>
           <div class="form-hint">Votre pièce d'identité, votre CV et vos diplômes sont à déposer ensuite dans vos documents. Votre fiche sera validée par l'administrateur.</div>
         </div>
+<!-- Champs journaliste sportif -->
+<div class="extra" id="ex-journaliste"><div id="a-jou-root"></div></div>
         <!-- Champs formateur (formation, certification, transmission) -->
         <div class="extra" id="ex-formateur">
           <div class="notice"><span>🧑‍🏫</span><span>Ce profil met en avant votre activité de formation : spécialité, certifications et disponibilité pour de nouvelles sessions.</span></div>
@@ -866,7 +869,7 @@
     joueur:'JOU', athlete:'ATH', arbitre:'ARB', entraineur:'ENT', club:'CLB',
     association:'ASS', federation:'FED', ligue:'LIG', independant:'IND',
     admin:'ADM', supporter:'SUP', organisateur:'ORG',
-    eleve_etudiant:'ELE', gabonais_diaspora:'DIA', sportif_etranger:'ETR', handisport:'HAN', ancien_sportif:'ASP', formateur:'FOR', expert:'EXP'
+    eleve_etudiant:'ELE', gabonais_diaspora:'DIA', sportif_etranger:'ETR', handisport:'HAN', ancien_sportif:'ASP', formateur:'FOR', expert:'EXP', journaliste:'JOU'
   };
   // Numéro de catégorie court (3 chiffres), identique dans index.html / admin.html / inscription.html.
   const CATEGORY_NUM = {
@@ -874,7 +877,7 @@
     joueur:'001', athlete:'002', arbitre:'003', entraineur:'004', independant:'005',
     eleve_etudiant:'006', gabonais_diaspora:'091', sportif_etranger:'007', handisport:'008', ancien_sportif:'009',
     club:'010', federation:'011', association:'012', organisateur:'013',
-    formateur:'014', supporter:'015', admin:'016', expert:'018'
+    formateur:'014', supporter:'015', admin:'016', expert:'018', journaliste:'019'
   };
 
   function generateGscId(uid, role) {
@@ -896,7 +899,7 @@
     association:'🤝 Association', eleve_etudiant:'🎓 Élève / Étudiant',
     handisport:'🦾 Sportif handisport', organisateur:'🎪 Organisateur',
     supporter:'💗 Supporter', gabonais_diaspora:'🇬🇦 Gabonais footballeur à l’étranger', sportif_etranger:'🌍 Footballeur étranger', ancien_sportif:'🎖️ Ancien footballeur',
-    formateur:'🧑‍🏫 Formateur', expert:'🎯 Expert'
+    formateur:'🧑‍🏫 Formateur', expert:'🎯 Expert', journaliste:'📰 Journaliste sportif'
   };
 
   // Disciplines séparées : sports collectifs pour les Joueurs, sports individuels pour les Athlètes.
@@ -1042,6 +1045,7 @@
     document.getElementById('ex-ancien').classList.toggle('show', selectedRole === 'ancien_sportif');
     document.getElementById('ex-formateur').classList.toggle('show', selectedRole === 'formateur');
     { var _ex = document.getElementById('ex-expert'); if (_ex) _ex.classList.toggle('show', selectedRole === 'expert'); }
+    { var _jx = document.getElementById('ex-journaliste'); if (_jx) _jx.classList.toggle('show', selectedRole === 'journaliste'); }
     document.getElementById('ex-etudiant-scol').classList.toggle('show', selectedRole === 'eleve_etudiant');
     if (selectedRole === 'eleve_etudiant') {
       populateEtablissementSelect();
@@ -1511,6 +1515,7 @@ function sbError(e) {
     if (isAncienSportifRole && !ancPoste) {
                            errMsg('a-err','Veuillez indiquer votre poste / spécialité durant votre carrière.'); return; }
     if (selectedRole === 'expert' && !(window.GFC_EXPERT && window.GFC_EXPERT.data().specialites.length)) { alert('Expert : cochez au moins une spécialité.'); return; }
+    if (selectedRole === 'journaliste' && !(window.JOURNALISTE && window.JOURNALISTE.data().typesPresse.length)) { alert('Journaliste : cochez au moins un type de média.'); return; }
     if (isFormateurRole && !forSpecialite) {
                            errMsg('a-err','Veuillez indiquer votre spécialité de formation.'); return; }
     if (!cgu)            { errMsg('a-err','Vous devez accepter les conditions d\'utilisation.'); return; }
@@ -1587,6 +1592,7 @@ function sbError(e) {
             bio: ancBio, palmares: ancPalmares, faitsMarquants: ancFaits
           }),
           ...((selectedRole === 'expert' && window.GFC_EXPERT) ? window.GFC_EXPERT.data() : {}),
+          ...((selectedRole === 'journaliste' && window.JOURNALISTE) ? window.JOURNALISTE.data() : {}),
           // Champs enrichis formateur (vides pour les autres rôles)
           ...(isFormateurRole && {
             specialiteFormation: forSpecialite, niveauFormateur: forNiveau,
@@ -1608,7 +1614,7 @@ function sbError(e) {
           gscId,
           club: clubActuel || '',
           status: 'active',
-          ...((isOrgRole || selectedRole === 'expert') && { validationAdmin: 'pending' }),
+          ...((isOrgRole || selectedRole === 'expert' || selectedRole === 'journaliste') && { validationAdmin: 'pending' }),
           ...(isOrgRole && (document.getElementById('a-revendication-select') || {}).value && { revendication: { cibleType: 'user', cibleId: document.getElementById('a-revendication-select').value, cibleNom: document.getElementById('a-revendication-select').selectedOptions[0].textContent, role: selectedRole, statut: 'en_attente' } }),
           ...(aPhotoURL && { photoURL: aPhotoURL })
         };
@@ -1847,5 +1853,6 @@ function sbError(e) {
 </script>
 <script src="gsc-revendication.js"></script>
 <script src="gfc-expert.js?v=202611241313"></script>
+<script src="gfc-journaliste.js?v=1"></script>
 </body>
 </html>

@@ -178,7 +178,7 @@ window.reportsModule = (function () {
       ecole_universite: '🏫 Écoles / Universités',
       handisport: '🦾 Sportifs handisport',
       ancien_sportif: '🎖️ Anciens Sportifs',
-      formateur: '🧑‍🏫 Formateurs', expert: '🎯 Experts'
+      formateur: '🧑‍🏫 Formateurs', expert: '🎯 Experts', journaliste:'📰 Journalistes sportifs'
     };
 
     const roleColors = {
@@ -197,7 +197,7 @@ window.reportsModule = (function () {
       ecole_universite: '#059669',
       handisport: '#7c3aed',
       ancien_sportif: '#9f1239',
-      formateur: '#0284c7', expert: '#0e7490'
+      formateur: '#0284c7', expert: '#0e7490', journaliste:'#475569'
     };
 
     const labels = Object.keys(roleDistribution).map(r => roleLabels[r] || r);

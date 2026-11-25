@@ -20,7 +20,7 @@
     ['club', 'Club'], ['federation', 'Fédération'], ['ligue', 'Ligue'], ['association', 'Association'], ['organisateur', 'Organisateur'],
     ['independant', 'Indépendant'], ['supporter', 'Supporter'], ['eleve_etudiant', 'Élève/Étudiant'],
     ['gabonais_diaspora', 'Gabonais sportif à l’étranger'], ['sportif_etranger', 'Footballeur étranger'], ['handisport', 'Handisport'], ['ancien_sportif', 'Ancien footballeur'],
-    ['formateur', 'Formateur'], ['expert', 'Expert']
+    ['formateur', 'Formateur'], ['expert', 'Expert'], ['journaliste', 'Journaliste sportif']
   ];
   const ORG_ROLES = ['club', 'federation', 'association', 'organisateur', 'ligue'];
 
