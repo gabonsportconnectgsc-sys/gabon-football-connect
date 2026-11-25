@@ -1,7 +1,8 @@
 (function(){'use strict';
 var BAD=/mail|phone|tel|whats|birth|naiss|pass|token|addr|adres|cni|iban|salar|private|sensible|secret|uid|doc|piece|fcm|push|device|login|ip$/i;
+var SAFE=/^(numMaillot|passes|federationTutelle)$/;
 var OFF=['pending','rejected','suspended','banned','deleted','blocked'];
-function clean(o){var r={};Object.keys(o).forEach(function(k){if(BAD.test(k))return;var v=o[k],t=typeof v;if(v===null||t==='string'||t==='number'||t==='boolean')r[k]=v;else if(Array.isArray(v)&&v.every(function(x){return typeof x==='string'||typeof x==='number';}))r[k]=v;else if(v&&typeof v.toDate==='function')r[k]=v;});return r;}
+function clean(o){var r={};Object.keys(o).forEach(function(k){if(BAD.test(k)&&!SAFE.test(k))return;var v=o[k],t=typeof v;if(v===null||t==='string'||t==='number'||t==='boolean')r[k]=v;else if(Array.isArray(v)&&v.every(function(x){return typeof x==='string'||typeof x==='number';}))r[k]=v;else if(v&&typeof v.toDate==='function')r[k]=v;});return r;}
 var KINDS=[
 {k:'structures',c:'structuresSportives'},{k:'sites',c:'sitesSportifs'},{k:'actualites',c:'actualites'},{k:'matchs',c:'matchs'},
 {k:'competitions',c:'competitions'},{k:'competitions_meta',c:'competitions_meta'},
@@ -31,7 +32,7 @@ var snap=await db.collection(K.c).get(),tot=snap.size,ok=0,why={},rm={},roles={}
 snap.forEach(function(d){var x=d.data();
 if(K.f&&!K.f(x)){var r=K.k==='joueurs'?('rôle='+(x.role||'?')+' statut='+(x.status||'?')):('validation='+(x.validation||'?')+' visibilité='+(x.visibility||'?'));why[r]=(why[r]||0)+1;return;}
 ok++;if(K.k==='joueurs'){var ro=x.role||'?';roles[ro]=(roles[ro]||0)+1;}
-if(K.clean){Object.keys(x).forEach(function(f){if(BAD.test(f))rm[f]=1;});}});
+if(K.clean){Object.keys(x).forEach(function(f){if(BAD.test(f)&&!SAFE.test(f))rm[f]=1;});}});
 logTo((ok?'✔ ':'• ')+K.k+' : '+tot+' en base → '+ok+' envoyé(s), '+(brg[K.k]||0)+' dans le pont');
 if(!tot)logTo('    (collection vide dans GFC)');
 Object.keys(why).forEach(function(r){logTo('    ✂ '+why[r]+' exclu(s) ['+r+']');});
