@@ -1300,6 +1300,7 @@ html .actor-compact-row .acr-qr{grid-column:3;grid-row:1/span 3;align-self:cente
 #side-menu-login-history .login-history-empty{font-size:11px !important;padding:6px 10px !important;}
 </style>
   <link rel="stylesheet" href="css/gfc-fixes.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&display=swap">
 </head>
 <body>
 <!-- ═══ ÉCRAN DE DÉMARRAGE PERSONNALISÉ (après le splash natif de la PWA) ═══
@@ -1879,7 +1880,7 @@ html .actor-compact-row .acr-qr{grid-column:3;grid-row:1/span 3;align-self:cente
       </div>
 
       <!-- Tuiles par groupe d'acteur du football -->
-      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--green);margin:16px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--green-lt);">
+      <div class="gfc-sec-title" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--green);margin:16px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--green-lt);">
         🏅 Acteurs sportifs
       </div>
       <div class="stats-grid fade-up" id="dashboard-landing-anchor" style="grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
@@ -10574,5 +10575,32 @@ window.gfcInFamily=function(u,fid){
   }, true);
 })();
 </script>
+<!-- gfc-titres-modernes -->
+<style id="gfc-titres-modernes">
+#view-dashboard .gfc-sec-title{
+display:flex!important;align-items:center;justify-content:center;gap:10px;position:relative;
+width:calc(100% - 8px);box-sizing:border-box;margin:10px auto 6px!important;padding:16px 22px!important;
+white-space:nowrap;text-align:center!important;font-family:'Bungee','Outfit',Inter,system-ui,sans-serif!important;
+font-size:15px!important;font-weight:400!important;letter-spacing:.6px!important;text-transform:uppercase!important;line-height:1.15!important;
+color:#FCD116!important;border:2px solid #FCD116!important;border-radius:4px!important;
+background:rgba(8,16,32,.72);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+text-shadow:0 2px 6px rgba(0,0,0,.6);box-shadow:0 4px 14px rgba(0,0,0,.3)}
+#view-dashboard .gfc-fam{margin:0!important;padding:0!important}
+#view-dashboard .gfc-fam-title{
+display:flex!important;align-items:center;justify-content:center;gap:10px;width:100%;box-sizing:border-box;
+margin:8px 0 6px!important;padding:0!important;white-space:nowrap;text-align:center!important;
+font-family:Inter,system-ui,sans-serif!important;font-size:13px!important;font-weight:800!important;letter-spacing:2.2px!important;
+text-transform:uppercase!important;line-height:1.1!important;color:#9CFFC4!important;
+text-shadow:0 2px 6px rgba(0,0,0,.7);background:none!important;border:0!important;box-shadow:none!important}
+#view-dashboard .gfc-fam-title::before,#view-dashboard .gfc-fam-title::after{
+content:'';flex:1;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,#9CFFC4)}
+#view-dashboard .gfc-fam-title::after{background:linear-gradient(270deg,transparent,#9CFFC4)}
+#view-dashboard .gfc-fam .stats-grid,#view-dashboard .gfc-fam-grid,#view-dashboard #dashboard-landing-anchor{margin-bottom:4px!important}
+/* gfc-espaces */
+#view-dashboard #dashboard-landing-anchor{row-gap:0!important;margin-bottom:0!important}
+#view-dashboard .gfc-home-fam{margin:0!important;padding:0!important;min-height:0!important;height:auto!important}
+#view-dashboard .gfc-home-grid{margin-bottom:8px!important;row-gap:10px!important}
+#view-dashboard .gfc-home-fam .gfc-fam-title{margin:26px 0 12px!important}
+</style>
 </body>
 </html>
