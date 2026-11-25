@@ -95,6 +95,7 @@
     set('stat-total-handisport', activeAll.filter(u => u.role === 'handisport').length);
     set('stat-total-anciens', activeAll.filter(u => u.role === 'ancien_sportif').length);
     set('stat-total-formateurs', activeAll.filter(u => u.role === 'formateur').length);
+    set('stat-total-experts', activeAll.filter(u => u.role === 'expert').length);
   }
 
   if (typeof window.loadActors === 'function') {
