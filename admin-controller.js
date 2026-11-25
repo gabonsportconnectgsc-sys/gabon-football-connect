@@ -143,7 +143,7 @@
     ancien_sportif: { getKey: a => a.sport, label: v => '🎖️ ' + v, fallback: 'Discipline non précisée' },
     supporter: { getKey: a => a.club || a.ville, label: v => '💗 ' + v, fallback: 'Non précisé' },
     formateur: { getKey: a => a.specialite || a.discipline, label: v => '🧑‍🏫 ' + v, fallback: 'Spécialité non précisée' },
-    expert: { getKey: a => (a.specialites || [])[0] || a.titrePrincipal, label: v => '🎯 ' + (window.GSC_EXPERT ? window.GSC_EXPERT.label(v) : v), fallback: 'Spécialité non précisée' }
+    expert: { getKey: a => (a.specialites || [])[0] || a.titrePrincipal, label: v => '🎯 ' + (window.GFC_EXPERT ? window.GFC_EXPERT.label(v) : v), fallback: 'Spécialité non précisée' }
   };
 
   function buildSecondaryGroups(list, role) {

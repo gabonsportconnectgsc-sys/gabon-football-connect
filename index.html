@@ -6334,20 +6334,6 @@ async function saveProfile(){
       liensSociaux:(_g('edit-exp-liens')&&_g('edit-exp-liens').value.trim())||''
     });
   }
-      /*GSC-EXPERT-SAVE*/
-  if(p.role==='expert'){
-    const _v=id=>(document.getElementById(id)?.value||'').trim();
-    const _l=id=>_v(id).split(/\n+/).map(s=>s.trim()).filter(Boolean).slice(0,15);
-    const _c=n=>[...document.querySelectorAll('input[name="'+n+'"]:checked')].map(e=>e.value);
-    const _sp=_c('edit-exp-spec'), _dispo=!!document.getElementById('edit-exp-dispo')?.checked;
-    Object.assign(updates,{
-      titrePrincipal:_v('edit-exp-titre'), niveauExperience:_v('edit-exp-niveau'), niveauDiplome:_v('edit-exp-diplome'),
-      specialites:_sp, autreSpecialite:_sp.includes('autre')?_v('edit-exp-autre'):'',
-      diplomes:_l('edit-exp-diplomes'), postes:_l('edit-exp-postes'), participations:_l('edit-exp-particip'),
-      nbParticipations:_v('edit-exp-nbpart'), pratiquant:_v('edit-exp-pratique'), resumeParcours:_v('edit-exp-resume').slice(0,600),
-      disponibleFormation:_dispo, zonesFormation:_dispo?_c('edit-exp-zone'):[], liensSociaux:_v('edit-exp-liens')
-    });
-  }
 if(p.role==='formateur'){
     Object.assign(updates,{
       specialiteFormation:document.getElementById('edit-for-specialite')?.value.trim()||'',
@@ -10616,6 +10602,5 @@ content:'';flex:1;height:2px;border-radius:2px;background:linear-gradient(90deg,
 #view-dashboard .gfc-home-grid{margin-bottom:8px!important;row-gap:10px!important}
 #view-dashboard .gfc-home-fam .gfc-fam-title{margin:26px 0 12px!important}
 </style>
-<script src="gsc-expert.js?v=1"></script>
 </body>
 </html>
