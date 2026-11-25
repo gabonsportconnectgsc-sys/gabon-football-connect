@@ -47,3 +47,49 @@ m.innerHTML='<div style="background:#fff;color:#111;border-radius:14px;max-width
 document.body.appendChild(m);$('gb-run').onclick=run;$('gb-copy').onclick=copy;$('gb-diag').onclick=diag;$('gb-close').onclick=function(){m.style.display='none';};}
 function inject(){if($('nav-gfc-bridge'))return true;var a=$('nav-archivage')||$('nav-dashboard');if(!a)return false;var b=document.createElement('button');b.className='nav-item';b.id='nav-gfc-bridge';b.textContent='📤 Envoi vers GSC';b.onclick=modal;a.parentNode.insertBefore(b,a.nextSibling);return true;}
 var tries=0,iv=setInterval(function(){if(inject()||++tries>40)clearInterval(iv);},1000);})();
+
+/* GFC-TOOLS-SHEETS */
+(function(){
+function $(i){return document.getElementById(i);}
+var OFF=['pending','rejected','suspended','banned','deleted','blocked'];
+var SRC=[
+['Profils','users',function(d){return OFF.indexOf(String(d.status||'').toLowerCase())<0&&d.role!=='admin'&&d.isAdmin!==true&&d.role!=='visiteur';}],
+['Effectifs','rosters',function(d){return d.validation==='validated'&&d.visibility==='public';}],
+['Structures','structuresSportives',null]];
+var F={n:['name','nom','displayName','nomComplet','fullName','raisonSociale','clubName','club','titre','title'],
+r:['role','type','typeStructure','categorie','category'],v:['ville','city','localite','commune'],
+s:['sport','sports','discipline','disciplines'],sa:['saison','season'],st:['status','statut','validation']};
+function pick(d,k){for(var i=0;i<k.length;i++){var v=d[k[i]];
+if(Array.isArray(v)&&v.length&&v.every(function(x){return typeof x!=='object';}))return v.join(' / ');
+if(v!==undefined&&v!==null&&v!==''&&typeof v!=='object')return String(v);}return '';}
+function cell(v){v=String(v||'').replace(/[\r\n]+/g,' ').trim();if(/^[=+\-@]/.test(v))v=' '+v;return '"'+v.replace(/"/g,'""')+'"';}
+function build(){var db=window.db;if(!db)return Promise.reject(new Error('Firebase pas prêt'));
+var rows=['"Type";"Id";"Nom";"Rôle";"Ville";"Sport";"Saison";"Statut"'],bad=[];
+return SRC.reduce(function(p,S){return p.then(function(){return db.collection(S[1]).get().then(function(sn){
+sn.forEach(function(doc){var d=doc.data();if(S[2]&&!S[2](d))return;
+rows.push([S[0],doc.id,pick(d,F.n)||doc.id,pick(d,F.r),pick(d,F.v),pick(d,F.s),pick(d,F.sa),pick(d,F.st)].map(cell).join(';'));});
+}).catch(function(){bad.push(S[0]);});});},Promise.resolve()).then(function(){return {rows:rows,bad:bad};});}
+var G=['<p><b>1. Importer</b> : touchez « Copier les données », ouvrez Google Sheets ou Excel, collez en A1. ',
+'Si tout reste dans une seule colonne : Données › Fractionner le texte en colonnes (Sheets) ou Texte en colonnes (Excel), séparateur point-virgule.</p>',
+'<p><b>2. Nettoyer</b> : Données › Supprimer les doublons (colonnes Nom et Ville) ; =SUPPRESPACE(C2) retire les espaces en trop ; harmonisez les villes et les sports.</p>',
+'<p><b>3. Calculer</b> : Insertion › Tableau croisé dynamique (lignes = Type ou Ville, valeurs = Id en NB), ou =NB.SI(A:A;"Profils").</p>',
+'<p><b>4. Corriger à la source</b> : la colonne Id retrouve la fiche dans GFC. Corrigez-la dans GFC, puis relancez « 📤 Envoi vers GSC ». Le tableur ne réécrit rien dans GFC.</p>',
+'<p><b>5. Échanger</b> : Partager › lien en lecture seule, ou Fichier › Télécharger (PDF, Excel).</p>',
+'<p><b>Confidentialité</b> : ce fichier ne contient que nom, rôle, ville, sport, saison et statut, jamais e-mail, téléphone ni document.</p>'].join('');
+var CSS='#gb-tools{margin-top:14px;padding-top:12px;border-top:1px solid #ddd;font-size:13px;color:#555}#gb-tools button,#gb-tools a{display:inline-block;margin:0 8px 8px 0;border:1px solid #009e60;color:#009e60;background:#fff;border-radius:10px;padding:10px 14px;font-weight:700;font-size:13px;text-decoration:none}#gb-guide{display:none;margin-top:6px;background:#f3faf6;border-radius:12px;padding:12px;line-height:1.45}#gb-guide b{color:#007a4a}#gb-guide p{margin:0 0 8px}';
+var st=document.createElement('style');st.textContent=CSS;(document.head||document.documentElement).appendChild(st);
+function prep(){var msg=$('gb-sheets-msg');msg.textContent='Lecture des données…';
+build().then(function(r){var t=r.rows.join('\n'),n=r.rows.length-1;
+function done(ok){msg.textContent=(n>0?n+' ligne(s) ':'Aucune ligne ')+(ok?'copiée(s). Étape 2 : ouvrez le tableur et collez en A1.':'prête(s) : appui long dans la zone ci-dessous, Tout sélectionner, Copier.')+(r.bad.length?' (illisible : '+r.bad.join(', ')+')':'');
+$('gb-sheets-go').style.display='block';if(!ok){var ta=$('gb-sheets-ta');ta.value=t;ta.style.display='block';}}
+if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(function(){done(true);},function(){done(false);});else done(false);
+}).catch(function(e){msg.textContent='Erreur : '+(e&&e.message||e);});}
+function inject(){var m=$('gb-modal');if(!m||!m.firstElementChild||$('gb-tools'))return;
+var d=document.createElement('div');d.id='gb-tools';
+d.innerHTML='<b>📗 Travailler les données dans un tableur</b><div style="margin-top:8px"><button id="gb-sheets-prep">1️⃣ Copier les données (CSV)</button><button id="gb-sheets-help">❓ Guide d’usage</button></div><div id="gb-sheets-msg" style="margin-bottom:8px"></div><div id="gb-sheets-go" style="display:none"><a href="https://sheets.new" target="_blank" rel="noopener">2️⃣ Ouvrir Google Sheets</a><a href="https://excel.new" target="_blank" rel="noopener">📘 Excel en ligne</a></div><textarea id="gb-sheets-ta" style="display:none;width:100%;height:90px;margin-bottom:8px"></textarea><div id="gb-guide">'+G+'</div>';
+m.firstElementChild.appendChild(d);
+$('gb-sheets-prep').onclick=prep;
+$('gb-sheets-help').onclick=function(){var g=$('gb-guide');g.style.display=g.style.display==='block'?'none':'block';};}
+new MutationObserver(inject).observe(document.documentElement,{childList:true,subtree:true});
+inject();
+})();
