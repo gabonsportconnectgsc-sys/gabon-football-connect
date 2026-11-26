@@ -483,7 +483,7 @@
       if (b && !b._gfcJoin) { b._gfcJoin = true; b.addEventListener('click', adminShow); }
     });
     if (!document.getElementById(SEC)) {
-      const main = document.querySelector('.main-content') || document.querySelector('main');
+      const main = document.querySelector('.main-content') || (document.querySelector('.section') || {}).parentElement || document.querySelector('main');
       if (main) main.insertAdjacentHTML('beforeend',
         '<div id="' + SEC + '" class="section"><div class="dash-card">' +
         '<div class="dash-card-title">🤝 Demandes d\'intégration club</div>' +
@@ -495,7 +495,7 @@
         '<div id="cj-periods"></div>' +
         '<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:8px;">' +
         '<input type="date" id="cj-p-start"> <input type="date" id="cj-p-end"> <input type="text" id="cj-p-label" placeholder="Libellé (ex : mercato été)" style="min-width:140px;">' +
-        '<button class="btn-sm" onclick="GFCClubJoin.addPeriod()">➕ Ajouter</button></div></div>' +
+        '<button class="btn-sm" onclick="GFCClubJoin.addPeriod()">➕ Ajouter</button> <button class="btn-sm" onclick="GFCClubJoin.presetLinafp()">⚽ Périodes Linafp 2026-2027</button></div></div>' +
         '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:10px 0;">' +
         '<select id="cj-filter" onchange="GFCClubJoin.adminRender()">' +
         '<option value="pending_admin">⏳ À valider par l\'admin</option><option value="pending">⏳ Toutes en attente</option>' +
@@ -552,6 +552,18 @@
     } catch (err) { console.error(err); alert('Suppression impossible : ' + (err.message || err)); }
   }
 
+  async function presetLinafp() {
+    if (!confirm('Ajouter les périodes d\'enregistrement Linafp 2026-2027 (National-Foot 1 et 2) ?\n\nElles s\'appliquent à toutes les demandes de joueurs : complétez-les avec les dates de la FEGAFOOT et des ligues.')) return;
+    try {
+      const per = await loadPeriods();
+      [['2026-09-21', '2026-11-06', 'Linafp NF1/NF2 — 1re période'], ['2027-02-01', '2027-02-26', 'Linafp NF1/NF2 — 2e période']].forEach(function (x) {
+        if (!per.some(function (q) { return q.start === x[0] && q.end === x[1]; })) per.push({ start: x[0], end: x[1], label: x[2] });
+      });
+      await (await fs()).set(CFG, 'windows', { periods: per, updatedAt: iso() });
+      await renderPeriods();
+    } catch (err) { console.error(err); alert('Enregistrement impossible : ' + (err.message || err)); }
+  }
+
   async function adminRender() {
     const box = document.getElementById('cj-table');
     if (!box) return;
@@ -586,7 +598,7 @@
     if (status === 'rejected') reason = prompt('Motif du refus (visible par le demandeur) :', '') || '';
     const upd = { status: status, decidedAt: iso(), decidedBy: myUid(), decidedByRole: 'admin' };
     if (status === 'rejected') upd.rejectionMessage = reason || 'Demande non retenue par l\'administration.';
-    try { await (await fs()).update(COLL, id, upd); await adminRender(); }
+    try { const F = await fs(); await F.update(COLL, id, upd); if (status === 'approved') { try { const r = await F.get(COLL, id); if (r && !r.appliedAt) { const u = { employeur: r.structureName, club: r.structureName }; if (r.kind === 'player' && r.statutJoueur) u.statut = r.statutJoueur; await F.update('users', r.memberUid, u); await F.update(COLL, id, { appliedAt: iso() }); } } catch (e2) { console.warn('[GFCClubJoin] application côté admin impossible', e2); } } await adminRender(); }
     catch (e) { console.error(e); alert('Décision impossible : ' + (e.message || e)); }
   }
 
@@ -616,6 +628,6 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
 
-  window.GFCClubJoin = { search, pick, hint, submit, cancel, decide, refresh: updateVisibility, adminRender, adminDecide, addPeriod, delPeriod };
+  window.GFCClubJoin = { _fs: fs, _uid: myUid, search, pick, hint, submit, cancel, decide, refresh: updateVisibility, adminRender, adminDecide, addPeriod, delPeriod, presetLinafp };
 
 })(window);

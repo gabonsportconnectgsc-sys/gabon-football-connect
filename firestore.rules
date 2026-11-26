@@ -545,6 +545,61 @@ service cloud.firestore {
       allow write: if request.auth != null && isAdmin(request.auth.uid);
     }
 
+    // ═══ GFC-AGENT : représentation joueur ↔ agent (licence FIFA) ═══
+    // id = agentUid_playerUid ; activation réservée à l'admin (vérification de la licence)
+    function garKeysOk(d) {
+      return d.keys().hasOnly(['agentUid','agentName','playerUid','playerName','status','fifaLicence','agreementWritten',
+        'agreementStart','agreementEnd','guardianConsent','createdAt','updatedAt','playerDecidedAt','verifiedAt','verifiedBy',
+        'rejectionMessage','endedAt']);
+    }
+    function garNewOk(d, uid) {
+      return garKeysOk(d)
+        && d.agentUid == uid
+        && d.playerUid is string && d.playerUid.size() > 0 && d.playerUid != uid
+        && exists(/databases/$(database)/documents/users/$(d.playerUid))
+        && d.status == 'pending_player'
+        && d.fifaLicence is string && d.fifaLicence.size() > 0 && d.fifaLicence.size() <= 40
+        && d.agreementWritten == true
+        && d.get('agentName', '') is string && d.get('agentName', '').size() <= 120
+        && d.get('playerName', '') is string && d.get('playerName', '').size() <= 120
+        && d.get('agreementStart', '') is string && d.get('agreementStart', '').size() <= 10
+        && d.get('agreementEnd', '') is string && d.get('agreementEnd', '').size() <= 10;
+    }
+
+    match /agentRepresentations/{rid} {
+      allow read: if request.auth != null && (
+        resource.data.agentUid == request.auth.uid
+        || resource.data.playerUid == request.auth.uid
+        || isAdmin(request.auth.uid));
+
+      allow create: if request.auth != null && isActiveOrLegacy(request.auth.uid)
+        && garNewOk(request.resource.data, request.auth.uid)
+        && rid == request.auth.uid + '_' + request.resource.data.playerUid;
+
+      allow update: if request.auth != null && (
+        // l'agent : annuler, ou redemander après refus / annulation / fin
+        ( resource.data.agentUid == request.auth.uid
+          && request.resource.data.agentUid == request.auth.uid
+          && request.resource.data.playerUid == resource.data.playerUid
+          && (
+            ( resource.data.status in ['pending_player','pending_admin'] && request.resource.data.status == 'cancelled'
+              && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','updatedAt']) )
+            || ( resource.data.status in ['rejected','cancelled','ended']
+              && garNewOk(request.resource.data, request.auth.uid) )
+          ) )
+        // le joueur : accepter / refuser, ou mettre fin à une représentation active
+        || ( resource.data.playerUid == request.auth.uid
+          && (
+            ( resource.data.status == 'pending_player' && request.resource.data.status in ['pending_admin','rejected']
+              && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','playerDecidedAt','guardianConsent']) )
+            || ( resource.data.status == 'active' && request.resource.data.status == 'ended'
+              && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','endedAt']) )
+          ) )
+      );
+
+      allow update, delete: if request.auth != null && isAdmin(request.auth.uid);
+    }
+
     match /{document=**} {
       allow read: if request.auth != null && isAdmin(request.auth.uid);
       allow create, update: if request.auth != null && isAdmin(request.auth.uid);
