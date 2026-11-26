@@ -12,6 +12,10 @@ service cloud.firestore {
       return !exists(path) || !('status' in get(path).data) || get(path).data.status == 'active';
     }
 
+    function photosOk(d) {
+      return !('photos' in d) || (d.photos is list && d.photos.size() <= 20);
+    }
+
     function isAdmin(uid) {
       let adminPath = /databases/$(database)/documents/admins/$(uid);
       let userPath  = /databases/$(database)/documents/users/$(uid);
@@ -78,6 +82,7 @@ service cloud.firestore {
 
       allow update: if request.auth != null && (
         (request.auth.uid == uid
+          && photosOk(request.resource.data)
           && !request.resource.data.diff(resource.data).affectedKeys().hasAny(
             ['role', 'structureId', 'documentVerifie', 'editLocked', 'ownershipStatus', 'ownerRef', 'ownerUid', 'ownerConfirmedAt', 'revendication', 'gereParFederation', 'isDemo', 'validationAdmin', 'coGestionnaires']
           )

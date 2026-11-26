@@ -5503,7 +5503,7 @@ function openActorDetail(uid){
   // __gscGaleriePublique : galerie photos en lecture seule sur la fiche
   if(Array.isArray(a.photos)&&a.photos.length){
     html+=`<div class="adm-section"><div class="adm-section-title">📸 Galerie photos (${a.photos.length})</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">`;
-    a.photos.slice(0,10).forEach((p,i)=>{const u=sanitizeUrl(p);if(!u)return;html+=`<a href="${esc(u)}" target="_blank" rel="noopener" style="aspect-ratio:1;border-radius:10px;overflow:hidden;display:block;background:#eee;"><img src="${esc(u)}" alt="Photo ${i+1}" loading="lazy" style="width:100%;height:100%;object-fit:cover;"></a>`;});
+    a.photos.slice(0,20).forEach((p,i)=>{const u=sanitizeUrl(p);if(!u)return;html+=`<a href="${esc(u)}" target="_blank" rel="noopener" style="aspect-ratio:1;border-radius:10px;overflow:hidden;display:block;background:#eee;"><img src="${esc(u)}" alt="Photo ${i+1}" loading="lazy" style="width:100%;height:100%;object-fit:cover;"></a>`;});
     html+=`</div></div>`;
   }
   if(isPersonnel){
@@ -5764,7 +5764,7 @@ function renderProfile(){
   const allActorRoles=['joueur','athlete','arbitre','entraineur','independant','eleve_etudiant','gabonais_diaspora', 'sportif_etranger','handisport','ancien_sportif','formateur','expert','journaliste','club','association','federation','organisateur','ecole_universite'];
   const gallCard=document.getElementById('prof-gallery-card');
   if(gallCard){
-    gallCard.style.display=(!isVisitor && allActorRoles.includes(p.role))?'':'none';
+    gallCard.style.display=(!isVisitor)?'':'none';
     renderGallery(p.photos||[]);
   }
 
@@ -7482,8 +7482,8 @@ async function handleBecomeSupporter(){
 window.handleBecomeSupporter=handleBecomeSupporter;
 
 // ── PHOTO GALLERY ──
-// ── GALERIE PHOTOS — max 10 par membre, propriétaire uniquement ──
-const GALLERY_MAX = 10;
+// ── GALERIE PHOTOS — max 20 par membre, propriétaire uniquement ──
+const GALLERY_MAX = 20;
 let _galleryCurrentUrl = null;
 let _galleryCurrentIndex = -1;
 
