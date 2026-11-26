@@ -55,6 +55,50 @@
     }
 
     function recharger() { return global.GSCCompetitions.charger().then(afficher); }
+    var maj = document.createElement('div');
+    maj.style.cssText = 'margin-top:14px;text-align:center';
+    maj.innerHTML = '<button type="button" style="display:none;width:100%;padding:18px;border:0;border-radius:16px;background:#00854f;color:#fff;font-size:18px;font-weight:800;box-shadow:0 6px 16px rgba(0,133,79,.35);cursor:pointer">🔄 ACTUALISER LE CALENDRIER</button><div role="status" style="margin-top:8px;font-size:14px;font-weight:600;color:#334155"></div>';
+    root.appendChild(maj);
+    var btn = maj.firstChild, etat = maj.lastChild;
+    function estAdmin() {
+      var u = (typeof userProfile !== 'undefined' && userProfile) || global.userProfile;
+      return !!u && u.role === 'admin';
+    }
+    function montrer() { btn.style.display = estAdmin() ? 'block' : 'none'; }
+    montrer(); setInterval(montrer, 1000);
+    function lireEnLigne() {
+      return new Promise(function (ok, ko) {
+        var s = document.createElement('script');
+        s.src = 'competitions-data.js?maj=' + Date.now();
+        s.onload = function () { s.remove(); ok(); };
+        s.onerror = function () { s.remove(); ko(new Error('données en ligne inaccessibles')); };
+        document.head.appendChild(s);
+      });
+    }
+    function garderFootball() {
+      var ref = global.GSC_COMPETITIONS_REFERENCE;
+      if (!ref || !ref.competitions) throw new Error('données de compétitions introuvables');
+      ref.competitions = ref.competitions.filter(function (c) { return String(c.discipline || '').toLowerCase() === 'football'; });
+      if (!ref.competitions.length) throw new Error('aucune compétition de football en ligne');
+    }
+    btn.onclick = function () {
+      if (!estAdmin()) return;
+      if (global.navigator && global.navigator.onLine === false) { etat.textContent = '⚠️ Connexion Internet requise.'; return; }
+      btn.disabled = true; btn.style.opacity = '.6'; etat.textContent = '⏳ Mise à jour en cours…';
+      lireEnLigne().then(function () {
+        garderFootball();
+        if (!global.GSCCompetitions.connecte()) global.GSCCompetitions.init({});
+        return global.GSCCompetitions.synchroniser();
+      }).then(function (r) {
+        afficher(r.liste);
+        etat.textContent = '✅ Calendrier football à jour : ' + r.ajoutees + ' ajoutée(s), ' + r.misesAJour + ' actualisée(s), ' + r.total + ' au total.';
+      }).catch(function (e) { etat.textContent = '❌ Échec : ' + (e.message || e); })
+        .then(function () { btn.disabled = false; btn.style.opacity = '1'; });
+    };
+    global.GSCCompetitions.derniereSynchro && global.GSCCompetitions.derniereSynchro().then(function (d) {
+      if (d && d.date && !etat.textContent) etat.textContent = 'Dernière mise à jour : ' + new Date(d.date).toLocaleDateString('fr-FR');
+    });
+
     recharger();
     return { recharger: recharger };
   }

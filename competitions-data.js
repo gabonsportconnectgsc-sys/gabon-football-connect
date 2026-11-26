@@ -13,7 +13,7 @@
   var LUNION = 'https://www.union.sonapresse.com/fr/de-nouvelles-dates-pour-les-national-foot-1-et-national-foot-2';
 
   global.GSC_COMPETITIONS_REFERENCE = {
-    version: '2026-10-21',
+    version: '2026-11-26',
     competitions: [
       {
         id: 'ref-gab-nf1-2026-27', nom: 'National-Foot 1 (D1) 2026-2027', discipline: 'Football',
