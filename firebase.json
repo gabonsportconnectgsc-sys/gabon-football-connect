@@ -28,7 +28,8 @@
       "_archive/**",
       "_archive_code_mort/**",
       "_bak-effectifs2/**",
-      "*.log"
+      "*.log",
+      "gfc-a-verifier.json"
     ],
     "rewrites": [
       {

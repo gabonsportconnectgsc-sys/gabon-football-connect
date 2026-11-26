@@ -7,10 +7,16 @@
   function sv(f, k) { var x = f && f[k]; return x && x.stringValue !== undefined ? x.stringValue : ''; }
   async function load(r) {
     if (cache[r]) return cache[r];
-    var res = await fetch(URL, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ structuredQuery: { from: [{ collectionId: 'users' }], where: { fieldFilter: { field: { fieldPath: 'role' }, op: 'EQUAL', value: { stringValue: r } } }, limit: 300 } }) });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    var rows = await res.json();
+    var rows = [], off = 0, PAGE = 300;
+    for (var pg = 0; pg < 10; pg++) {
+      var res = await fetch(URL, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ structuredQuery: { from: [{ collectionId: 'users' }], where: { fieldFilter: { field: { fieldPath: 'role' }, op: 'EQUAL', value: { stringValue: r } } }, limit: PAGE, offset: off } }) });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      var part = (await res.json()).filter(function (x) { return x.document; });
+      rows = rows.concat(part);
+      if (part.length < PAGE) break;
+      off += PAGE;
+    }
     var out = rows.filter(function (x) { return x.document; }).map(function (x) {
       var f = x.document.fields || {};
       return { id: x.document.name.split('/').pop(), nom: sv(f, 'nomOrganisation') || sv(f, 'nom'), ville: sv(f, 'ville'),

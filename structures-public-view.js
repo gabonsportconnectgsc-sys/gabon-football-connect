@@ -241,7 +241,7 @@
       pubBtn.type = 'button';
       pubBtn.className = 'btn';
       pubBtn.style.cssText = 'margin:12px 0 0;width:100%;padding:10px';
-      pubBtn.className = 'btn gsc-chrome-btn'; pubBtn.dataset.sid = id; pubBtn.innerHTML = '<span>👥 Voir les effectifs</span><span class="gsc-chev">▼</span>';
+      pubBtn.className = 'btn gsc-chrome-btn'; pubBtn.dataset.sid = id; pubBtn.innerHTML = '<span>👥 ' + (/ligue|f[eé]d[eé]ration/i.test(structure.type||'') ? 'Voir la composition' : 'Voir les effectifs') + '</span><span class="gsc-chev">▼</span>';
       pubBtn.addEventListener('click', function () { window.gscToggleRosters(pubBtn); });
       body.appendChild(pubBtn);
     }
