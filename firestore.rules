@@ -456,6 +456,95 @@ service cloud.firestore {
                                  && request.resource.data.public == false));
     }
 
+    // ═══ GFC-JOIN : demandes d'intégration club (clubJoinRequests) — football ═══
+    // Un document par couple membre + club : id = uid_structureId
+    function cjrHigh(f) {
+      return f in ['president','vice_president','secretaire_general','tresorier','directeur_general','directeur_sportif','dirigeant',
+                   'medecin','kine','entraineur','entraineur_adjoint','entraineur_gardiens','responsable_securite','responsable_formation'];
+    }
+    function cjrDiploma(f) {
+      return f in ['entraineur','entraineur_adjoint','entraineur_gardiens','medecin','kine'];
+    }
+    function cjrTransfer(uid, sname) {
+      let up = /databases/$(database)/documents/users/$(uid);
+      return exists(up)
+        && get(up).data.get('employeur', '') is string
+        && get(up).data.get('employeur', '') != ''
+        && get(up).data.get('employeur', '') != sname;
+    }
+    function cjrKeysOk(d) {
+      return d.keys().hasOnly(['memberUid','memberName','memberRole','kind','fonction','structureId','structureName',
+        'status','needsAdmin','adminReasons','message','createdAt','updatedAt','decidedAt','decidedBy','decidedByRole',
+        'rejectionMessage','appliedAt','categorie','statutJoueur','diplome','licence','clubQuitte']);
+    }
+    function cjrNewOk(d, uid) {
+      let sp = /databases/$(database)/documents/structuresSportives/$(d.structureId);
+      return cjrKeysOk(d)
+        && d.memberUid == uid
+        && d.structureId is string && d.structureId.size() > 0
+        && exists(sp)
+        && d.structureName is string
+        && d.structureName == get(sp).data.get('nom', d.structureName)
+        && d.kind in ['player','staff']
+        && d.fonction is string && d.fonction.size() <= 40
+        && (d.kind == 'player') == (d.fonction == 'joueur')
+        && d.status == 'pending'
+        && d.needsAdmin is bool
+        && (!('adminReasons' in d) || d.adminReasons is list)
+        && d.get('message', '') is string && d.get('message', '').size() <= 500
+        && d.get('diplome', '') is string && d.get('diplome', '').size() <= 80
+        && d.get('licence', '') is string && d.get('licence', '').size() <= 40
+        && d.get('clubQuitte', '') is string && d.get('clubQuitte', '').size() <= 120
+        && d.get('categorie', '') in ['', 'U13', 'U15', 'U17', 'U20', 'Seniors']
+        && (d.kind != 'player' || d.get('statutJoueur', '') in ['amateur', 'sous_contrat', 'professionnel'])
+        && (d.get('statutJoueur', '') != 'professionnel' || d.needsAdmin == true)
+        && (!cjrDiploma(d.fonction) || d.get('diplome', '').size() > 0)
+        && (!cjrHigh(d.fonction) || d.needsAdmin == true)
+        && (!cjrTransfer(uid, d.structureName) || d.needsAdmin == true);
+    }
+
+    match /clubJoinRequests/{rid} {
+      allow read: if request.auth != null && (
+        resource.data.memberUid == request.auth.uid
+        || isStructureOwner(request.auth.uid, resource.data.structureId)
+        || isAdmin(request.auth.uid));
+
+      allow create: if request.auth != null && isActiveOrLegacy(request.auth.uid)
+        && cjrNewOk(request.resource.data, request.auth.uid)
+        && rid == request.auth.uid + '_' + request.resource.data.structureId;
+
+      allow update: if request.auth != null && (
+        // le membre : annuler, redemander après refus/annulation, marquer le rattachement appliqué
+        ( resource.data.memberUid == request.auth.uid
+          && request.resource.data.memberUid == request.auth.uid
+          && request.resource.data.structureId == resource.data.structureId
+          && (
+            ( resource.data.status == 'pending' && request.resource.data.status == 'cancelled'
+              && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','updatedAt']) )
+            || ( resource.data.status in ['rejected','cancelled']
+              && cjrNewOk(request.resource.data, request.auth.uid) )
+            || ( resource.data.status == 'approved' && request.resource.data.status == 'approved'
+              && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['appliedAt']) )
+          ) )
+        // le club : décide seul uniquement si aucun contrôle admin n'est requis
+        || ( isStructureOwner(request.auth.uid, resource.data.structureId)
+          && resource.data.needsAdmin == false
+          && resource.data.status == 'pending'
+          && request.resource.data.status in ['approved','rejected']
+          && request.resource.data.decidedBy == request.auth.uid
+          && request.resource.data.diff(resource.data).affectedKeys()
+               .hasOnly(['status','decidedAt','decidedBy','decidedByRole','rejectionMessage']) )
+      );
+
+      allow update, delete: if request.auth != null && isAdmin(request.auth.uid);
+    }
+
+    // Périodes d'enregistrement des joueurs (configurées par l'admin)
+    match /clubJoinConfig/{cid} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && isAdmin(request.auth.uid);
+    }
+
     match /{document=**} {
       allow read: if request.auth != null && isAdmin(request.auth.uid);
       allow create, update: if request.auth != null && isAdmin(request.auth.uid);
