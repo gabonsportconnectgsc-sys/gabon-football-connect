@@ -1305,6 +1305,8 @@ html .actor-compact-row .acr-qr{grid-column:3;grid-row:1/span 3;align-self:cente
 .stats-grid .stat-card:has(.stat-wm[data-wm-role="niveau"]){justify-content:flex-start !important;min-height:148px !important;padding:16px 12px !important;gap:4px !important}
 .stats-grid .stat-card:has(.stat-wm[data-wm-role="niveau"])>span[style*="font-size:46px"]{display:inline-block !important}
 </style>
+<link rel="stylesheet" href="css/gfc-fiche.css">
+<script src="gfc-fiche.js"></script>
 </head>
 <body>
 <!-- ═══ ÉCRAN DE DÉMARRAGE PERSONNALISÉ (après le splash natif de la PWA) ═══
@@ -5547,6 +5549,7 @@ function openActorDetail(uid){
     }
   }
   if(isOrg){
+    const gfcStart=html.length; let gfcLig='';
     if(gfcPresident(a)) html+=`<div class="adm-info-row"><span class="adm-info-label">Président</span><span class="adm-info-val">${esc(gfcPresident(a))}</span></div>`;
     if(a.anneeCreation) html+=`<div class="adm-info-row"><span class="adm-info-label">Fondé en</span><span class="adm-info-val">${esc(a.anneeCreation)}</span></div>`;
     if(a.effectif) html+=`<div class="adm-info-row"><span class="adm-info-label">${(a.role==='ligue'||a.typeLigue)?'Membres du bureau':'Effectif'}</span><span class="adm-info-val">${esc(a.effectif)} membres</span></div>`;
@@ -5564,11 +5567,14 @@ function openActorDetail(uid){
       const _nf=String(a.nomOrganisation||'').trim().toLowerCase();
       const _all=(typeof allActors!=='undefined'&&Array.isArray(allActors))?allActors:(window.allActors||[]);
       const _lg=_all.filter(x=>x.role==='ligue'&&_nf&&String(x.federationTutelle||'').trim().toLowerCase()===_nf);
-      html+=_r2('Siège',a.adresse)+_r2('Site web',a.siteWeb)+_r2('Ligues affiliées',_lg.length?(_lg.length+' : '+_lg.map(x=>x.nomOrganisation).join(', ')):'');
+      html+=_r2('Siège',a.adresse)+_r2('Site web',a.siteWeb);
+      gfcLig=window.gfcLigues?window.gfcLigues(_lg):'';
       const _g2=a.gouvernance||{};
       (Array.isArray(_g2.bureau)?_g2.bureau:[]).forEach(m=>{html+=_r2(m.role,m.nom);});
       if(_g2.mandatDebut) html+=_r2('Mandat',_g2.mandatDebut+' → '+(_g2.mandatFin||'…'));
     }
+    if(html.length>gfcStart) html=html.slice(0,gfcStart)+'<div class="adm-section gfc-sec-org"><div class="adm-section-title">🏛️ Organisation</div>'+html.slice(gfcStart)+'</div>';
+    html+=gfcLig;
     html+=`<button type="button" class="btn gsc-chrome-btn" style="margin:10px 0;width:100%;padding:12px" data-uid="${esc(a.uid||a.id)}" onclick="window.gscToggleRosters&&window.gscToggleRosters(this)"><span>👥 ${({club:'Voir les effectifs',ligue:'Voir la composition',federation:'Voir la composition',association:'Voir les membres',organisateur:'Voir l’équipe',ecole_universite:'Voir l’encadrement'})[a.role]||'Voir la composition'}</span><span class="gsc-chev">▼</span></button>`;
   }
   // Élève / Étudiant — infos académiques
