@@ -2,7 +2,7 @@
    SW.JS — Service Worker Gabon Football Connect v4
    + Badge PWA temps réel + Push Notifications
    ═══════════════════════════════════════════════════════════════ */
-/* FIX MAJEUR : CACHE_NAME était figé sur 'gsc-v8' depuis longtemps. Le
+/* FIX MAJEUR : CACHE_NAME était figé sur 'gsc-v7' depuis longtemps. Le
    handler fetch ci-dessous servait TOUS les fichiers .js/.css de l'app
    (gsc-notifications.js compris) en "cache-first" : dès qu'un appareil
    avait mis un fichier en cache une fois, il ne récupérait plus JAMAIS la
@@ -15,7 +15,7 @@
    on passe en stratégie "network-first / stale-while-revalidate" pour les
    fichiers JS/CSS de l'app (voir plus bas) afin que ce problème ne se
    reproduise plus à chaque futur correctif. */
-const CACHE_NAME = 'gfc-v205';
+const CACHE_NAME = 'gfc-v206';
 // ── NOUVEAU — cache dédié au Web Share Target (POST), voir handleShareTarget()
 // et le handler 'fetch' plus bas. Séparé de CACHE_NAME pour ne jamais être
 // purgé par la logique de versioning de l'app (activate ci-dessous).
