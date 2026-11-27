@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.pcinformatique.gabonfootballconnect",
+    "sha256_cert_fingerprints": [
+      "75:E5:5E:3E:8D:4C:09:30:53:97:88:EF:32:DD:45:26:EF:86:2C:1C:3F:47:03:6A:B0:46:34:5E:D4:A4:D0:56"
+    ]
+  }
+}]
