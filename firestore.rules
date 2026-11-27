@@ -63,6 +63,23 @@ service cloud.firestore {
       allow write: if request.auth != null && isAdmin(request.auth.uid);
     }
 
+    // Index anti-doublon des téléphones : un document par hash, contenant seulement l'uid du propriétaire.
+    // Lecture d'un document précis autorisée (contrôle à l'inscription), jamais de liste.
+    match /phoneIndex/{h} {
+      allow get: if true;
+      allow list: if false;
+      allow create: if request.auth != null
+        && h.matches('^[0-9a-f]{64}$')
+        && request.resource.data.keys().hasOnly(['uid'])
+        && request.resource.data.uid == request.auth.uid;
+      allow update: if request.auth != null
+        && resource.data.uid == request.auth.uid
+        && request.resource.data.keys().hasOnly(['uid'])
+        && request.resource.data.uid == request.auth.uid;
+      allow delete: if request.auth != null
+        && (resource.data.uid == request.auth.uid || isAdmin(request.auth.uid));
+    }
+
     match /settings/{doc} {
       allow read: if true;
       allow write: if request.auth != null && isAdmin(request.auth.uid);

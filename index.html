@@ -4185,6 +4185,17 @@ async function hashPhone(tel){
   }catch(e){ return ''; }
 }
 window.hashPhone=hashPhone;
+/* GFC : index anti-doublon (phoneIndex/{hash} = {uid}) ; le hash n'est plus écrit dans le profil public */
+window.__gfcPhoneIndexSet = async function (uid, tel, oldTel) {
+  try {
+    if (!uid) return {};
+    const nh = tel ? await hashPhone(tel) : '';
+    const oh = oldTel ? await hashPhone(oldTel) : '';
+    if (oh && oh !== nh) { try { await deleteDoc(doc(db, 'phoneIndex', oh)); } catch (e) {} }
+    if (nh) { try { await setDoc(doc(db, 'phoneIndex', nh), { uid: uid }); } catch (e) { console.warn('phoneIndex:', e); } }
+  } catch (e) {}
+  return {};
+};
 
 // Appelé après un login/signup/reset Supabase réussi : relie l'identité Supabase
 // au profil Firestore existant (collection 'users', clé = uid Supabase).
@@ -4261,7 +4272,7 @@ async function onSupabaseSignedIn(user, extra){
       // lors de l'inscription (fiables) ou du profil en attente local ; 'joueur'
       // n'est plus qu'un tout dernier recours si aucune trace du vrai rôle n'existe.
       role:       extra?.role       || user.user_metadata?.role       || pendingProfile?.role || 'joueur',
-      telephoneHash: telVal ? await hashPhone(telVal) : '',
+      ...(await (window.__gfcPhoneIndexSet ? window.__gfcPhoneIndexSet(user.id, telVal, '') : {})),
       sexe:       extra?.sexe       || user.user_metadata?.sexe       || '',
       dateNaissance: extra?.ddn     || user.user_metadata?.ddn        || '',
       nationalite: extra?.nationalite || user.user_metadata?.nationalite || 'Gabonaise',
@@ -6255,7 +6266,7 @@ async function saveProfile(){
   const updates={
     prenom:document.getElementById('edit-prenom')?.value.trim()||p.prenom||'',
     nom:document.getElementById('edit-nom')?.value.trim()||p.nom||'',
-    telephoneHash: telephoneVal ? await hashPhone(telephoneVal) : '',
+    ...(await (window.__gfcPhoneIndexSet ? window.__gfcPhoneIndexSet((typeof currentUser!=='undefined'&&currentUser)?currentUser.uid:'', telephoneVal, (typeof userProfile!=='undefined'&&userProfile)?(userProfile.telephone||''):'') : {})),
     ville:document.getElementById('edit-ville')?.value||'',
     bio:document.getElementById('edit-bio')?.value.trim()||'',
     updatedAt:serverTimestamp()
@@ -7142,8 +7153,8 @@ function updatePendingBanner(){
 function __gscPhoneCount(hh){
   try{
     const L=(typeof allAdminUsers!=='undefined'&&Array.isArray(allAdminUsers))?allAdminUsers:[];
-    if(!window.__gscPhC||window.__gscPhC.n!==L.length){ const m={}; L.forEach(x=>{ if(x&&x.telephoneHash&&x.status!=='deleted') m[x.telephoneHash]=(m[x.telephoneHash]||0)+1; }); window.__gscPhC={n:L.length,m:m}; }
-    return window.__gscPhC.m[hh]||0;
+    if(!window.__gscPhC||window.__gscPhC.n!==L.length){ const m={}; L.forEach(x=>{ const k=String((x&&x.telephone)||'').replace(/[^\d+]/g,''); if(k&&x.status!=='deleted') m[k]=(m[k]||0)+1; }); window.__gscPhC={n:L.length,m:m}; }
+    return window.__gscPhC.m[String(hh||'').replace(/[^\d+]/g,'')]||0;
   }catch(e){ return 0; }
 }
 function renderAdminUsersTable(users){
@@ -7161,7 +7172,7 @@ function renderAdminUsersTable(users){
       <td><div style="display:flex;align-items:center;gap:8px">
         <div class="user-row-avatar">${u.photoURL?`<img src="${esc(sanitizeUrl(u.photoURL))}" alt="">`:esc(initial)}</div>
         <div>
-          <div style="font-weight:600;font-size:13px">${fedIcon}${esc(fullname)}${(u.telephoneHash&&__gscPhoneCount(u.telephoneHash)>1)?('<span title="Numéro partagé avec d\'autres comptes" style="font-size:10px;color:#b45309;font-weight:600"> 📞×'+__gscPhoneCount(u.telephoneHash)+'</span>'):''}</div>
+          <div style="font-weight:600;font-size:13px">${fedIcon}${esc(fullname)}${(u.telephone&&__gscPhoneCount(u.telephone)>1)?('<span title="Numéro partagé avec d\'autres comptes" style="font-size:10px;color:#b45309;font-weight:600"> 📞×'+__gscPhoneCount(u.telephone)+'</span>'):''}</div>
           <div style="font-size:11px;color:var(--gray-txt)">${esc(u.email||'—')}</div>
           <span class="role-badge ${u.role}" style="font-size:9px">${esc(u.role||'—')}</span>
         </div>
