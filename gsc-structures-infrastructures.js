@@ -7,6 +7,16 @@
  *  avec galeries photos, aperçus, affichage plein écran, historisation.
  * ══════════════════════════════════════════════════════════════════════
  */
+/* GFC : envoi de fichiers vers Cloudinary (remplace Firebase Storage, forfait gratuit) */
+window.__gfcUpload = window.__gfcUpload || async function (file) {
+  const fd = new FormData();
+  fd.append('file', file);
+  fd.append('upload_preset', 'gfc_uploads');
+  const res = await fetch('https://api.cloudinary.com/v1_1/djvzc3vqp/auto/upload', { method: 'POST', body: fd });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok || !data.secure_url) throw new Error((data.error && data.error.message) || 'Échec de l\'envoi vers Cloudinary');
+  return data.secure_url;
+};
 (function (window) {
   'use strict';
 
@@ -149,17 +159,8 @@
       if (!files.length) return;
 
       try {
-        const refs = window.firebase && window.firebase.storage && window.firebase.storage();
-        if (!refs) {
-          alert('Firebase Storage non disponible');
-          return;
-        }
-
         for (const file of files) {
-          const path = `structures/${structureId}/infrastructures/${infraId}/${uid()}_${file.name}`;
-          const ref = refs.ref(path);
-          const snapshot = await ref.put(file);
-          const url = await snapshot.ref.getDownloadURL();
+          const url = await window.__gfcUpload(file);
 
           const infraRef = getInfraRef(structureId);
           if (infraRef) {

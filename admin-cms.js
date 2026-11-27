@@ -5,6 +5,16 @@
  * et gestion des images/icônes
  * ─────────────────────────────────────────────────────────────────────────────
  */
+/* GFC : envoi de fichiers vers Cloudinary (remplace Firebase Storage, forfait gratuit) */
+window.__gfcUpload = window.__gfcUpload || async function (file) {
+  const fd = new FormData();
+  fd.append('file', file);
+  fd.append('upload_preset', 'gfc_uploads');
+  const res = await fetch('https://api.cloudinary.com/v1_1/djvzc3vqp/auto/upload', { method: 'POST', body: fd });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok || !data.secure_url) throw new Error((data.error && data.error.message) || 'Échec de l\'envoi vers Cloudinary');
+  return data.secure_url;
+};
 (function () {
   'use strict';
 
@@ -769,17 +779,7 @@
         // Upload réel vers Firebase Storage : Firestore ne stocke ensuite QUE l'URL
         // (courte). Stocker le base64 complet dans le document theme est ce qui
         // provoquait l'erreur "invalid nested entity" à la sauvegarde.
-        var storageRef = window.storage || (typeof firebase !== 'undefined' && firebase.storage ? firebase.storage() : null);
-        if (!storageRef) {
-          console.error('[AdminCMS] Firebase Storage indisponible — image non envoyée.');
-          showToast('❌ Firebase Storage indisponible — image non envoyée.', 'error');
-          if (badge) { badge.textContent = '❌ Erreur'; badge.className = 'cms-status-badge cms-status-pending'; }
-          return;
-        }
-        var path = 'theme-images/' + imageId + '_' + Date.now() + '_' + file.name;
-        storageRef.ref(path).put(file).then(function(snapshot) {
-          return snapshot.ref.getDownloadURL();
-        }).then(function(url) {
+        window.__gfcUpload(file).then(function(url) {
           var fileInput = document.querySelector(`.image-upload-input[data-image="${imageId}"]`);
           if (fileInput) fileInput.setAttribute('data-src', url);
           if (badge) { badge.textContent = '⏳ En attente'; badge.className = 'cms-status-badge cms-status-pending'; }

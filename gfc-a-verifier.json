@@ -1,0 +1,274 @@
+[
+ {
+  "nomOrganisation": "FEGAFOOT",
+  "role": "federation",
+  "niveau": "National",
+  "anneeCreation": 1962,
+  "ville": "Libreville",
+  "adresse": "BP 181",
+  "siteWeb": "www.fegafoot.ga",
+  "status": "active",
+  "nonReclame": true,
+  "ownershipStatus": "pending_owner_claim",
+  "source": "web-2026-11"
+ },
+ {
+  "nomOrganisation": "LINAFP",
+  "role": "ligue",
+  "typeLigue": "Ligue nationale",
+  "federationTutelle": "FEGAFOOT",
+  "status": "active",
+  "nonReclame": true,
+  "ownershipStatus": "pending_owner_claim",
+  "source": "web-2026-11"
+ },
+ {
+  "nomOrganisation": "LINAFFEM",
+  "role": "ligue",
+  "typeLigue": "Ligue nationale féminine",
+  "federationTutelle": "FEGAFOOT",
+  "status": "active",
+  "nonReclame": true,
+  "ownershipStatus": "pending_owner_claim",
+  "source": "web-2026-11"
+ },
+ {
+  "nomOrganisation": "Ligue de football de l'Estuaire",
+  "role": "ligue",
+  "typeLigue": "Ligue provinciale",
+  "provinceLigue": "Estuaire",
+  "federationTutelle": "FEGAFOOT",
+  "status": "active",
+  "nonReclame": true,
+  "ownershipStatus": "pending_owner_claim",
+  "source": "web-2026-11"
+ },
+ {
+  "nomOrganisation": "Ligue de football du Haut-Ogooué",
+  "role": "ligue",
+  "typeLigue": "Ligue provinciale",
+  "provinceLigue": "Haut-Ogooué",
+  "federationTutelle": "FEGAFOOT",
+  "status": "active",
+  "nonReclame": true,
+  "ownershipStatus": "pending_owner_claim",
+  "source": "web-2026-11"
+ },
+ {
+  "nomOrganisation": "Ligue de football du Moyen-Ogooué",
+  "role": "ligue",
+  "typeLigue": "Ligue provinciale",
+  "provinceLigue": "Moyen-Ogooué",
+  "federationTutelle": "FEGAFOOT",
+  "status": "active",
+  "nonReclame": true,
+  "ownershipStatus": "pending_owner_claim",
+  "source": "web-2026-11"
+ },
+ {
+  "nomOrganisation": "Ligue de football de la Ngounié",
+  "role": "ligue",
+  "typeLigue": "Ligue provinciale",
+  "provinceLigue": "Ngounié",
+  "federationTutelle": "FEGAFOOT",
+  "status": "active",
+  "nonReclame": true,
+  "ownershipStatus": "pending_owner_claim",
+  "source": "web-2026-11"
+ },
+ {
+  "nomOrganisation": "Ligue de football de la Nyanga",
+  "role": "ligue",
+  "typeLigue": "Ligue provinciale",
+  "provinceLigue": "Nyanga",
+  "federationTutelle": "FEGAFOOT",
+  "status": "active",
+  "nonReclame": true,
+  "ownershipStatus": "pending_owner_claim",
+  "source": "web-2026-11"
+ },
+ {
+  "nomOrganisation": "Ligue de football de l'Ogooué-Ivindo",
+  "role": "ligue",
+  "typeLigue": "Ligue provinciale",
+  "provinceLigue": "Ogooué-Ivindo",
+  "federationTutelle": "FEGAFOOT",
+  "status": "active",
+  "nonReclame": true,
+  "ownershipStatus": "pending_owner_claim",
+  "source": "web-2026-11"
+ },
+ {
+  "nomOrganisation": "Ligue de football de l'Ogooué-Lolo",
+  "role": "ligue",
+  "typeLigue": "Ligue provinciale",
+  "provinceLigue": "Ogooué-Lolo",
+  "federationTutelle": "FEGAFOOT",
+  "status": "active",
+  "nonReclame": true,
+  "ownershipStatus": "pending_owner_claim",
+  "source": "web-2026-11"
+ },
+ {
+  "nomOrganisation": "Ligue de football de l'Ogooué-Maritime",
+  "role": "ligue",
+  "typeLigue": "Ligue provinciale",
+  "provinceLigue": "Ogooué-Maritime",
+  "federationTutelle": "FEGAFOOT",
+  "status": "active",
+  "nonReclame": true,
+  "ownershipStatus": "pending_owner_claim",
+  "source": "web-2026-11"
+ },
+ {
+  "nomOrganisation": "Ligue de football du Woleu-Ntem",
+  "role": "ligue",
+  "typeLigue": "Ligue provinciale",
+  "provinceLigue": "Woleu-Ntem",
+  "federationTutelle": "FEGAFOOT",
+  "status": "active",
+  "nonReclame": true,
+  "ownershipStatus": "pending_owner_claim",
+  "source": "web-2026-11"
+ },
+ {
+  "nomOrganisation": "Mangasport",
+  "role": "club",
+  "division": "D1",
+  "niveau": "National",
+  "status": "active",
+  "nonReclame": true,
+  "ownershipStatus": "pending_owner_claim",
+  "source": "web-2026-11"
+ },
+ {
+  "nomOrganisation": "Stade Mandji",
+  "role": "club",
+  "division": "D1",
+  "niveau": "National",
+  "status": "active",
+  "nonReclame": true,
+  "ownershipStatus": "pending_owner_claim",
+  "source": "web-2026-11"
+ },
+ {
+  "nomOrganisation": "FC 105",
+  "role": "club",
+  "division": "D1",
+  "niveau": "National",
+  "status": "active",
+  "nonReclame": true,
+  "ownershipStatus": "pending_owner_claim",
+  "source": "web-2026-11"
+ },
+ {
+  "nomOrganisation": "Vautour Club",
+  "role": "club",
+  "division": "D1",
+  "niveau": "National",
+  "status": "active",
+  "nonReclame": true,
+  "ownershipStatus": "pending_owner_claim",
+  "source": "web-2026-11"
+ },
+ {
+  "nomOrganisation": "Oyem AC",
+  "role": "club",
+  "division": "D1",
+  "niveau": "National",
+  "status": "active",
+  "nonReclame": true,
+  "ownershipStatus": "pending_owner_claim",
+  "source": "web-2026-11"
+ },
+ {
+  "nomOrganisation": "US Oyem",
+  "role": "club",
+  "division": "D1",
+  "niveau": "National",
+  "status": "active",
+  "nonReclame": true,
+  "ownershipStatus": "pending_owner_claim",
+  "source": "web-2026-11"
+ },
+ {
+  "nomOrganisation": "US Bitam",
+  "role": "club",
+  "division": "D1",
+  "niveau": "National",
+  "status": "active",
+  "nonReclame": true,
+  "ownershipStatus": "pending_owner_claim",
+  "source": "web-2026-11"
+ },
+ {
+  "nomOrganisation": "Ogooué FC",
+  "role": "club",
+  "division": "D1",
+  "niveau": "National",
+  "status": "active",
+  "nonReclame": true,
+  "ownershipStatus": "pending_owner_claim",
+  "source": "web-2026-11"
+ },
+ {
+  "nomOrganisation": "Stade Migovéen",
+  "role": "club",
+  "division": "D1",
+  "niveau": "National",
+  "status": "active",
+  "nonReclame": true,
+  "ownershipStatus": "pending_owner_claim",
+  "source": "web-2026-11"
+ },
+ {
+  "nomOrganisation": "AO CMS",
+  "role": "club",
+  "division": "D1",
+  "niveau": "National",
+  "status": "active",
+  "nonReclame": true,
+  "ownershipStatus": "pending_owner_claim",
+  "source": "web-2026-11"
+ },
+ {
+  "nomOrganisation": "Lambaréné AC",
+  "role": "club",
+  "division": "D1",
+  "niveau": "National",
+  "status": "active",
+  "nonReclame": true,
+  "ownershipStatus": "pending_owner_claim",
+  "source": "web-2026-11"
+ },
+ {
+  "nomOrganisation": "Lozosport",
+  "role": "club",
+  "division": "D1",
+  "niveau": "National",
+  "status": "active",
+  "nonReclame": true,
+  "ownershipStatus": "pending_owner_claim",
+  "source": "web-2026-11"
+ },
+ {
+  "nomOrganisation": "Bouenguidi",
+  "role": "club",
+  "division": "D1",
+  "niveau": "National",
+  "status": "active",
+  "nonReclame": true,
+  "ownershipStatus": "pending_owner_claim",
+  "source": "web-2026-11"
+ },
+ {
+  "nomOrganisation": "AS Dikaki",
+  "role": "club",
+  "division": "D1",
+  "niveau": "National",
+  "status": "active",
+  "nonReclame": true,
+  "ownershipStatus": "pending_owner_claim",
+  "source": "web-2026-11"
+ }
+]

@@ -27,6 +27,16 @@
  *  par gsc-profile-engine.js) : n'édite pas index.html.
  * ══════════════════════════════════════════════════════════════════════
  */
+/* GFC : envoi de fichiers vers Cloudinary (remplace Firebase Storage, forfait gratuit) */
+window.__gfcUpload = window.__gfcUpload || async function (file) {
+  const fd = new FormData();
+  fd.append('file', file);
+  fd.append('upload_preset', 'gfc_uploads');
+  const res = await fetch('https://api.cloudinary.com/v1_1/djvzc3vqp/auto/upload', { method: 'POST', body: fd });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok || !data.secure_url) throw new Error((data.error && data.error.message) || 'Échec de l\'envoi vers Cloudinary');
+  return data.secure_url;
+};
 (function (window) {
   'use strict';
 
@@ -173,11 +183,8 @@
       const file = e.target.files[0];
       if (!file || !_structure) return;
       try {
-        if (!window._storageReady || !window.storage) { alert('Stockage indisponible pour le moment. Réessayez plus tard.'); return; }
-        const path = `structures/${_structure.id}/ged/${_saison}/${catalogueId}_${Date.now()}_${file.name}`;
-        const ref = window.sRef(window.storage, path);
-        await window.uploadBytesResumable(ref, file);
-        const url = await window.getDownloadURL(ref);
+        if (file.size > 10 * 1024 * 1024) { alert('Fichier trop lourd (10 Mo maximum).'); return; }
+        const url = await window.__gfcUpload(file);
 
         const dotPath = `saisons.${_saison}.gedDocuments.${catalogueId}`;
         await window.updateDoc(window.doc(window.db, 'structuresSportives', _structure.id), {
