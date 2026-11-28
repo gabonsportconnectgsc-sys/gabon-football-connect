@@ -28,3 +28,6 @@
     border-color: var(--danger) !important;
   }
 }
+
+/* espace-actualites-gfc : même espace que GSC entre le bloc sombre et Dernières actualités */
+#view-dashboard .legal-footer + .card{margin-top:28px;}
