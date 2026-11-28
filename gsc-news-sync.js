@@ -190,3 +190,61 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 })();
+
+/* news-display-fix : l’accueil et la liste affichent les vraies actualités de la base, plus les démonstrations */
+(function () {
+  'use strict';
+  var tries = 0;
+
+  function isReal(n) { return !!(n && n.createdAt && (n.title || n.titre)); }
+
+  function norm(n) {
+    var o = {}, k;
+    for (k in n) o[k] = n[k];
+    o.title = n.title || n.titre;
+    o.cat = n.cat || n.categorie || 'Sport';
+    return o;
+  }
+
+  function apply(list) {
+    if (!list.length) return;
+    try {
+      // Les anciens contenus de démonstration sont remplacés : tous les chemins de repli affichent du vrai.
+      if (typeof GSC_SEED_NEWS !== 'undefined' && Array.isArray(GSC_SEED_NEWS)) {
+        GSC_SEED_NEWS.length = 0;
+        list.forEach(function (n) { GSC_SEED_NEWS.push(n); });
+      }
+      window.newsDb = list.slice();
+      window.allNewsItems = list.slice();
+      if (typeof renderNewsFiltered === 'function') renderNewsFiltered();
+    } catch (e) { console.warn('news-display-fix', e); }
+  }
+
+  async function refresh() {
+    if (!(window.db && typeof window.collection === 'function' && typeof loadNewsFromDb === 'function')) return false;
+    try {
+      await loadNewsFromDb();
+      var raw = (typeof newsDb !== 'undefined' && Array.isArray(newsDb)) ? newsDb : [];
+      var list = raw.filter(isReal).map(norm);
+      apply(list);
+      return list.length > 0;
+    } catch (e) { return false; }
+  }
+
+  function start() {
+    var iv = setInterval(function () {
+      tries++;
+      if (window.db && typeof window.collection === 'function') {
+        clearInterval(iv);
+        refresh();
+        setTimeout(refresh, 4000);
+        setTimeout(refresh, 10000);
+      } else if (tries > 40) {
+        clearInterval(iv);
+      }
+    }, 1000);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+  else start();
+})();

@@ -6788,7 +6788,7 @@ function renderNewsFiltered(){
   const nl=document.getElementById('news-list');
   if(nl) nl.innerHTML=filtered.length?filtered.map(makeCard).join(''):'<div class="card"><div class="card-body"><div class="empty-state"><div class="es-icon">📰</div><h3>Aucune actualité</h3><p>Essayez un autre filtre.</p></div></div></div>';
   const preview=document.getElementById('latest-news-preview');
-  if(preview) preview.innerHTML=allNewsItems.slice(0,2).map(n=>`
+  if(preview) preview.innerHTML=allNewsItems.slice(0,3).map(n=>`
     <div class="news-card">
       <div class="news-accent"></div>
       <div class="news-body">
