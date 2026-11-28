@@ -31,3 +31,13 @@
 
 /* espace-actualites-gfc : même espace que GSC entre le bloc sombre et Dernières actualités */
 #view-dashboard .legal-footer + .card{margin-top:28px;}
+
+/* actus-compact : aperçu des actualités plus compact sur l'accueil */
+#latest-news-preview{padding:6px 12px 8px;}
+.card:has(#latest-news-preview) .card-header{margin-bottom:0;padding-bottom:6px;}
+#latest-news-preview .news-card{margin-bottom:8px;}
+#latest-news-preview .news-body{padding:10px 14px;}
+#latest-news-preview .news-cat{font-size:11px;margin-bottom:2px;}
+#latest-news-preview .news-title{font-size:16px;line-height:1.25;margin:0 0 4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+#latest-news-preview .news-excerpt{display:none;}
+#latest-news-preview .news-footer{margin-top:4px;font-size:12px;}
