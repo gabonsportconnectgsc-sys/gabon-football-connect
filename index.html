@@ -2118,7 +2118,7 @@ html .actor-compact-row .acr-qr{grid-column:3;grid-row:1/span 3;align-self:cente
       <div class="card fade-up mb-16">
         <div class="card-header">
           <div class="card-title"><img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=80&h=80&fit=crop&auto=format" style="width:18px;height:18px;border-radius:4px;object-fit:cover;vertical-align:middle;margin-right:4px;" alt="" onerror="this.style.display='none'">Dernières actualités</div>
-          <button class="btn-sm" onclick="showView('actualites')">Voir tout</button>
+          <button class="btn-sm" onclick="openActualitesOfficielles()">Voir tout</button>
         </div>
         <div class="card-body" id="latest-news-preview"></div>
       </div>
@@ -6762,12 +6762,73 @@ function filterNews(cat,btnEl){
 window.filterNews=filterNews;
 window.refreshOnlineNews=refreshOnlineNews;
 
+/* NAV-ACTUS v2 : accueil -> Actualités officielles */
+function newsKey(n){ return String((n&&(n.id||n.url||n.title))||''); }
+window.newsKey=newsKey;
+(function(){
+  var st=document.createElement('style');
+  st.textContent='@keyframes gscNewsFlash{0%,100%{box-shadow:0 0 0 0 rgba(22,163,74,0)}30%{box-shadow:0 0 0 4px rgba(22,163,74,.55)}}.news-flash{animation:gscNewsFlash 2s ease 1}';
+  document.head.appendChild(st);
+})();
+function applyNewsCat(cat){
+  var target='all', btn=null;
+  var btns=document.querySelectorAll('#view-actualites .news-filter-btn[onclick*="filterNews"]');
+  for(var i=0;i<btns.length;i++){
+    var m=(btns[i].getAttribute('onclick')||'').match(/filterNews\(\s*['"]([^'"]*)['"]/);
+    if(!m) continue;
+    if(cat && m[1].toLowerCase()===String(cat).toLowerCase()){ target=m[1]; btn=btns[i]; break; }
+    if(m[1]==='all' && !btn) btn=btns[i];
+  }
+  filterNews(target,btn);
+  var tc=document.getElementById('gsc-tab-community'), ta=document.getElementById('gsc-tab-actu');
+  if(tc) tc.classList.remove('active');
+  if(ta) ta.classList.add('active');
+}
+function scrollToNews(key){
+  var tries=0;
+  (function step(){
+    var els=document.querySelectorAll('#news-list [data-nkey]');
+    for(var i=0;i<els.length;i++){
+      if(els[i].getAttribute('data-nkey')===key){
+        els[i].scrollIntoView({behavior:'smooth',block:'center'});
+        els[i].classList.remove('news-flash'); void els[i].offsetWidth;
+        els[i].classList.add('news-flash');
+        return;
+      }
+    }
+    if(++tries<40) setTimeout(step,250);
+  })();
+}
+function openActualitesOfficielles(key){
+  var item=null;
+  if(key) item=(allNewsItems||[]).find(function(n){return newsKey(n)===key;})||null;
+  var cat=item?(item.cat||''):'';
+  showView('actualites');
+  var tries=0;
+  (function step(){
+    var tab=document.getElementById('gsc-tab-actu');
+    var pane=document.getElementById('gsc-actu-pane');
+    if((tab&&pane)||tries>=20){
+      if(tab&&pane&&pane.style.display==='none') tab.click();
+      applyNewsCat(cat);
+      if(key) scrollToNews(key);
+      return;
+    }
+    tries++; setTimeout(step,150);
+  })();
+}
+window.openActualitesOfficielles=openActualitesOfficielles;
+document.addEventListener('click',function(e){
+  var c=e.target.closest&&e.target.closest('#latest-news-preview [data-nkey]');
+  if(c) openActualitesOfficielles(c.getAttribute('data-nkey'));
+});
+
 function renderNewsFiltered(){
   const filtered=currentNewsCat==='all'?allNewsItems:allNewsItems.filter(n=>(n.cat||'').toLowerCase().includes(currentNewsCat.toLowerCase()));
   const isAdmin=userProfile?.role==='admin';
   const makeCard=n=>{
     const accentClass=n.cat==='Football'?'football':n.cat==='Basketball'?'basketball':n.cat==='Gabon'?'gabon':'other';
-    return `<div class="news-online-card" ${n.url&&n.url!=='#'?`onclick="window.open('${esc(sanitizeUrl(n.url))}','_blank')"`:''}> 
+    return `<div class="news-online-card" data-nkey="${esc(newsKey(n))}" ${n.url&&n.url!=='#'?`onclick="window.open('${esc(sanitizeUrl(n.url))}','_blank')"`:''}> 
       <div class="news-online-accent ${accentClass}"></div>
       <div class="news-online-body">
         <div class="news-online-source">${esc(n.source||'GFC')}</div>
@@ -6789,7 +6850,7 @@ function renderNewsFiltered(){
   if(nl) nl.innerHTML=filtered.length?filtered.map(makeCard).join(''):'<div class="card"><div class="card-body"><div class="empty-state"><div class="es-icon">📰</div><h3>Aucune actualité</h3><p>Essayez un autre filtre.</p></div></div></div>';
   const preview=document.getElementById('latest-news-preview');
   if(preview) preview.innerHTML=allNewsItems.slice(0,3).map(n=>`
-    <div class="news-card">
+    <div class="news-card" data-nkey="${esc(newsKey(n))}" style="cursor:pointer">
       <div class="news-accent"></div>
       <div class="news-body">
         <div class="news-cat">${esc(n.cat||'Sport')}</div>
