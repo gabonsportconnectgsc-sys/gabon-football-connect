@@ -120,10 +120,14 @@
         return;
       }
 
-      var col = window.db.collection('actualites');
+      if (!(window.db && typeof window.doc === 'function' && typeof window.setDoc === 'function')) {
+        status('⚠️ Base de données indisponible (Firebase non initialisé).');
+        return;
+      }
+      if (typeof ensureFirebaseAuthViaSupabase === 'function') await ensureFirebaseAuthViaSupabase();
       var wr = await Promise.allSettled(keep.map(function (it) {
         var cat = IS_GFC ? 'Football' : catOf(it.title + ' ' + it.excerpt);
-        return col.doc('auto-' + hash(it.url)).set({
+        return window.setDoc(window.doc(window.db, 'actualites', 'auto-' + hash(it.url)), {
           title: it.title, titre: it.title,
           excerpt: it.excerpt,
           cat: cat, categorie: cat,
